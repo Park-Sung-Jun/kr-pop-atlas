@@ -1,5 +1,10 @@
 .env
+.vercel/
+runtime-env.json
+kosis-env.json
 *.pyc
 __pycache__/
 shot_*.png
 docs_shots/
+
+.vercel

@@ -1,0 +1,2890 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Defense-in-depth CSP. GitHub Pages cannot set response headers, so this meta tag is the only available mechanism.
+     'unsafe-inline'/'unsafe-eval' are required by the inline app script and the esm.sh module loader; the value of this
+     policy is restricting object/base-uri and enumerating allowed script/style origins. Validate on a preview deploy before relying on it. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; base-uri 'self'; object-src 'none'; script-src 'self' 'unsafe-inline' 'wasm-unsafe-eval' https://unpkg.com https://esm.sh https://www.google.com https://www.gstatic.com https://www.recaptcha.net https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https: https://www.google.com https://www.recaptcha.net https://challenges.cloudflare.com; frame-src https://www.google.com https://www.recaptcha.net https://challenges.cloudflare.com; worker-src 'self' blob:">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="robots" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="googlebot" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="bingbot" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="GPTBot" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="ChatGPT-User" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="CCBot" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="ClaudeBot" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="anthropic-ai" content="noindex,nofollow,noarchive,nosnippet,noimageindex">
+<meta name="noai" content="true">
+<meta name="noimageai" content="true">
+<meta name="kosis-trend-proxy" content="api/kosis-trend">
+<title>인구피라미드 탐색기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gothic+A1:wght@400;600;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha384-sHL9NAb7lN7rfvG5lfHpm643Xkcjzp4jFvuavGOndn6pjVqS6ny56CAt3nsEVT4H" crossorigin="anonymous">
+<style>
+:root {
+  --male:#4A90D9;--female:#E8597C;
+  --lift-pos:#E74C3C;--lift-neg:#2E86AB;
+  --sidebar:#1B2838;--sidebar-hover:#243447;
+  --bg:#F0F4F8;--surface:#fff;--border:#E2E8F0;
+  --accent:#3498DB;--accent-dark:#2980B9;
+  --t1:#1A202C;--t2:#4A5568;--t3:#5A6E82;--t4:#A0AEC0;
+  --radius:10px;--shadow:0 2px 12px rgba(0,0,0,.06);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Gothic A1','Malgun Gothic','Apple SD Gothic Neo',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;display:flex}
+body:not(.human-ok) .mobile-toggle,body:not(.human-ok) .sidebar,body:not(.human-ok) .main{visibility:hidden;pointer-events:none}
+body.copy-locked{user-select:none;-webkit-user-select:none}
+body.copy-locked input,body.copy-locked textarea,body.copy-locked select,body.copy-locked button{user-select:auto;-webkit-user-select:auto}
+.human-gate{position:fixed;inset:0;z-index:100000;display:flex;align-items:center;justify-content:center;padding:24px;background:radial-gradient(circle at 30% 20%,#f8fbff 0,#edf4fb 34%,#dce8f2 100%);color:var(--t1)}
+body.human-ok .human-gate{display:none}
+.human-gate-card{width:min(420px,100%);background:rgba(255,255,255,.92);border:1px solid rgba(226,232,240,.9);border-radius:10px;box-shadow:0 18px 60px rgba(26,32,44,.16);padding:24px;text-align:center}
+.human-gate-title{font-size:1.05rem;font-weight:800;margin-bottom:8px}
+.human-gate-copy{font-size:.82rem;line-height:1.65;color:var(--t2);margin-bottom:18px}
+.human-captcha-wrap{display:flex;justify-content:center;margin:0 0 14px;min-height:0}
+.human-captcha-wrap[hidden]{display:none}
+.human-captcha-status{font-size:.7rem;color:var(--t3);margin:-4px 0 14px;min-height:16px}
+.human-gate-btn{width:100%;border:none;border-radius:7px;background:var(--accent);color:#fff;font-family:inherit;font-weight:800;font-size:.88rem;padding:12px 16px;cursor:pointer}
+.human-gate-btn:hover{background:var(--accent-dark)}
+.human-gate-btn:disabled{background:var(--border);color:var(--t3);cursor:not-allowed}
+.human-gate-note{font-size:.68rem;color:var(--t4);margin-top:12px}
+/* Keyboard focus visibility (mouse clicks stay outline-free via :focus-visible) */
+a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,[tabindex]:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:3px}
+.mono{font-family:'IBM Plex Mono',monospace}
+.logo-font{font-family:'Black Han Sans',sans-serif}
+
+/* Sidebar */
+.sidebar{width:280px;min-height:100vh;background:var(--sidebar);color:#fff;padding:20px 16px;display:flex;flex-direction:column;gap:20px;position:fixed;left:0;top:0;bottom:0;overflow-y:auto;z-index:100}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.2);border-radius:2px}
+.sidebar h1{font-size:1.2rem;font-weight:600;letter-spacing:0;display:flex;align-items:center;gap:8px}
+.sidebar h1 .icon{font-size:1.5rem}
+.atlas-link{display:flex;align-items:center;justify-content:center;text-decoration:none;color:#fff;background:rgba(52,152,219,.2);border:1px solid rgba(52,152,219,.45);border-radius:8px;padding:8px 10px;font-size:.78rem;font-weight:800}
+.atlas-link:hover{background:var(--accent);border-color:var(--accent)}
+.sidebar-section{background:rgba(255,255,255,.06);border-radius:8px;padding:14px}
+.sidebar-section h3{font-size:.75rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--t4);margin-bottom:10px}
+.sidebar-section select{width:100%;padding:8px 10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:6px;color:#fff;font-size:.85rem;font-family:inherit;margin-bottom:8px;cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23fff' d='M6 8L1 3h10z'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center}
+.sidebar-section select option{background:var(--sidebar);color:#fff}
+.sidebar-section select:focus{outline:none;border-color:var(--accent)}
+.control-presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.preset-btn{padding:5px 10px;font-size:.75rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:16px;color:#ccc;cursor:pointer;font-family:inherit;transition:all .15s}
+.preset-btn:hover,.preset-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.data-date{font-size:.7rem;color:var(--t4);text-align:center;margin-top:auto;padding-top:12px;border-top:1px solid rgba(255,255,255,.08)}
+
+/* Multi-select */
+.multi-toggle-btn{width:100%;padding:8px 10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:6px;color:#fff;font-size:.8rem;font-family:inherit;cursor:pointer;transition:all .15s;display:flex;justify-content:space-between;align-items:center}
+.multi-toggle-btn:hover{background:rgba(255,255,255,.15)}
+.multi-toggle-btn.active{background:var(--accent);border-color:var(--accent)}
+.multi-toggle-btn .state{font-size:.7rem;font-weight:700;padding:2px 6px;border-radius:3px;background:rgba(0,0,0,.25)}
+.multi-search-wrap{position:relative;margin-top:10px}
+.multi-search-wrap input{width:100%;padding:7px 10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:6px;color:#fff;font-size:.8rem;font-family:inherit}
+.multi-search-wrap input::placeholder{color:rgba(255,255,255,.4)}
+.multi-search-wrap input:focus{outline:none;border-color:var(--accent)}
+.multi-search-results{position:absolute;top:100%;left:0;right:0;background:#243447;border:1px solid rgba(255,255,255,.15);border-radius:6px;max-height:260px;overflow-y:auto;z-index:200;margin-top:4px;display:none;box-shadow:0 4px 12px rgba(0,0,0,.3)}
+.search-item{padding:7px 10px;font-size:.75rem;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.05)}
+.search-item:hover{background:rgba(255,255,255,.08)}
+.search-level{font-size:.6rem;background:rgba(255,255,255,.1);padding:2px 5px;border-radius:3px;color:#bbb;flex-shrink:0}
+.search-name{flex:1;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.search-check{color:var(--accent);font-weight:700;width:12px;text-align:center}
+.search-empty{padding:10px;font-size:.72rem;color:var(--t4);text-align:center}
+.multi-header{display:flex;justify-content:space-between;align-items:center;margin-top:10px;font-size:.7rem;color:var(--t4)}
+.multi-header .clear{background:none;border:none;color:var(--lift-pos);font-size:.7rem;cursor:pointer;padding:0;font-family:inherit}
+.multi-header .clear:hover{text-decoration:underline}
+.multi-chips{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;max-height:200px;overflow-y:auto}
+.multi-chip{display:flex;align-items:center;gap:4px;background:rgba(52,152,219,.18);border:1px solid rgba(52,152,219,.4);border-radius:14px;padding:3px 4px 3px 9px;font-size:.7rem;max-width:100%}
+.chip-name{color:#fff;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.chip-x{background:none;border:none;color:#fff;cursor:pointer;font-size:.9rem;line-height:1;padding:0 4px;font-family:inherit;opacity:.6}
+.chip-x:hover{opacity:1;color:var(--lift-pos)}
+.multi-empty{font-size:.7rem;color:var(--t4);text-align:center;padding:10px 0}
+.multi-quick{display:flex;gap:5px;margin-bottom:8px}
+.multi-quick-btn{flex:1;padding:6px 8px;font-size:.7rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:6px;color:#ccc;cursor:pointer;font-family:inherit;transition:all .15s}
+.multi-quick-btn:hover{background:rgba(255,255,255,.15);color:#fff}
+.multi-apply-btn{width:100%;margin-top:10px;padding:9px;background:var(--accent);border:none;border-radius:6px;color:#fff;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit;transition:all .15s}
+.multi-apply-btn:disabled{background:rgba(255,255,255,.1);color:var(--t4);cursor:not-allowed}
+.multi-apply-btn:hover:not(:disabled){background:var(--accent-dark)}
+.multi-apply-btn.active{background:var(--lift-pos)}
+.multi-apply-btn.active:hover{background:#c0392b}
+
+/* Main */
+.main{margin-left:280px;flex:1;min-width:0;padding:24px;min-height:100vh}
+
+/* KPI Row */
+.kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+.kpi-card{background:var(--surface);border-radius:var(--radius);padding:18px 16px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.kpi-label{font-size:.72rem;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.kpi-value{font-size:1.6rem;font-weight:800;letter-spacing:-.5px}
+.kpi-sub{font-size:.7rem;color:var(--t3);margin-top:4px}
+.kpi-value.aging{color:var(--lift-pos)}
+.kpi-value.young{color:var(--accent)}
+
+/* Trio Grid: Map | Pyramid | Lift */
+.trio-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px;align-items:stretch;min-width:0}
+.trio-panel{display:flex;flex-direction:column;min-width:0}
+.trio-panel #map{flex:1;min-height:480px}
+
+/* Panel */
+.panel{min-width:0;background:var(--surface);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.panel-title{font-size:.95rem;font-weight:800;margin-bottom:4px}
+.panel-subtitle{font-size:.72rem;color:var(--t3);margin-bottom:16px}
+
+/* Pyramid */
+.pyramid-container{position:relative}
+.pyramid-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.pyramid-legend{display:flex;gap:16px;font-size:.72rem;color:var(--t3)}
+.pyramid-legend span{display:flex;align-items:center;gap:5px}
+.pyramid-legend .dot{width:10px;height:10px;border-radius:2px}
+.pyramid-chart{display:flex;flex-direction:column;gap:0}
+.pyramid-row{display:flex;align-items:center;height:20px;gap:0}
+.pyramid-age{width:52px;text-align:center;font-size:.65rem;color:var(--t3);flex-shrink:0;font-weight:600}
+.pyramid-male-wrap{flex:1;display:flex;justify-content:flex-end;position:relative;height:100%}
+.pyramid-female-wrap{flex:1;display:flex;justify-content:flex-start;position:relative;height:100%}
+.pyramid-bar{height:100%;border-radius:0;transition:width .3s ease;position:relative;z-index:1}
+.pyramid-bar.male{background:var(--male)}
+.pyramid-bar.female{background-color:var(--female);background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.28) 0 1px,transparent 1px 4px)}
+.pyramid-outline{position:absolute;height:100%;border:1.5px solid;border-radius:0;top:0;z-index:3;opacity:.85}
+.pyramid-outline.male{border-color:#2c3e50;right:0}
+.pyramid-outline.female{border-color:#2c3e50;left:0}
+.pyramid-axis{display:flex;justify-content:space-between;padding:4px 0;margin-top:4px}
+.pyramid-axis-male,.pyramid-axis-female{flex:1;display:flex;font-size:.6rem;color:var(--t4)}
+.pyramid-axis-male{justify-content:space-between;padding-right:4px}
+.pyramid-axis-female{justify-content:space-between;padding-left:4px}
+.pyramid-axis-male span,.pyramid-axis-female span{padding:0 2px}
+.pyramid-axis-center{width:52px;text-align:center;font-size:.6rem;color:var(--t4)}
+.pyramid-row:hover .pyramid-bar{filter:brightness(1.1)}
+.pyramid-tooltip{position:absolute;background:rgba(0,0,0,.85);color:#fff;padding:6px 10px;border-radius:5px;font-size:.7rem;pointer-events:none;z-index:10;white-space:nowrap;display:none}
+
+/* Lift Panel */
+.lift-chart{display:flex;flex-direction:column;gap:2px}
+.lift-row{display:flex;align-items:center;height:20px;gap:6px;cursor:pointer;transition:background .12s}
+.lift-age{width:40px;font-size:.6rem;color:var(--t3);text-align:right;flex-shrink:0}
+.lift-bar-wrap{flex:1;position:relative;height:100%;display:flex;align-items:center}
+.lift-center{position:absolute;left:50%;top:0;bottom:0;width:1px;background:var(--border);z-index:0}
+.lift-bar{height:14px;border-radius:2px;position:absolute;z-index:1;transition:width .4s cubic-bezier(.4,0,.2,1),left .4s cubic-bezier(.4,0,.2,1),filter .15s}
+.lift-bar.positive{background:var(--lift-pos)}
+.lift-bar.negative{background:var(--lift-neg)}
+.lift-row:hover{background:var(--bg);margin:0 -4px;padding:0 4px;border-radius:4px}
+.lift-row:hover .lift-bar{filter:brightness(1.15)}
+.lift-row:hover .lift-age,.lift-row:hover .lift-val{color:var(--t1);font-weight:600}
+.lift-val{font-size:.6rem;color:var(--t3);width:44px;text-align:right;flex-shrink:0}
+.lift-summary{margin-top:16px;padding-top:12px;border-top:1px solid var(--border)}
+.lift-summary-row{display:flex;justify-content:space-between;padding:5px 0;font-size:.78rem}
+.lift-summary-row .label{color:var(--t3)}
+.lift-summary-row .value{font-weight:700}
+
+/* Similar Patterns Grid */
+.sim-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-bottom:24px}
+.sim-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);cursor:pointer;transition:background .1s}
+.sim-item:hover{background:var(--bg);margin:0 -12px;padding:8px 12px;border-radius:6px}
+.sim-item:last-child{border-bottom:none}
+.sim-rank{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;flex-shrink:0}
+.sim-rank.gold{background:#FFF3C4;color:#B7791F}
+.sim-rank.silver{background:#E2E8F0;color:#4A5568}
+.sim-rank.bronze{background:#FEEBC8;color:#C05621}
+.sim-rank.normal{background:var(--bg);color:var(--t3)}
+.sim-info{flex:1;min-width:0}
+.sim-name{font-size:.8rem;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sim-parent{font-size:.65rem;color:var(--t4)}
+.sim-score{font-size:.72rem;font-weight:700;color:var(--accent);flex-shrink:0}
+.sim-mini-pyramid{width:40px;height:28px;flex-shrink:0;display:flex;align-items:center;gap:0}
+.sim-mini-male,.sim-mini-female{display:flex;flex-direction:column;gap:0;flex:1}
+.sim-mini-male{align-items:flex-end}
+.sim-mini-female{align-items:flex-start}
+.sim-mini-bar{height:1.2px;border-radius:.5px;min-width:0}
+
+/* Small Multiples */
+.small-multiples{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.sm-card{background:var(--surface);border-radius:8px;padding:12px;border:2px solid var(--border);cursor:pointer;transition:all .15s}
+.sm-card:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
+.sm-card-title{font-size:.72rem;font-weight:700;margin-bottom:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sm-card-pop{font-size:.6rem;color:var(--t4);margin-bottom:6px}
+.sm-pyramid{display:flex;flex-direction:column;gap:0;height:60px;justify-content:center}
+.sm-row{display:flex;align-items:stretch;height:2.5px;gap:0}
+.sm-age-spacer{width:0;flex-shrink:0}
+.sm-male-wrap{flex:1;display:flex;justify-content:flex-end}
+.sm-female-wrap{flex:1;display:flex;justify-content:flex-start}
+.sm-bar{height:100%;border-radius:.5px}
+.sm-bar.male{background:var(--male)}
+.sm-bar.female{background-color:var(--female);background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.3) 0 .5px,transparent .5px 2px)}
+.sm-kpi-row{display:flex;gap:4px;margin-top:6px;font-size:.6rem}
+.sm-kpi{flex:1;text-align:center;padding:3px 0;border-radius:4px;background:var(--bg)}
+.sm-kpi .v{font-weight:700;display:block}
+.sm-kpi .l{color:var(--t4);font-size:.5rem}
+.sm-head{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.sm-sort{display:flex;gap:4px;flex-wrap:wrap}
+.sm-sort-btn{padding:4px 11px;font-size:.72rem;font-weight:600;border:1px solid var(--border);border-radius:14px;background:var(--surface);color:var(--t3);cursor:pointer;font-family:inherit;transition:all .15s}
+.sm-sort-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+
+/* Loading */
+.loading{display:flex;align-items:center;justify-content:center;height:200px;color:var(--t3);font-size:.85rem}
+.loading::after{content:'';width:20px;height:20px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .6s linear infinite;margin-left:10px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Responsive */
+@media(max-width:1400px){
+  .trio-grid{grid-template-columns:1fr 1fr;gap:16px}
+  .trio-grid .trio-panel:first-child{grid-column:1/-1}
+}
+@media(max-width:1200px){
+  .kpi-row{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:1024px){
+  .sidebar{width:240px;padding:16px 12px}
+  .main{margin-left:240px;padding:16px}
+}
+@media(max-width:768px){
+  .sidebar{position:fixed;left:-280px;width:280px;transition:left .3s}
+  .sidebar.open{left:0}
+  .main{margin-left:0;padding-top:60px}
+  .trio-grid{grid-template-columns:1fr}
+  .trio-grid .trio-panel:first-child{grid-column:auto}
+  .sim-grid{grid-template-columns:1fr}
+  .kpi-row{grid-template-columns:1fr 1fr;gap:10px}
+  .map-header{flex-direction:column;align-items:stretch;gap:8px}
+  .map-controls{flex-direction:column;align-items:stretch}
+  .map-controls .control-presets{justify-content:center}
+  .mobile-toggle{display:flex}
+}
+@media(max-width:480px){
+  .kpi-row{grid-template-columns:1fr}
+  .kpi-value{font-size:1.4rem}
+}
+.mobile-toggle{display:none;position:fixed;top:12px;left:12px;z-index:200;width:36px;height:36px;border-radius:8px;background:var(--sidebar);color:#fff;border:none;cursor:pointer;align-items:center;justify-content:center;font-size:1.2rem}
+
+/* Map */
+.map-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.map-controls{display:flex;gap:8px;align-items:center}
+.map-controls .control-presets{margin:0}
+.map-controls select{padding:6px 28px 6px 10px;border:1px solid var(--border);border-radius:6px;font-size:.78rem;font-family:inherit;background:var(--surface);cursor:pointer}
+.map-controls select:focus{outline:none;border-color:var(--accent)}
+.map-back-btn{padding:6px 12px;border:1px solid var(--border);border-radius:6px;font-size:.75rem;font-family:inherit;background:var(--bg);cursor:pointer;transition:all .15s}
+.map-back-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.trio-panel.map-fullscreen{position:fixed!important;top:0;left:0;width:100vw!important;height:100vh!important;z-index:9999;background:#fff;max-width:none!important}
+.trio-panel.map-fullscreen #map{height:calc(100vh - 80px)!important;min-height:unset!important}
+.trio-panel.map-fullscreen .map-controls{position:relative;z-index:10000}
+#map{border-radius:8px;border:1px solid var(--border);z-index:1}
+.map-legend{display:flex;align-items:center;gap:6px;margin-top:10px;font-size:.7rem;color:var(--t3);justify-content:center}
+.map-legend-gradient{width:200px;height:10px;border-radius:3px;border:1px solid var(--border)}
+.map-loading-overlay{position:absolute;top:0;left:0;right:0;bottom:0;background:rgba(255,255,255,.85);display:flex;align-items:center;justify-content:center;z-index:500;border-radius:8px;font-size:.85rem;color:var(--t3)}
+.map-tooltip-custom{background:rgba(26,32,44,.92)!important;color:#fff!important;border:none!important;border-radius:8px!important;padding:10px 14px!important;font-family:'Gothic A1',sans-serif!important;font-size:.75rem!important;box-shadow:0 4px 12px rgba(0,0,0,.2)!important;max-width:240px!important;line-height:1.5}
+.map-tooltip-custom .tt-name{font-weight:800;font-size:.85rem;margin-bottom:4px;border-bottom:1px solid rgba(255,255,255,.15);padding-bottom:4px}
+.map-tooltip-custom .tt-row{display:flex;justify-content:space-between;gap:12px}
+.map-tooltip-custom .tt-label{color:rgba(255,255,255,.6)}
+.map-tooltip-custom .tt-val{font-weight:700;font-family:'IBM Plex Mono',monospace}
+.leaflet-tooltip.map-tooltip-custom::before{border-right-color:rgba(26,32,44,.92)!important}
+
+@media(max-width:768px){
+  .map-header{min-width:0;text-align:left}
+  .map-header .panel-subtitle{margin-bottom:6px}
+  .map-controls{display:flex!important;width:100%;max-width:100%;min-width:0;flex-direction:row!important;flex-wrap:nowrap!important;align-items:center!important;justify-content:flex-start!important;overflow-x:auto;overflow-y:hidden;padding-bottom:2px;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+  .map-controls::-webkit-scrollbar{display:none}
+  .map-controls .control-presets{flex:0 0 auto;display:flex;flex-wrap:nowrap!important;justify-content:flex-start;gap:5px}
+  .map-controls .preset-btn{flex:0 0 auto;padding:5px 11px;white-space:nowrap}
+  .map-controls select{flex:0 0 auto;width:auto;min-width:94px;max-width:136px;height:32px;white-space:nowrap}
+  .map-back-btn{flex:0 0 auto;height:32px;padding:6px 10px;white-space:nowrap}
+  #map-fullscreen-btn{max-width:88px;overflow:hidden;text-overflow:ellipsis}
+}
+
+/* Search Button */
+.btn-search{width:100%;padding:10px;background:var(--accent);color:#fff;border:none;border-radius:6px;font-size:.85rem;font-weight:700;font-family:inherit;cursor:pointer;margin-top:4px;transition:background .15s;letter-spacing:.5px}
+.btn-search:hover{background:var(--accent-dark)}
+.btn-search:active{transform:scale(.98)}
+
+/* Region Picker (unified search + breadcrumb) */
+.region-picker{position:relative;margin-bottom:6px}
+.region-picker input{width:100%;padding:9px 10px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);border-radius:6px;color:#fff;font-size:.82rem;font-family:inherit}
+.region-picker input::placeholder{color:rgba(255,255,255,.45)}
+.region-picker input:focus{outline:none;border-color:var(--accent)}
+.region-picker-results{position:absolute;left:0;top:100%;min-width:100%;width:max-content;max-width:380px;background:#243447;border:1px solid rgba(255,255,255,.2);border-radius:6px;max-height:340px;overflow-y:auto;z-index:300;margin-top:4px;display:none;box-shadow:0 8px 24px rgba(0,0,0,.45)}
+.rp-item{padding:8px 10px;font-size:.78rem;cursor:pointer;display:flex;align-items:center;gap:8px;border-bottom:1px solid rgba(255,255,255,.05)}
+.rp-item:hover,.rp-item.hover{background:rgba(255,255,255,.1)}
+.rp-level{font-size:.6rem;background:rgba(255,255,255,.1);padding:2px 5px;border-radius:3px;color:#bbb;flex-shrink:0;width:46px;text-align:center}
+.rp-name{flex:1;color:#fff;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rp-act{background:rgba(52,152,219,.25);border:1px solid rgba(52,152,219,.5);color:#fff;font-size:.62rem;padding:3px 7px;border-radius:3px;cursor:pointer;font-family:inherit;flex-shrink:0}
+.rp-act:hover{background:var(--accent);border-color:var(--accent)}
+.rp-empty{padding:16px;font-size:.75rem;color:var(--t4);text-align:center}
+.breadcrumb{display:flex;flex-wrap:wrap;align-items:center;gap:3px;font-size:.72rem;margin:8px 0 6px;padding:7px 9px;background:rgba(255,255,255,.05);border-radius:6px;min-height:30px}
+.bc-item{color:#d0d4e0;cursor:pointer;padding:1px 5px;border-radius:3px;font-weight:600}
+.bc-item:hover{background:rgba(255,255,255,.15);color:#fff}
+.bc-item.current{color:#fff;cursor:default}
+.bc-item.current:hover{background:transparent}
+.bc-sep{color:var(--t4);font-size:.6rem}
+.bc-hint{font-size:.66rem;color:rgba(255,255,255,.45);margin-left:6px;font-style:italic}
+.region-dropdowns{margin-top:4px}
+.region-dropdowns summary{cursor:pointer;font-size:.7rem;color:var(--t4);padding:4px 0;list-style:none;display:flex;align-items:center;gap:5px;user-select:none}
+.region-dropdowns summary::-webkit-details-marker{display:none}
+.region-dropdowns summary::before{content:'▸';font-size:.65rem;transition:transform .2s;display:inline-block}
+.region-dropdowns[open] summary::before{transform:rotate(90deg)}
+.region-dropdowns select:disabled{opacity:.45;cursor:not-allowed}
+.region-dropdowns .hint{font-size:.62rem;color:var(--t4);margin:-4px 0 4px;padding-left:2px;font-style:italic}
+.map-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.78);z-index:500;font-size:.9rem;color:var(--t2);pointer-events:none;font-weight:600;border-radius:var(--radius)}
+.map-loading.hidden{display:none}
+.map-loading .spinner{width:18px;height:18px;border:2.5px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:rp-spin .8s linear infinite;margin-right:10px}
+@keyframes rp-spin{to{transform:rotate(360deg)}}
+
+/* Rankings */
+.rank-controls{display:flex;gap:8px;margin:0 0 14px;flex-wrap:wrap}
+.rank-metric-btn{padding:6px 14px;font-size:.75rem;font-weight:600;border:1px solid var(--border);border-radius:16px;background:var(--surface);color:var(--t3);cursor:pointer;font-family:inherit;transition:all .15s}
+.rank-metric-btn.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.rank-dual-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.rank-card{display:flex;flex-direction:column;gap:10px}
+.rank-card-header{display:flex;justify-content:space-between;align-items:center}
+.rank-order-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.rank-order-btn{padding:4px 12px;font-size:.72rem;font-weight:600;border:none;background:var(--surface);color:var(--t3);cursor:pointer;font-family:inherit;transition:all .15s}
+.rank-order-btn.active{background:var(--accent);color:#fff}
+.rank-table{width:100%;border-collapse:collapse;font-size:.78rem}
+.rank-table th{text-align:left;padding:8px 6px;border-bottom:2px solid var(--border);font-size:.7rem;color:var(--t3);font-weight:600;text-transform:uppercase;letter-spacing:.5px;position:sticky;top:0;background:var(--surface)}
+.rank-table td{padding:7px 6px;border-bottom:1px solid var(--border)}
+.rank-table tr{cursor:pointer;transition:background .1s}
+.rank-table tr:hover{background:var(--bg)}
+.rank-table .rank-num{width:36px;text-align:center;font-weight:700;color:var(--t4)}
+.rank-table .rank-name{font-weight:600}
+.rank-table .rank-parent{font-size:.65rem;color:var(--t4)}
+.rank-table .rank-val{text-align:right;font-weight:700;font-family:'IBM Plex Mono',monospace}
+.rank-table .rank-bar-cell{width:80px}
+.rank-bar{height:8px;border-radius:4px;background:var(--accent)}
+.rank-scroll{max-height:420px;overflow-y:auto}
+.rank-scroll::-webkit-scrollbar{width:4px}
+.rank-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+@media(max-width:900px){.rank-dual-grid{grid-template-columns:1fr}}
+
+/* Population Trend */
+.trend-panel{margin-bottom:24px}
+.trend-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:12px}
+.trend-controls{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.trend-btn{padding:6px 12px;font-size:.72rem;font-weight:700;border:1px solid var(--border);border-radius:16px;background:var(--surface);color:var(--t3);cursor:pointer;font-family:inherit;transition:all .15s;white-space:nowrap}
+.trend-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.trend-body{display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:18px;align-items:stretch}
+.trend-chart-wrap{position:relative;min-height:230px;border:1px solid var(--border);border-radius:8px;background:linear-gradient(180deg,#fff 0,#f8fbff 100%);overflow:hidden}
+.trend-chart{display:block;width:100%;height:260px}
+.trend-axis-label{font-size:10px;fill:var(--t3);font-family:'IBM Plex Mono',monospace}
+.trend-line{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round}
+.trend-projected{fill:none;stroke:var(--lift-pos);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:6 6}
+.trend-grid{stroke:#E2E8F0;stroke-width:1}
+.trend-cutoff{stroke:#2D3748;stroke-width:1;stroke-dasharray:4 4;opacity:.45}
+.trend-dot{fill:#fff;stroke:var(--accent);stroke-width:2}
+.trend-note{position:absolute;right:12px;bottom:10px;font-size:.66rem;color:var(--t3);background:rgba(255,255,255,.82);padding:4px 6px;border-radius:4px}
+.trend-stats{display:grid;grid-template-columns:1fr;gap:8px}
+.trend-stat{border:1px solid var(--border);border-radius:8px;padding:11px 12px;background:var(--surface)}
+.trend-stat .label{font-size:.66rem;color:var(--t3);font-weight:700;text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.trend-stat .value{font-size:1rem;font-weight:800}
+.trend-stat .sub{font-size:.68rem;color:var(--t4);margin-top:3px}
+.trend-empty{display:flex;align-items:center;justify-content:center;height:260px;color:var(--t3);font-size:.82rem}
+@media(max-width:768px){
+  .trend-head{flex-direction:column}
+  .trend-controls{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:2px;scrollbar-width:none}
+  .trend-controls::-webkit-scrollbar{display:none}
+  .trend-btn{flex:0 0 auto}
+  .trend-body{grid-template-columns:1fr}
+  .trend-stats{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:480px){.trend-stats{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<div id="human-gate" class="human-gate" role="dialog" aria-modal="true" aria-labelledby="human-gate-title">
+  <div class="human-gate-card">
+    <div id="human-gate-title" class="human-gate-title">사람 확인</div>
+    <div class="human-gate-copy">이 페이지는 공개 검색, 자동 수집, 디자인 및 내용 복제를 허용하지 않습니다.</div>
+    <div id="human-captcha-wrap" class="human-captcha-wrap" hidden>
+      <div id="human-captcha-widget"></div>
+    </div>
+    <div id="human-captcha-status" class="human-captcha-status" aria-live="polite"></div>
+    <button id="human-gate-btn" type="button" class="human-gate-btn">확인하고 보기</button>
+    <div class="human-gate-note">자동화된 접근은 차단될 수 있습니다.</div>
+    <noscript><div class="human-gate-note">JavaScript를 켜야 페이지를 볼 수 있습니다.</div></noscript>
+  </div>
+</div>
+
+<button id="mobile-toggle" type="button" class="mobile-toggle" aria-label="메뉴 열기/닫기" aria-controls="sidebar" aria-expanded="false">☰</button>
+
+<aside id="sidebar" class="sidebar" aria-label="지역 선택 및 필터">
+  <h1><span class="icon">📊</span> 인구피라미드</h1>
+  <a class="atlas-link" href="index.html#KR">대한민국 인구전망 아틀라스</a>
+
+  <div class="sidebar-section">
+    <h3>지역 선택</h3>
+    <div class="region-picker">
+      <input id="region-search" type="text" placeholder="🔍 시도 · 시군구 · 읍면동 검색..." aria-label="지역 검색 (시도·시군구·읍면동)" role="combobox" aria-expanded="false" aria-controls="region-search-results" aria-autocomplete="list" autocomplete="off">
+      <div id="region-search-results" class="region-picker-results" role="listbox" aria-label="지역 검색 결과"></div>
+    </div>
+    <div id="breadcrumb" class="breadcrumb" aria-live="polite"></div>
+    <details class="region-dropdowns">
+      <summary>단계별 선택</summary>
+      <select id="sel-sido" aria-label="시도 선택"><option value="">시도 선택...</option></select>
+      <div class="hint" id="hint-sgg" style="display:none">시도를 먼저 선택하세요</div>
+      <select id="sel-sgg" aria-label="시군구 선택" disabled><option value="">시군구 선택...</option></select>
+      <div class="hint" id="hint-emd" style="display:none">시군구를 먼저 선택하세요</div>
+      <select id="sel-emd" aria-label="읍면동 선택" disabled><option value="">읍면동 선택...</option></select>
+    </details>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>다중 선택 / 합산</h3>
+    <div class="multi-quick">
+      <button type="button" class="multi-quick-btn" data-bulk="sido">시도 전체</button>
+      <button type="button" class="multi-quick-btn" data-bulk="sgg">현재 시도의 시군구</button>
+      <button type="button" class="multi-quick-btn" data-bulk="emd">현재 시군구의 읍면동</button>
+    </div>
+    <div class="multi-search-wrap">
+      <input id="multi-search" type="text" placeholder="시도/시군구/읍면동 검색 후 클릭..." aria-label="다중 선택용 지역 검색" role="combobox" aria-expanded="false" aria-controls="multi-search-results" aria-autocomplete="list" autocomplete="off">
+      <div id="multi-search-results" class="multi-search-results" role="listbox" aria-label="다중 선택 검색 결과"></div>
+    </div>
+    <div class="multi-header">
+      <span>선택됨: <span id="multi-count">0</span>개</span>
+      <button type="button" class="clear" id="multi-clear">전체 해제</button>
+    </div>
+    <div id="multi-chips" class="multi-chips" role="list" aria-label="선택된 지역"><div class="multi-empty">검색 또는 일괄 추가로 시작</div></div>
+    <button id="multi-apply" type="button" class="multi-apply-btn" disabled>합산 결과 보기</button>
+  </div>
+
+  <div class="sidebar-section">
+    <h3>대조군 (비교 기준)</h3>
+    <div class="control-presets" role="group" aria-label="대조군 단위 선택">
+      <button type="button" class="preset-btn active" data-control="nation">전국</button>
+      <button type="button" class="preset-btn" data-control="sido">시도</button>
+      <button type="button" class="preset-btn" data-control="sgg">시군구</button>
+    </div>
+    <div id="ctrl-sido-wrap" style="display:none;margin-top:8px">
+      <select id="ctrl-sido" aria-label="대조군 시도 선택"></select>
+    </div>
+    <div id="ctrl-sgg-wrap" style="display:none;margin-top:8px">
+      <select id="ctrl-sgg-sido" aria-label="대조군 시도 선택"></select>
+      <select id="ctrl-sgg" aria-label="대조군 시군구 선택"></select>
+    </div>
+    <div id="ctrl-label" style="margin-top:8px;font-size:.72rem;color:var(--t4)">대조군: 전국</div>
+  </div>
+
+  <div class="data-date">
+    <div>데이터: <strong>2025년 12월</strong> 주민등록인구</div>
+    <div style="margin-top:4px">출처: 통계청 KOSIS</div>
+  </div>
+</aside>
+
+<main class="main">
+  <div id="kpi-row" class="kpi-row">
+    <div class="kpi-card"><div class="kpi-label">총인구</div><div class="kpi-value mono" id="kpi-pop">-</div><div class="kpi-sub" id="kpi-pop-sub"></div></div>
+    <div class="kpi-card"><div class="kpi-label">고령화지수</div><div class="kpi-value mono aging" id="kpi-aging">-</div><div class="kpi-sub">65세 이상 / 0-14세 × 100</div></div>
+    <div class="kpi-card"><div class="kpi-label">유소년 비율</div><div class="kpi-value mono young" id="kpi-young">-</div><div class="kpi-sub">0-14세 인구 비율</div></div>
+    <div class="kpi-card"><div class="kpi-label">생산가능인구</div><div class="kpi-value mono" id="kpi-working">-</div><div class="kpi-sub">15-64세 인구 비율</div></div>
+  </div>
+
+  <section class="panel trend-panel" aria-labelledby="trend-title">
+    <div class="trend-head">
+      <div>
+        <div class="panel-title" id="trend-title">전국 장기 인구 추세</div>
+        <div class="panel-subtitle" id="trend-subtitle">1925-2070 | 2026년 이후는 장래추계</div>
+      </div>
+      <div class="trend-controls" role="group" aria-label="인구 추세 지표 선택">
+        <button type="button" class="trend-btn active" data-trendmetric="total">총인구</button>
+        <button type="button" class="trend-btn" data-trendmetric="young">유소년</button>
+        <button type="button" class="trend-btn" data-trendmetric="working">생산가능</button>
+        <button type="button" class="trend-btn" data-trendmetric="senior">고령</button>
+      </div>
+    </div>
+    <div class="trend-body">
+      <div class="trend-chart-wrap">
+        <div id="trend-chart" class="trend-empty">추세 데이터 로딩 중</div>
+        <div class="trend-note">실선: 관측 · 점선: 추계</div>
+      </div>
+      <div id="trend-stats" class="trend-stats"></div>
+    </div>
+  </section>
+
+  <div class="trio-grid">
+    <div class="panel trio-panel" style="position:relative">
+      <div class="map-header">
+        <div>
+          <div class="panel-title" id="map-title">전국 지도</div>
+          <div class="panel-subtitle" id="map-subtitle">시도 단위 | 클릭하여 드릴다운</div>
+        </div>
+        <div class="map-controls" role="group" aria-label="지도 표시 옵션">
+          <div class="control-presets" role="group" aria-label="지도 행정 단위">
+            <button type="button" class="preset-btn" data-maplvl="sido">시도</button>
+            <button type="button" class="preset-btn active" data-maplvl="sgg">시군구</button>
+            <button type="button" class="preset-btn" data-maplvl="emd">읍면동</button>
+          </div>
+          <select id="map-metric" aria-label="지도 지표 선택" data-mapchange="metric">
+            <option value="pop">총인구</option>
+            <option value="aging">고령화지수</option>
+            <option value="young">유소년비율</option>
+            <option value="working">생산가능인구</option>
+          </select>
+          <select id="map-palette" aria-label="지도 색상 팔레트" data-mapchange="palette">
+            <option value="gray-red">그레이→레드</option>
+            <option value="gray-orange">그레이→오렌지</option>
+            <option value="gray-blue">그레이→블루</option>
+            <option value="hot">Hot</option>
+            <option value="cool">Cool</option>
+          </select>
+          <select id="map-classify" aria-label="지도 분류 방식" data-mapchange="classify">
+            <option value="quantile">균등분위</option>
+            <option value="equal">동간격</option>
+            <option value="stddev">표준편차</option>
+          </select>
+          <select id="map-basemap" aria-label="지도 배경 스타일" data-mapchange="basemap">
+            <option value="gray">그레이</option>
+            <option value="dark">다크</option>
+          </select>
+          <button type="button" id="map-back" class="map-back-btn" style="display:none" aria-label="상위 지역으로">← 상위로</button>
+          <button type="button" class="map-back-btn" id="map-fullscreen-btn" title="전체화면" aria-label="지도 전체화면 전환">⛶ 전체화면</button>
+        </div>
+      </div>
+      <div id="map"></div>
+      <div id="map-loading" class="map-loading hidden"><div class="spinner"></div>지도 로딩 중...</div>
+      <div id="map-legend" class="map-legend"></div>
+    </div>
+
+    <div class="panel trio-panel">
+      <div class="pyramid-header">
+        <div>
+          <div class="panel-title" id="pyramid-title">인구 피라미드</div>
+          <div class="panel-subtitle" id="pyramid-subtitle">지역을 선택하세요</div>
+        </div>
+        <div class="pyramid-legend">
+          <span><span class="dot" style="background:var(--male)" aria-hidden="true"></span>남자</span>
+          <span><span class="dot" style="background:var(--female)" aria-hidden="true"></span>여자</span>
+          <span><span class="dot" style="border:1.5px solid #2c3e50;background:none" aria-hidden="true"></span>대조군</span>
+        </div>
+      </div>
+      <div id="pyramid-chart" class="pyramid-chart" role="img" aria-label="인구 피라미드 차트"></div>
+      <div id="pyramid-axis" class="pyramid-axis"></div>
+      <div id="pyramid-tooltip" class="pyramid-tooltip"></div>
+    </div>
+
+    <div class="panel trio-panel">
+      <div class="panel-title">Lift 분석 <span title="Lift = (선택지역 연령대 비율 / 대조군 연령대 비율 − 1) × 100. 양수면 대조군보다 해당 연령대가 더 많음을 의미합니다." style="font-size:.65rem;font-weight:400;color:var(--t3);cursor:help;border-bottom:1px dashed var(--t3)">Lift란?</span></div>
+      <div class="panel-subtitle" id="lift-subtitle">선택지역 vs 대조군</div>
+      <div id="lift-chart" class="lift-chart"></div>
+      <div id="lift-summary" class="lift-summary"></div>
+    </div>
+  </div>
+
+  <div class="sim-grid">
+    <div class="panel">
+      <div class="panel-title">유사 시도</div>
+      <div class="panel-subtitle">코사인 유사도 TOP 10 <span title="코사인 유사도 = 두 지역의 연령대별 인구 비율 벡터 간 각도의 코사인값. 1에 가까울수록 인구구조가 유사합니다." style="font-size:.65rem;font-weight:400;color:var(--t3);cursor:help;border-bottom:1px dashed var(--t3)">유사도란?</span></div>
+      <div id="sim-sido"><div class="loading">계산 중</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">유사 시군구</div>
+      <div class="panel-subtitle">코사인 유사도 TOP 10 <span title="코사인 유사도 = 두 지역의 연령대별 인구 비율 벡터 간 각도의 코사인값. 1에 가까울수록 인구구조가 유사합니다." style="font-size:.65rem;font-weight:400;color:var(--t3);cursor:help;border-bottom:1px dashed var(--t3)">유사도란?</span></div>
+      <div id="sim-sgg"><div class="loading">계산 중</div></div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">유사 읍면동</div>
+      <div class="panel-subtitle">코사인 유사도 TOP 10 <span title="코사인 유사도 = 두 지역의 연령대별 인구 비율 벡터 간 각도의 코사인값. 1에 가까울수록 인구구조가 유사합니다." style="font-size:.65rem;font-weight:400;color:var(--t3);cursor:help;border-bottom:1px dashed var(--t3)">유사도란?</span></div>
+      <div id="sim-emd"><div class="loading">계산 중</div></div>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom:24px">
+    <div class="sm-head">
+      <div>
+        <div class="panel-title" id="sm-title">하위 행정구역</div>
+        <div class="panel-subtitle" id="sm-subtitle">클릭하여 해당 지역으로 이동</div>
+      </div>
+      <div class="sm-sort" role="group" aria-label="하위 지역 정렬 기준">
+        <button type="button" class="sm-sort-btn active" data-smsort="name">이름순</button>
+        <button type="button" class="sm-sort-btn" data-smsort="pop">인구순</button>
+        <button type="button" class="sm-sort-btn" data-smsort="aging">고령화순</button>
+        <button type="button" class="sm-sort-btn" data-smsort="young">유소년순</button>
+      </div>
+    </div>
+    <div id="small-multiples" class="small-multiples"><div class="loading">데이터 로딩 중</div></div>
+  </div>
+
+  <div id="rank-panel">
+    <div class="rank-controls" role="group" aria-label="순위 지표 선택">
+      <button type="button" class="rank-metric-btn active" data-rmetric="pop">인구수</button>
+      <button type="button" class="rank-metric-btn" data-rmetric="aging">고령화지수</button>
+      <button type="button" class="rank-metric-btn" data-rmetric="young">유소년비율</button>
+      <button type="button" class="rank-metric-btn" data-rmetric="working">생산가능인구</button>
+    </div>
+    <div class="rank-dual-grid">
+      <div class="panel rank-card">
+        <div class="rank-card-header">
+          <div class="panel-title">시도 순위</div>
+          <div class="rank-order-toggle">
+            <button type="button" class="rank-order-btn active" data-level="sido" data-order="desc">상위</button>
+            <button type="button" class="rank-order-btn" data-level="sido" data-order="asc">하위</button>
+          </div>
+        </div>
+        <div class="rank-scroll">
+          <table class="rank-table"><thead><tr><th>순위</th><th>지역</th><th id="rank-header-sido" style="text-align:right">인구(명)</th><th></th></tr></thead><tbody id="rank-body-sido"></tbody></table>
+        </div>
+      </div>
+      <div class="panel rank-card">
+        <div class="rank-card-header">
+          <div class="panel-title">시군구 순위</div>
+          <div class="rank-order-toggle">
+            <button type="button" class="rank-order-btn active" data-level="sgg" data-order="desc">상위</button>
+            <button type="button" class="rank-order-btn" data-level="sgg" data-order="asc">하위</button>
+          </div>
+        </div>
+        <div class="rank-scroll">
+          <table class="rank-table"><thead><tr><th>순위</th><th>지역</th><th id="rank-header-sgg" style="text-align:right">인구(명)</th><th></th></tr></thead><tbody id="rank-body-sgg"></tbody></table>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<script>
+// ===== STATE =====
+const S = {
+  data: null,
+  trend: null,
+  trendMetric: 'total',
+  regionTree: null,
+  selected: null,    // current region code
+  control: '00',     // control group code
+  controlMode: 'nation',
+  selection: new Set(),  // multi-select codes
+  multiViewActive: false,
+  _previewing: null,     // region code being hover-previewed (map)
+  _previewBackup: null   // selected code to restore after preview
+};
+const MULTI_CODE = '__MULTI__';
+let _prevSelectedBeforeMulti = null;
+let _multiSearchPool = null;
+
+// ===== DATA LOADING =====
+async function loadData() {
+  const resp = await fetch('data/pop_202512.json');
+  if (!resp.ok) throw new Error(`데이터 로드 실패: HTTP ${resp.status}`);
+  const data = await resp.json();
+  // Light schema guard so malformed data fails with a clear message instead of a cryptic render crash.
+  if (!data || typeof data !== 'object' || typeof data.regions !== 'object' || !data.meta || !Array.isArray(data.meta.bands)) {
+    throw new Error('데이터 형식이 올바르지 않습니다 (regions / meta.bands 누락)');
+  }
+  S.data = data;
+  buildRegionTree();
+}
+
+async function loadRuntimeConfig() {
+  const applyConfig = cfg => {
+    if (cfg.KOSIS_TREND_PROXY) window.KOSIS_TREND_PROXY = cfg.KOSIS_TREND_PROXY;
+    if (cfg.KOSIS_TREND_USER_STATS_ID) window.KOSIS_TREND_USER_STATS_ID = cfg.KOSIS_TREND_USER_STATS_ID;
+    if (cfg.KOSIS_PUBLIC_API_KEY || cfg.KOSIS_API_KEY) window.KOSIS_API_KEY = cfg.KOSIS_PUBLIC_API_KEY || cfg.KOSIS_API_KEY;
+    if (cfg.CAPTCHA_PROVIDER) window.CAPTCHA_PROVIDER = cfg.CAPTCHA_PROVIDER;
+    if (cfg.CAPTCHA_SITE_KEY) window.CAPTCHA_SITE_KEY = cfg.CAPTCHA_SITE_KEY;
+    if (cfg.CAPTCHA_VERIFY_ENDPOINT) window.CAPTCHA_VERIFY_ENDPOINT = cfg.CAPTCHA_VERIFY_ENDPOINT;
+    if (cfg.TURNSTILE_SITE_KEY) window.TURNSTILE_SITE_KEY = cfg.TURNSTILE_SITE_KEY;
+    if (cfg.RECAPTCHA_SITE_KEY) window.RECAPTCHA_SITE_KEY = cfg.RECAPTCHA_SITE_KEY;
+  };
+
+  for (const path of ['runtime-env.json', 'kosis-env.json']) {
+    try {
+      const resp = await fetch(path, { cache: 'no-store' });
+      if (!resp.ok) continue;
+      applyConfig(await resp.json());
+      return;
+    } catch (e) {
+      console.warn('runtime config unavailable:', e);
+    }
+  }
+}
+
+function readRuntimeSetting(name) {
+  const aliases = {
+    CAPTCHA_SITE_KEY: ['CAPTCHA_SITE_KEY', 'TURNSTILE_SITE_KEY', 'RECAPTCHA_SITE_KEY'],
+    CAPTCHA_PROVIDER: ['CAPTCHA_PROVIDER'],
+    CAPTCHA_VERIFY_ENDPOINT: ['CAPTCHA_VERIFY_ENDPOINT']
+  }[name] || [name];
+  for (const key of aliases) {
+    if (window[key]) return String(window[key]).trim();
+    const stored = safeStorageGet(key);
+    if (stored) return stored;
+  }
+  return '';
+}
+
+async function loadExternalScript(src, globalName) {
+  if (globalName && window[globalName]) return window[globalName];
+  await new Promise((resolve, reject) => {
+    const existing = [...document.scripts].find(s => s.src === src);
+    if (existing) {
+      existing.addEventListener('load', resolve, { once: true });
+      existing.addEventListener('error', reject, { once: true });
+      return;
+    }
+    const script = document.createElement('script');
+    script.src = src;
+    script.async = true;
+    script.defer = true;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+  return globalName ? window[globalName] : null;
+}
+
+async function loadTrendData() {
+  const chart = document.getElementById('trend-chart');
+  try {
+    const cachedOfficial = await loadCachedKosisTrendData();
+    if (cachedOfficial) {
+      S.trend = cachedOfficial;
+      renderTrend();
+      return;
+    }
+  } catch (e) {
+    console.warn('cached KOSIS trend data failed:', e);
+  }
+
+  try {
+    const official = await loadKosisTrendData();
+    if (official) {
+      S.trend = official;
+      renderTrend();
+      return;
+    }
+  } catch (e) {
+    console.warn('KOSIS API trend data failed, falling back to local KOSIS export:', e);
+  }
+
+  try {
+    const resp = await fetch('인구1925-2070.csv');
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const text = await resp.text();
+    S.trend = parseTrendCsv(text);
+    renderTrend();
+  } catch (e) {
+    if (chart) chart.innerHTML = '<div class="trend-empty">추세 데이터를 불러오지 못했습니다</div>';
+    console.warn('trend data failed:', e);
+  }
+}
+
+async function loadCachedKosisTrendData() {
+  const resp = await fetch('data/trend_kosis.json', { cache: 'no-store' });
+  if (!resp.ok) return null;
+  return normalizeKosisTrendRows(await resp.json(), 'KOSIS OpenAPI cache');
+}
+
+async function loadKosisTrendData() {
+  const proxyUrl = window.KOSIS_TREND_PROXY || document.querySelector('meta[name="kosis-trend-proxy"]')?.content || '';
+  if (proxyUrl) {
+    const resp = await fetch(proxyUrl, { headers: { Accept: 'application/json' } });
+    if (!resp.ok) throw new Error(`KOSIS proxy HTTP ${resp.status}`);
+    return normalizeKosisTrendRows(await resp.json(), 'KOSIS OpenAPI');
+  }
+
+  const apiKey = window.KOSIS_API_KEY || safeStorageGet('KOSIS_API_KEY');
+  const userStatsId = window.KOSIS_TREND_USER_STATS_ID || safeStorageGet('KOSIS_TREND_USER_STATS_ID');
+  if (!apiKey || !userStatsId) return null;
+
+  const params = new URLSearchParams({
+    method: 'getList',
+    apiKey,
+    format: 'json',
+    jsonVD: 'Y',
+    userStatsId,
+    prdSe: 'Y',
+    startPrdDe: '1925',
+    endPrdDe: '2070'
+  });
+  const resp = await fetch(`https://kosis.kr/openapi/statisticsData.do?${params.toString()}`, {
+    headers: { Accept: 'application/json' }
+  });
+  if (!resp.ok) throw new Error(`KOSIS API HTTP ${resp.status}`);
+  return normalizeKosisTrendRows(await resp.json(), 'KOSIS OpenAPI');
+}
+
+function safeStorageGet(key) {
+  try { return localStorage.getItem(key) || ''; } catch (e) { return ''; }
+}
+
+function parseTrendCsv(text) {
+  const lines = text.trim().split(/\r?\n/).filter(Boolean);
+  const head = lines.shift().split('\t');
+  const years = head.slice(2).map(Number).filter(Number.isFinite);
+  const series = {
+    total: Array(years.length).fill(0),
+    young: Array(years.length).fill(0),
+    working: Array(years.length).fill(0),
+    senior: Array(years.length).fill(0)
+  };
+
+  for (const line of lines) {
+    const cols = line.split('\t');
+    const ageText = cols[1] || '';
+    const age = Number((ageText.match(/\d+/) || [NaN])[0]);
+    if (!Number.isFinite(age)) continue;
+    const bucket = age < 15 ? 'young' : (age < 65 ? 'working' : 'senior');
+    for (let i = 0; i < years.length; i++) {
+      const val = Number((cols[i + 2] || '0').replace(/,/g, '')) || 0;
+      series.total[i] += val;
+      series[bucket][i] += val;
+    }
+  }
+
+  return { years, series, source: 'KOSIS CSV export' };
+}
+
+function normalizeKosisTrendRows(payload, source) {
+  const rows = Array.isArray(payload) ? payload : (payload?.data || payload?.rows || payload?.result || []);
+  if (!Array.isArray(rows) || !rows.length) throw new Error('KOSIS 응답이 비어 있습니다');
+
+  const yearSet = new Set();
+  for (const row of rows) {
+    const y = Number(row.PRD_DE || row.prd_de || row.year || row.YEAR);
+    if (Number.isFinite(y)) yearSet.add(y);
+  }
+  const years = [...yearSet].sort((a, b) => a - b);
+  const yearIndex = new Map(years.map((y, i) => [y, i]));
+  const series = {
+    total: Array(years.length).fill(0),
+    young: Array(years.length).fill(0),
+    working: Array(years.length).fill(0),
+    senior: Array(years.length).fill(0)
+  };
+  let bucketedRows = 0;
+
+  for (const row of rows) {
+    const year = Number(row.PRD_DE || row.prd_de || row.year || row.YEAR);
+    const i = yearIndex.get(year);
+    if (i == null) continue;
+    const val = Number(String(row.DT ?? row.dt ?? row.value ?? row.VALUE ?? '0').replace(/,/g, '')) || 0;
+    const labels = [
+      row.C1_NM, row.C2_NM, row.C3_NM, row.C4_NM,
+      row.ITM_NM, row.NM, row.name, row.age
+    ].filter(Boolean).join(' ');
+    const ageMatch = labels.match(/(\d+)\s*(?:-|~|세)/);
+    const age = ageMatch ? Number(ageMatch[1]) : NaN;
+
+    if (Number.isFinite(age)) {
+      const bucket = age < 15 ? 'young' : (age < 65 ? 'working' : 'senior');
+      series.total[i] += val;
+      series[bucket][i] += val;
+      bucketedRows++;
+    } else if (/총\s*인구|계\b|전체/.test(labels)) {
+      series.total[i] += val;
+    }
+  }
+
+  if (!bucketedRows && !series.total.some(Boolean)) throw new Error('KOSIS 응답에서 추세 값을 해석하지 못했습니다');
+  return { years, series, source };
+}
+
+function buildRegionTree() {
+  const tree = { sido: {}, sgg: {}, emd: {} };
+  const r = S.data.regions;
+
+  for (const [code, info] of Object.entries(r)) {
+    if (code === '00') continue;
+    const len = code.length;
+    if (len === 2) {
+      tree.sido[code] = { name: info.name.trim(), children: [] };
+    } else if (len === 5) {
+      tree.sgg[code] = { name: info.name.trim(), parent: code.slice(0, 2), children: [] };
+    } else if (len === 10) {
+      tree.emd[code] = { name: info.name.trim(), parent: code.slice(0, 5) };
+    }
+  }
+
+  for (const [code, info] of Object.entries(tree.sgg)) {
+    if (tree.sido[info.parent]) tree.sido[info.parent].children.push(code);
+  }
+  for (const [code, info] of Object.entries(tree.emd)) {
+    if (tree.sgg[info.parent]) tree.sgg[info.parent].children.push(code);
+  }
+
+  S.regionTree = tree;
+}
+
+// ===== REGION SELECTORS =====
+function populateSido() {
+  const sel = document.getElementById('sel-sido');
+  sel.innerHTML = '<option value="00">전국</option>';
+  const codes = Object.keys(S.regionTree.sido).sort();
+  for (const c of codes) {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = S.regionTree.sido[c].name;
+    sel.appendChild(opt);
+  }
+}
+
+function populateSgg(sidoCode) {
+  const sel = document.getElementById('sel-sgg');
+  sel.innerHTML = '<option value="">시군구 선택...</option>';
+  if (!sidoCode) return;
+  const children = S.regionTree.sido[sidoCode]?.children || [];
+  for (const c of children.sort()) {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = S.regionTree.sgg[c].name;
+    sel.appendChild(opt);
+  }
+}
+
+function populateEmd(sggCode) {
+  const sel = document.getElementById('sel-emd');
+  sel.innerHTML = '<option value="">읍면동 선택...</option>';
+  if (!sggCode) return;
+  const children = S.regionTree.sgg[sggCode]?.children || [];
+  for (const c of children.sort()) {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = S.regionTree.emd[c].name;
+    sel.appendChild(opt);
+  }
+}
+
+function selectRegion(code) {
+  if (S.multiViewActive && code !== MULTI_CODE) {
+    S.multiViewActive = false;
+    const btn = document.getElementById('multi-apply');
+    if (btn) { btn.classList.remove('active'); btn.textContent = '합산 결과 보기'; }
+    _prevSelectedBeforeMulti = null;
+  }
+  S._previewing = null;
+  S._previewBackup = null;
+  S.selected = code;
+  renderAll();
+}
+
+function initControlDropdowns() {
+  const ctrlSido = document.getElementById('ctrl-sido');
+  const ctrlSggSido = document.getElementById('ctrl-sgg-sido');
+  const codes = Object.keys(S.regionTree.sido).sort();
+
+  for (const sel of [ctrlSido, ctrlSggSido]) {
+    sel.innerHTML = '';
+    for (const c of codes) {
+      const opt = document.createElement('option');
+      opt.value = c;
+      opt.textContent = S.regionTree.sido[c].name;
+      sel.appendChild(opt);
+    }
+  }
+
+  ctrlSido.addEventListener('change', function() {
+    S.control = this.value;
+    updateCtrlLabel();
+    renderAll();
+  });
+
+  ctrlSggSido.addEventListener('change', function() {
+    populateCtrlSgg(this.value);
+  });
+
+  document.getElementById('ctrl-sgg').addEventListener('change', function() {
+    if (this.value) {
+      S.control = this.value;
+      updateCtrlLabel();
+      renderAll();
+    }
+  });
+}
+
+function populateCtrlSgg(sidoCode) {
+  const sel = document.getElementById('ctrl-sgg');
+  sel.innerHTML = '<option value="">시군구 선택...</option>';
+  const children = S.regionTree.sido[sidoCode]?.children || [];
+  for (const c of children.sort()) {
+    const opt = document.createElement('option');
+    opt.value = c;
+    opt.textContent = S.regionTree.sgg[c].name;
+    sel.appendChild(opt);
+  }
+  if (children.length) {
+    sel.value = children[0];
+    S.control = children[0];
+    updateCtrlLabel();
+    renderAll();
+  }
+}
+
+function updateCtrlLabel() {
+  const label = document.getElementById('ctrl-label');
+  label.textContent = '대조군: ' + getRegionFullName(S.control);
+}
+
+function setControl(mode) {
+  S.controlMode = mode;
+  document.querySelectorAll('.preset-btn').forEach(b => b.classList.toggle('active', b.dataset.control === mode));
+  document.getElementById('ctrl-sido-wrap').style.display = mode === 'sido' ? 'block' : 'none';
+  document.getElementById('ctrl-sgg-wrap').style.display = mode === 'sgg' ? 'block' : 'none';
+
+  if (mode === 'nation') {
+    S.control = '00';
+  } else if (mode === 'sido') {
+    S.control = document.getElementById('ctrl-sido').value || Object.keys(S.regionTree.sido)[0];
+  } else if (mode === 'sgg') {
+    const sidoVal = document.getElementById('ctrl-sgg-sido').value;
+    if (sidoVal) populateCtrlSgg(sidoVal);
+    return;
+  }
+  updateCtrlLabel();
+  renderAll();
+}
+
+// ===== CALCULATIONS =====
+function getPercents(code) {
+  const r = S.data.regions[code];
+  if (!r) return null;
+  const totalM = r.m.reduce((a, b) => a + b, 0);
+  const totalF = r.f.reduce((a, b) => a + b, 0);
+  const total = totalM + totalF;
+  if (total === 0) return null;
+  return {
+    m: r.m.map(v => v / total * 100),
+    f: r.f.map(v => v / total * 100),
+    totalM, totalF, total
+  };
+}
+
+const _kpiCache = {};
+function calcKPI(code) {
+  if (code !== MULTI_CODE && _kpiCache[code]) return _kpiCache[code];
+  const r = S.data.regions[code];
+  if (!r) return {};
+  const m = r.m, f = r.f;
+  const young = (m[0]+f[0]) + (m[1]+f[1]) + (m[2]+f[2]); // 0-14
+  const elderly = (m[13]+f[13])+(m[14]+f[14])+(m[15]+f[15])+(m[16]+f[16])+(m[17]+f[17])+(m[18]+f[18])+(m[19]+f[19])+(m[20]+f[20]); // 65+
+  const total = m.reduce((a,b)=>a+b,0) + f.reduce((a,b)=>a+b,0);
+  const working = total - young - elderly; // 15-64
+
+  const result = {
+    total,
+    agingIndex: young > 0 ? (elderly / young * 100).toFixed(1) : '∞',
+    youngRatio: total > 0 ? (young / total * 100).toFixed(1) : '0',
+    workingRatio: total > 0 ? (working / total * 100).toFixed(1) : '0',
+    elderlyRatio: total > 0 ? (elderly / total * 100).toFixed(1) : '0'
+  };
+  if (code !== MULTI_CODE) _kpiCache[code] = result;
+  return result;
+}
+
+function calcLift(selCode, ctrlCode) {
+  const sp = getPercents(selCode);
+  const cp = getPercents(ctrlCode);
+  if (!sp || !cp) return [];
+  const bands = S.data.meta.bands;
+  return bands.map((band, i) => {
+    const selPct = sp.m[i] + sp.f[i];
+    const ctrlPct = cp.m[i] + cp.f[i];
+    const lift = ctrlPct > 0 ? ((selPct / ctrlPct) - 1) * 100 : 0;
+    return { band, lift, selPct, ctrlPct };
+  });
+}
+
+const _normVecCache = {};
+function _getNormVec(code) {
+  if (code !== MULTI_CODE && _normVecCache[code]) return _normVecCache[code];
+  const r = S.data.regions[code];
+  if (!r) return null;
+  const t = r.m.reduce((a,b)=>a+b,0) + r.f.reduce((a,b)=>a+b,0);
+  if (t === 0) return null;
+  const vec = new Float32Array(42);
+  let mag = 0;
+  for (let i = 0; i < 21; i++) { vec[i] = r.m[i]/t; vec[i+21] = r.f[i]/t; mag += vec[i]*vec[i] + vec[i+21]*vec[i+21]; }
+  mag = Math.sqrt(mag);
+  if (mag === 0) return null;
+  for (let i = 0; i < 42; i++) vec[i] /= mag;
+  if (code !== MULTI_CODE) _normVecCache[code] = vec;
+  return vec;
+}
+
+function cosineSimilarity(code1, code2) {
+  const v1 = _getNormVec(code1), v2 = _getNormVec(code2);
+  if (!v1 || !v2) return 0;
+  let dot = 0;
+  for (let i = 0; i < 42; i++) dot += v1[i] * v2[i];
+  return dot;
+}
+
+function findSimilar(code, level, topN = 10) {
+  const candidates = {};
+  if (level === 'sido') candidates.pool = S.regionTree.sido;
+  else if (level === 'sgg') candidates.pool = S.regionTree.sgg;
+  else candidates.pool = S.regionTree.emd;
+
+  const results = [];
+  for (const c of Object.keys(candidates.pool)) {
+    if (c === code) continue;
+    const sim = cosineSimilarity(code, c);
+    results.push({ code: c, similarity: sim });
+  }
+  results.sort((a, b) => b.similarity - a.similarity);
+  return results.slice(0, topN);
+}
+
+// ===== RENDERING =====
+function renderAll() {
+  if (!S.selected || !S.data) return;
+  renderBreadcrumb();
+  updateDropdownGuidance();
+  renderKPI();
+  renderPyramid();
+  renderLift();
+  renderSmallMultiples();
+  if (window._simTimer) cancelAnimationFrame(window._simTimer);
+  if (window._rankTimer) cancelAnimationFrame(window._rankTimer);
+  window._simTimer = requestAnimationFrame(() => {
+    renderSimilar();
+    window._rankTimer = requestAnimationFrame(() => renderRanking());
+  });
+  if (mapLayer) {
+    const allVals = mapLayer.getLayers().map(l => getMetricValue(getCodeFromFeature(l.feature, mapLevel)));
+    const scale = getColorScale(allVals);
+    mapLayer.setStyle(f => computeFeatureStyle(f, scale));
+  }
+}
+
+function renderKPI() {
+  const kpi = calcKPI(S.selected);
+  document.getElementById('kpi-pop').textContent = kpi.total ? kpi.total.toLocaleString() + '명' : '-';
+  document.getElementById('kpi-pop-sub').textContent = getRegionFullName(S.selected);
+  document.getElementById('kpi-aging').textContent = kpi.agingIndex;
+  document.getElementById('kpi-young').textContent = kpi.youngRatio + '%';
+  document.getElementById('kpi-working').textContent = kpi.workingRatio + '%';
+}
+
+function setTrendMetric(metric) {
+  S.trendMetric = metric;
+  document.querySelectorAll('.trend-btn').forEach(b => b.classList.toggle('active', b.dataset.trendmetric === metric));
+  renderTrend();
+}
+
+function formatTrendValue(v) {
+  if (!Number.isFinite(v)) return '-';
+  return (v / 10000).toLocaleString('ko-KR', { maximumFractionDigits: 0 }) + '만명';
+}
+
+function renderTrend() {
+  const chart = document.getElementById('trend-chart');
+  const stats = document.getElementById('trend-stats');
+  const subtitle = document.getElementById('trend-subtitle');
+  if (!chart || !stats) return;
+  if (!S.trend) {
+    chart.innerHTML = '<div class="trend-empty">추세 데이터 로딩 중</div>';
+    stats.innerHTML = '';
+    return;
+  }
+
+  const metric = S.trendMetric || 'total';
+  const labels = { total: '총인구', young: '유소년 인구', working: '생산가능인구', senior: '고령 인구' };
+  const years = S.trend.years;
+  const vals = S.trend.series[metric] || [];
+  if (!years.length || !vals.some(Boolean)) {
+    chart.innerHTML = '<div class="trend-empty">표시할 추세 데이터가 없습니다</div>';
+    stats.innerHTML = '';
+    return;
+  }
+
+  const data = years.map((year, i) => ({ year, val: vals[i] || 0 })).filter(d => d.val > 0);
+  const w = 760, h = 260, l = 54, r = 18, t = 18, b = 34;
+  const minYear = Math.min(...data.map(d => d.year));
+  const maxYear = Math.max(...data.map(d => d.year));
+  const maxVal = Math.max(...data.map(d => d.val));
+  const minVal = Math.min(...data.map(d => d.val));
+  const yMin = Math.max(0, minVal - (maxVal - minVal) * 0.12);
+  const yMax = maxVal + (maxVal - minVal) * 0.08;
+  const x = year => l + (year - minYear) / (maxYear - minYear) * (w - l - r);
+  const y = val => h - b - (val - yMin) / (yMax - yMin || 1) * (h - t - b);
+  const pathFor = arr => arr.map((d, i) => `${i ? 'L' : 'M'}${x(d.year).toFixed(1)} ${y(d.val).toFixed(1)}`).join(' ');
+  const observed = data.filter(d => d.year <= 2025);
+  const projected = data.filter(d => d.year >= 2025);
+  const ticks = [1930, 1955, 1980, 2005, 2030, 2055, 2070].filter(v => v >= minYear && v <= maxYear);
+  const yTicks = [yMin, (yMin + yMax) / 2, yMax];
+  const peak = data.reduce((a, d) => d.val > a.val ? d : a, data[0]);
+  const current = data.find(d => d.year === 2025) || observed[observed.length - 1] || data[0];
+  const final = data[data.length - 1];
+  const cutoffX = x(2025);
+
+  chart.className = '';
+  chart.innerHTML = `<svg class="trend-chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="${esc(labels[metric])} 장기 추세 차트">
+    ${yTicks.map(v => `<line class="trend-grid" x1="${l}" x2="${w - r}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}"></line><text class="trend-axis-label" x="8" y="${(y(v) + 4).toFixed(1)}">${esc(formatTrendValue(v))}</text>`).join('')}
+    ${ticks.map(v => `<text class="trend-axis-label" x="${x(v).toFixed(1)}" y="${h - 10}" text-anchor="middle">${v}</text>`).join('')}
+    <line class="trend-cutoff" x1="${cutoffX.toFixed(1)}" x2="${cutoffX.toFixed(1)}" y1="${t}" y2="${h - b}"></line>
+    <path class="trend-line" d="${pathFor(observed)}"></path>
+    <path class="trend-projected" d="${pathFor(projected)}"></path>
+    <circle class="trend-dot" cx="${x(current.year).toFixed(1)}" cy="${y(current.val).toFixed(1)}" r="4"></circle>
+    <circle class="trend-dot" cx="${x(peak.year).toFixed(1)}" cy="${y(peak.val).toFixed(1)}" r="4"></circle>
+  </svg>`;
+
+  stats.innerHTML = `
+    <div class="trend-stat"><div class="label">2025</div><div class="value">${esc(formatTrendValue(current.val))}</div><div class="sub">${esc(labels[metric])}</div></div>
+    <div class="trend-stat"><div class="label">정점</div><div class="value">${esc(formatTrendValue(peak.val))}</div><div class="sub">${peak.year}년</div></div>
+    <div class="trend-stat"><div class="label">2070</div><div class="value">${esc(formatTrendValue(final.val))}</div><div class="sub">${final.val >= current.val ? '+' : ''}${(((final.val / current.val) - 1) * 100).toFixed(1)}%</div></div>
+  `;
+  if (subtitle) subtitle.textContent = `${minYear}-${maxYear} | ${S.trend.source || 'KOSIS'} | 2026년 이후는 장래추계`;
+}
+
+function renderPyramid() {
+  const chart = document.getElementById('pyramid-chart');
+  const sp = getPercents(S.selected);
+  const cp = getPercents(S.control);
+  if (!sp) { chart.innerHTML = '<div class="loading">데이터 없음</div>'; return; }
+
+  const selName = getRegionName(S.selected);
+  const ctrlName = getRegionName(S.control);
+  document.getElementById('pyramid-title').textContent = selName + ' 인구 피라미드';
+  document.getElementById('pyramid-subtitle').textContent = '대조군: ' + ctrlName + ' | 총인구: ' + sp.total.toLocaleString() + '명';
+
+  const bands = S.data.meta.bands;
+  const maxPct = Math.max(...sp.m, ...sp.f, ...(cp ? cp.m : [0]), ...(cp ? cp.f : [0]));
+  const scale = maxPct > 0 ? 100 / maxPct : 1;
+
+  // 축 눈금(%) — 바깥쪽 = 최대 비율, 중앙 = 0
+  const axisEl = document.getElementById('pyramid-axis');
+  if (axisEl) {
+    const mx = maxPct.toFixed(1) + '%';
+    axisEl.innerHTML = `<span class="pyramid-axis-male"><span>${mx}</span><span>0</span></span>` +
+      `<span class="pyramid-axis-center">연령</span>` +
+      `<span class="pyramid-axis-female"><span>0</span><span>${mx}</span></span>`;
+  }
+
+  // In-place 업데이트: 행을 한 번만 생성하고 width만 갱신 → hover preview 시 부드러운 transition + DOM 재생성 비용 제거
+  if (chart.childElementCount !== bands.length || chart.dataset.hasOutline !== (cp ? '1' : '0')) {
+    let html = '';
+    for (let i = bands.length - 1; i >= 0; i--) {
+      html += `<div class="pyramid-row" data-idx="${i}">
+        <div class="pyramid-male-wrap">
+          ${cp ? `<div class="pyramid-outline male" style="width:0"></div>` : ''}
+          <div class="pyramid-bar male" style="width:0"></div>
+        </div>
+        <div class="pyramid-age">${esc(bands[i])}</div>
+        <div class="pyramid-female-wrap">
+          ${cp ? `<div class="pyramid-outline female" style="width:0"></div>` : ''}
+          <div class="pyramid-bar female" style="width:0"></div>
+        </div>
+      </div>`;
+    }
+    chart.innerHTML = html;
+    chart.dataset.hasOutline = cp ? '1' : '0';
+  }
+
+  const rows = chart.children;
+  let rowIdx = 0;
+  for (let i = bands.length - 1; i >= 0; i--, rowIdx++) {
+    const row = rows[rowIdx];
+    if (!row) continue;
+    const maleWrap = row.children[0];
+    const femaleWrap = row.children[2];
+    const mw = sp.m[i] * scale;
+    const fw = sp.f[i] * scale;
+    if (cp) {
+      maleWrap.children[0].style.width = (cp.m[i] * scale) + '%';
+      maleWrap.children[1].style.width = mw + '%';
+      femaleWrap.children[0].style.width = (cp.f[i] * scale) + '%';
+      femaleWrap.children[1].style.width = fw + '%';
+    } else {
+      maleWrap.children[0].style.width = mw + '%';
+      femaleWrap.children[0].style.width = fw + '%';
+    }
+  }
+}
+
+function showTip(e, idx) {
+  const tip = document.getElementById('pyramid-tooltip');
+  const r = S.data.regions[S.selected];
+  const band = S.data.meta.bands[idx];
+  const m = r.m[idx].toLocaleString();
+  const f = r.f[idx].toLocaleString();
+  tip.innerHTML = `<strong>${esc(band)}세</strong><br>남: ${m}명 | 여: ${f}명`;
+  tip.style.display = 'block';
+  tip.style.left = e.pageX + 12 + 'px';
+  tip.style.top = e.pageY - 30 + 'px';
+}
+function hideTip() { document.getElementById('pyramid-tooltip').style.display = 'none'; }
+
+function _liftTipEl() {
+  let t = document.getElementById('lift-tooltip');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'lift-tooltip';
+    t.className = 'pyramid-tooltip';
+    document.body.appendChild(t);
+  }
+  return t;
+}
+function showLiftTip(e, idx) {
+  const lifts = calcLift(S.selected, S.control);
+  const l = lifts[idx];
+  if (!l) return;
+  const tip = _liftTipEl();
+  const sign = l.lift >= 0 ? '+' : '';
+  tip.innerHTML = `<strong>${esc(l.band)}세</strong><br>
+    Lift: <b>${sign}${l.lift.toFixed(1)}%</b><br>
+    선택: ${l.selPct.toFixed(2)}% · 대조: ${l.ctrlPct.toFixed(2)}%`;
+  tip.style.display = 'block';
+  moveLiftTip(e);
+}
+function moveLiftTip(e) {
+  const tip = document.getElementById('lift-tooltip');
+  if (!tip) return;
+  tip.style.left = e.pageX + 12 + 'px';
+  tip.style.top = e.pageY - 30 + 'px';
+}
+function hideLiftTip() { const t = document.getElementById('lift-tooltip'); if (t) t.style.display = 'none'; }
+
+function renderLift() {
+  const chart = document.getElementById('lift-chart');
+  const summary = document.getElementById('lift-summary');
+  const lifts = calcLift(S.selected, S.control);
+  if (!lifts.length) { chart.innerHTML = ''; return; }
+
+  document.getElementById('lift-subtitle').textContent =
+    getRegionName(S.selected) + ' vs ' + getRegionName(S.control);
+
+  const maxLift = Math.max(...lifts.map(l => Math.abs(l.lift)), 1);
+  const bands = S.data.meta.bands;
+
+  const orderIdx = [];
+  for (let i = bands.length - 1; i >= 0; i--) orderIdx.push(i);
+
+  let rows = chart.querySelectorAll('.lift-row');
+  if (rows.length !== orderIdx.length) {
+    let html = '';
+    for (const i of orderIdx) {
+      html += `<div class="lift-row" data-idx="${i}">
+        <div class="lift-age">${esc(bands[i])}</div>
+        <div class="lift-bar-wrap">
+          <div class="lift-center"></div>
+          <div class="lift-bar"></div>
+        </div>
+        <div class="lift-val mono"></div>
+      </div>`;
+    }
+    chart.innerHTML = html;
+    rows = chart.querySelectorAll('.lift-row');
+  }
+
+  rows.forEach((row, ri) => {
+    const i = orderIdx[ri];
+    const l = lifts[i];
+    const pct = Math.abs(l.lift) / maxLift * 50;
+    const cls = l.lift >= 0 ? 'positive' : 'negative';
+    const left = l.lift >= 0 ? '50%' : (50 - pct) + '%';
+    const bar = row.querySelector('.lift-bar');
+    bar.classList.remove('positive', 'negative');
+    bar.classList.add(cls);
+    bar.style.width = pct + '%';
+    bar.style.left = left;
+    row.querySelector('.lift-val').textContent = (l.lift >= 0 ? '+' : '') + l.lift.toFixed(1) + '%';
+  });
+
+  // Top 3 positive and negative
+  const sorted = [...lifts].sort((a, b) => b.lift - a.lift);
+  const top3pos = sorted.slice(0, 3);
+  const top3neg = sorted.slice(-3).reverse();
+
+  const kpi = calcKPI(S.selected);
+  summary.innerHTML = `
+    <div class="lift-summary-row"><span class="label">고령화지수</span><span class="value" style="color:var(--lift-pos)">${kpi.agingIndex}</span></div>
+    <div class="lift-summary-row"><span class="label">유소년 비율</span><span class="value" style="color:var(--accent)">${kpi.youngRatio}%</span></div>
+    <div class="lift-summary-row"><span class="label">생산가능인구</span><span class="value">${kpi.workingRatio}%</span></div>
+    <div style="margin-top:10px;font-size:.7rem;color:var(--t3)">
+      <div style="font-weight:700;margin-bottom:4px;color:var(--lift-pos)">Lift 상위 Top 3</div>
+      ${top3pos.map(l => `<div>${esc(l.band)}세: +${l.lift.toFixed(1)}%</div>`).join('')}
+      <div style="font-weight:700;margin:8px 0 4px;color:var(--lift-neg)">Lift 하위 Top 3</div>
+      ${top3neg.map(l => `<div>${esc(l.band)}세: ${l.lift.toFixed(1)}%</div>`).join('')}
+    </div>`;
+}
+
+function renderSimilar() {
+  const levels = [
+    { id: 'sim-sido', level: 'sido', label: '시도' },
+    { id: 'sim-sgg', level: 'sgg', label: '시군구' },
+    { id: 'sim-emd', level: 'emd', label: '읍면동' }
+  ];
+
+  // 선택 코드 길이에 맞지 않는 레벨(특히 EMD ~17k × cosine)은 건너뛰어 hover preview 시 블로킹 회피
+  const selLen = (S.selected || '').length;
+  for (const { id, level } of levels) {
+    const panel = document.getElementById(id);
+    // EMD 패널은 선택이 EMD(길이 10)인 경우에만 계산. 그 외엔 안내 메시지.
+    if (level === 'emd' && selLen !== 10) {
+      panel.innerHTML = '<div style="padding:20px;color:var(--t3);text-align:center;font-size:.78rem">읍면동을 선택하면 유사 동을 표시합니다</div>';
+      continue;
+    }
+    const similar = findSimilar(S.selected, level);
+
+    if (!similar.length) {
+      panel.innerHTML = '<div style="padding:20px;color:var(--t3);text-align:center">비교 대상 없음</div>';
+      continue;
+    }
+
+    panel.innerHTML = similar.map((item, idx) => {
+      const r = S.data.regions[item.code];
+      const name = r.name.trim();
+      const parent = getParentName(item.code);
+      const pop = calcKPI(item.code).total;
+      const popStr = pop ? pop.toLocaleString() + '명' : '';
+      const parentLine = parent ? `${parent} · ${popStr}` : popStr;
+      const rankCls = idx === 0 ? 'gold' : idx === 1 ? 'silver' : idx === 2 ? 'bronze' : 'normal';
+      const miniPyramid = renderMiniPyramid(item.code);
+      return `<div class="sim-item" role="button" tabindex="0" data-nav="${esc(item.code)}">
+        <div class="sim-rank ${rankCls}">${idx + 1}</div>
+        <div class="sim-info">
+          <div class="sim-name">${esc(name)}</div>
+          <div class="sim-parent">${esc(parentLine)}</div>
+        </div>
+        ${miniPyramid}
+        <div class="sim-score">${(item.similarity * 100).toFixed(1)}%</div>
+      </div>`;
+    }).join('');
+  }
+}
+
+function renderMiniPyramid(code) {
+  const p = getPercents(code);
+  if (!p) return '';
+  const max = Math.max(...p.m, ...p.f);
+  if (max === 0) return '';
+  let maleHtml = '', femaleHtml = '';
+  for (let i = 20; i >= 0; i--) {
+    const mw = p.m[i] / max * 18;
+    const fw = p.f[i] / max * 18;
+    maleHtml += `<div class="sim-mini-bar" style="width:${mw}px;background:var(--male)"></div>`;
+    femaleHtml += `<div class="sim-mini-bar" style="width:${fw}px;background:var(--female)"></div>`;
+  }
+  return `<div class="sim-mini-pyramid"><div class="sim-mini-male">${maleHtml}</div><div class="sim-mini-female">${femaleHtml}</div></div>`;
+}
+
+let _smSort = 'name';
+function renderSmallMultiples() {
+  const container = document.getElementById('small-multiples');
+  let children = [];
+  let title = '';
+
+  if (!S.selected) { container.innerHTML = ''; return; }
+
+  const len = S.selected.length;
+  if (S.selected === MULTI_CODE) {
+    children = [...S.selection];
+    title = `선택된 지역 (${children.length}개)`;
+  } else if (S.selected === '00') {
+    children = Object.keys(S.regionTree.sido).sort();
+    title = '전국 시도';
+  } else if (len === 2) {
+    children = S.regionTree.sido[S.selected]?.children || [];
+    title = getRegionName(S.selected) + ' 시군구';
+  } else if (len === 5) {
+    children = S.regionTree.sgg[S.selected]?.children || [];
+    title = getRegionName(S.selected) + ' 읍면동';
+  } else if (len === 10) {
+    const parentSgg = S.selected.slice(0, 5);
+    children = S.regionTree.sgg[parentSgg]?.children || [];
+    title = getRegionName(parentSgg) + ' 읍면동';
+  }
+
+  document.getElementById('sm-title').textContent = title || '하위 행정구역';
+  document.getElementById('sm-subtitle').textContent = `${children.length}개 지역 | 클릭하여 이동`;
+
+  if (!children.length) {
+    container.innerHTML = '<div style="padding:20px;color:var(--t3);text-align:center">하위 행정구역 없음</div>';
+    return;
+  }
+
+  const _smSortFns = {
+    name: (a, b) => getRegionName(a).localeCompare(getRegionName(b), 'ko'),
+    pop: (a, b) => (calcKPI(b).total || 0) - (calcKPI(a).total || 0),
+    aging: (a, b) => (parseFloat(calcKPI(b).agingIndex) || 0) - (parseFloat(calcKPI(a).agingIndex) || 0),
+    young: (a, b) => (parseFloat(calcKPI(b).youngRatio) || 0) - (parseFloat(calcKPI(a).youngRatio) || 0)
+  };
+  container.innerHTML = [...children].sort(_smSortFns[_smSort] || _smSortFns.name).map(code => {
+    const r = S.data.regions[code];
+    if (!r) return '';
+    const name = r.name.trim();
+    const kpi = calcKPI(code);
+    const p = getPercents(code);
+    let pyramidHtml = '';
+    if (p) {
+      const max = Math.max(...p.m, ...p.f);
+      for (let i = 20; i >= 0; i--) {
+        const mw = max > 0 ? p.m[i] / max * 100 : 0;
+        const fw = max > 0 ? p.f[i] / max * 100 : 0;
+        pyramidHtml += `<div class="sm-row">
+          <div class="sm-male-wrap"><div class="sm-bar male" style="width:${mw}%"></div></div>
+          <div class="sm-female-wrap"><div class="sm-bar female" style="width:${fw}%"></div></div>
+        </div>`;
+      }
+    }
+
+    const agingColor = parseFloat(kpi.agingIndex) > 200 ? 'var(--lift-pos)' :
+                       parseFloat(kpi.agingIndex) > 100 ? 'var(--t2)' : 'var(--accent)';
+    const borderColor = parseFloat(kpi.agingIndex) > 200 ? '#E74C3C44' :
+                        parseFloat(kpi.agingIndex) < 50 ? '#2E86AB44' : 'var(--border)';
+
+    return `<div class="sm-card" role="button" tabindex="0" style="border-color:${borderColor}" data-nav="${esc(code)}">
+      <div class="sm-card-title">${esc(name)}</div>
+      <div class="sm-card-pop">${kpi.total ? kpi.total.toLocaleString() + '명' : ''}</div>
+      <div class="sm-pyramid">${pyramidHtml}</div>
+      <div class="sm-kpi-row">
+        <div class="sm-kpi"><span class="v" style="color:${agingColor}">${kpi.agingIndex}</span><span class="l">고령화</span></div>
+        <div class="sm-kpi"><span class="v">${kpi.youngRatio}%</span><span class="l">유소년</span></div>
+        <div class="sm-kpi"><span class="v">${kpi.workingRatio}%</span><span class="l">생산</span></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ===== MULTI SELECTION =====
+function buildMultiSearchPool() {
+  const pool = [];
+  const push = (code, full, level) => pool.push({ code, full, level, lower: full.toLowerCase() });
+  for (const [code, info] of Object.entries(S.regionTree.sido)) {
+    push(code, info.name.trim(), '시도');
+  }
+  for (const [code, info] of Object.entries(S.regionTree.sgg)) {
+    const sidoName = S.regionTree.sido[info.parent]?.name.trim() || '';
+    push(code, sidoName + ' ' + info.name.trim(), '시군구');
+  }
+  for (const [code, info] of Object.entries(S.regionTree.emd)) {
+    const sggInfo = S.regionTree.sgg[info.parent];
+    const sidoName = sggInfo ? (S.regionTree.sido[sggInfo.parent]?.name.trim() || '') : '';
+    const sggName = sggInfo?.name.trim() || '';
+    push(code, sidoName + ' ' + sggName + ' ' + info.name.trim(), '읍면동');
+  }
+  _multiSearchPool = pool;
+}
+
+let _multiSearchTimer = null;
+
+function onMultiSearchInput(q) {
+  clearTimeout(_multiSearchTimer);
+  _multiSearchTimer = setTimeout(() => _doMultiSearch(q), 80);
+}
+
+function _doMultiSearch(q) {
+  const dropdown = document.getElementById('multi-search-results');
+  if (!dropdown) return;
+  q = (q || '').trim();
+  if (!q) { dropdown.style.display = 'none'; return; }
+  if (!_multiSearchPool) buildMultiSearchPool();
+  const ql = q.toLowerCase();
+  const all = _multiSearchPool.filter(x => x.lower.includes(ql));
+  if (!all.length) {
+    dropdown.innerHTML = '<div class="search-empty">결과 없음</div>';
+    dropdown.style.display = 'block';
+    return;
+  }
+  const CAP = 200;
+  const results = all.slice(0, CAP);
+  let html = results.map(r => {
+    const checked = S.selection.has(r.code) ? '✓' : '';
+    return `<div class="search-item" role="option" data-multiadd="${esc(r.code)}">
+      <span class="search-level">${esc(r.level)}</span>
+      <span class="search-name">${esc(r.full)}</span>
+      <span class="search-check">${checked}</span>
+    </div>`;
+  }).join('');
+  if (all.length > CAP) html += `<div class="search-empty">총 ${all.length.toLocaleString()}건 중 ${CAP}건 표시</div>`;
+  dropdown.innerHTML = html;
+  dropdown.style.display = 'block';
+}
+
+function addFromMultiSearch(code) {
+  if (S.selection.has(code)) S.selection.delete(code);
+  else S.selection.add(code);
+  afterMultiSelectionChange();
+  onMultiSearchInput(document.getElementById('multi-search').value);
+}
+
+function bulkAddAllSido() {
+  for (const c of Object.keys(S.regionTree.sido)) S.selection.add(c);
+  afterMultiSelectionChange();
+}
+
+const MULTI_SELECTION_CAP = 1000;
+function bulkAddCurrentSggs() {
+  const sidoVal = document.getElementById('sel-sido').value;
+  if (!sidoVal || sidoVal === '00') {
+    const all = Object.keys(S.regionTree.sgg);
+    if (all.length > MULTI_SELECTION_CAP && !confirm(`전국 시군구 ${all.length.toLocaleString()}개를 모두 추가하시겠습니까? UI가 무거워질 수 있습니다.`)) return;
+    for (const c of all) {
+      if (S.selection.size >= MULTI_SELECTION_CAP) break;
+      S.selection.add(c);
+    }
+  } else {
+    const ch = S.regionTree.sido[sidoVal]?.children || [];
+    for (const c of ch) S.selection.add(c);
+  }
+  afterMultiSelectionChange();
+}
+
+function bulkAddCurrentEmds() {
+  const sggVal = document.getElementById('sel-sgg').value;
+  if (sggVal) {
+    const ch = S.regionTree.sgg[sggVal]?.children || [];
+    for (const c of ch) S.selection.add(c);
+  } else {
+    const sidoVal = document.getElementById('sel-sido').value;
+    if (sidoVal && sidoVal !== '00') {
+      const sggs = S.regionTree.sido[sidoVal]?.children || [];
+      for (const s of sggs) {
+        const ch = S.regionTree.sgg[s]?.children || [];
+        for (const c of ch) S.selection.add(c);
+      }
+    } else {
+      for (const c of Object.keys(S.regionTree.emd)) S.selection.add(c);
+    }
+  }
+  afterMultiSelectionChange();
+}
+
+function removeFromMultiSelection(code) {
+  S.selection.delete(code);
+  afterMultiSelectionChange();
+}
+
+function clearMultiSelection() {
+  S.selection.clear();
+  afterMultiSelectionChange();
+}
+
+function afterMultiSelectionChange() {
+  renderMultiChips();
+  const applyBtn = document.getElementById('multi-apply');
+  applyBtn.disabled = S.selection.size === 0;
+  if (S.multiViewActive) {
+    if (S.selection.size === 0) {
+      toggleMultiView();
+    } else {
+      buildAggregateRegion();
+      renderAll();
+      if (adk) renderMap();
+    }
+  }
+}
+
+function renderMultiChips() {
+  const wrap = document.getElementById('multi-chips');
+  document.getElementById('multi-count').textContent = S.selection.size;
+  if (S.selection.size === 0) {
+    wrap.innerHTML = '<div class="multi-empty">검색 또는 일괄 추가로 시작</div>';
+    return;
+  }
+  const arr = [...S.selection].sort();
+  wrap.innerHTML = arr.map(code => {
+    const name = getRegionName(code);
+    const parent = getParentName(code);
+    const label = parent ? parent + ' ' + name : name;
+    return `<div class="multi-chip" role="listitem" title="${esc(label)}">
+      <span class="chip-name">${esc(label)}</span>
+      <button type="button" class="chip-x" data-multiremove="${esc(code)}" aria-label="${esc(label)} 해제" title="해제">×</button>
+    </div>`;
+  }).join('');
+}
+
+function buildAggregateRegion() {
+  const n = S.data.meta.bands.length;
+  const sumM = new Array(n).fill(0);
+  const sumF = new Array(n).fill(0);
+  for (const code of S.selection) {
+    const r = S.data.regions[code];
+    if (!r) continue;
+    for (let i = 0; i < n; i++) { sumM[i] += r.m[i]; sumF[i] += r.f[i]; }
+  }
+  S.data.regions[MULTI_CODE] = {
+    name: `${S.selection.size}개 지역 합산`,
+    m: sumM, f: sumF
+  };
+  delete _kpiCache[MULTI_CODE];
+  delete _normVecCache[MULTI_CODE];
+}
+
+function toggleMultiView() {
+  const btn = document.getElementById('multi-apply');
+  if (S.multiViewActive) {
+    S.multiViewActive = false;
+    btn.classList.remove('active');
+    btn.textContent = '합산 결과 보기';
+    const restore = _prevSelectedBeforeMulti || '00';
+    _prevSelectedBeforeMulti = null;
+    selectRegion(restore);
+    if (adk) renderMap();
+  } else {
+    if (S.selection.size === 0) return;
+    buildAggregateRegion();
+    _prevSelectedBeforeMulti = S.selected;
+    S.multiViewActive = true;
+    btn.classList.add('active');
+    btn.textContent = '단일 뷰로 복귀';
+    selectRegion(MULTI_CODE);
+    if (adk) renderMap();
+  }
+}
+
+// ===== HTML ESCAPE =====
+const _ESC = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
+function esc(s) { return String(s ?? '').replace(/[&<>"']/g, c => _ESC[c]); }
+
+// ===== UNIFIED REGION PICKER =====
+let _regionPool = null;
+let _rpHover = 0;
+let _rpSearchTimer = null;
+
+function buildRegionPool() {
+  const pool = [{ code: '00', full: '전국', level: '전국', searchable: '전국' }];
+  for (const [code, info] of Object.entries(S.regionTree.sido)) {
+    const name = info.name.trim();
+    pool.push({ code, full: name, level: '시도', searchable: name });
+  }
+  for (const [code, info] of Object.entries(S.regionTree.sgg)) {
+    const sn = S.regionTree.sido[info.parent]?.name.trim() || '';
+    const name = info.name.trim();
+    pool.push({ code, full: sn + ' ' + name, level: '시군구', searchable: name + ' ' + sn });
+  }
+  for (const [code, info] of Object.entries(S.regionTree.emd)) {
+    const sgg = S.regionTree.sgg[info.parent];
+    const sn = sgg ? (S.regionTree.sido[sgg.parent]?.name.trim() || '') : '';
+    const sggName = sgg ? sgg.name.trim() : '';
+    const name = info.name.trim();
+    pool.push({ code, full: `${sn} ${sggName} ${name}`, level: '읍면동', searchable: name + ' ' + sggName + ' ' + sn });
+  }
+  _regionPool = pool;
+}
+
+function onRegionSearch(q) {
+  clearTimeout(_rpSearchTimer);
+  _rpSearchTimer = setTimeout(() => _doRegionSearch(q), 80);
+}
+
+function _doRegionSearch(q) {
+  const dd = document.getElementById('region-search-results');
+  q = (q || '').trim();
+  if (!q) { dd.style.display = 'none'; return; }
+  if (!_regionPool) buildRegionPool();
+  const ql = q.toLowerCase();
+  const all = _regionPool.filter(x => x.searchable.toLowerCase().includes(ql));
+  if (!all.length) {
+    dd.innerHTML = '<div class="rp-empty">결과 없음</div>';
+    dd.style.display = 'block';
+    return;
+  }
+  const CAP = 200;
+  const matches = all.slice(0, CAP);
+  _rpHover = 0;
+  let html = matches.map((r, i) => `
+    <div class="rp-item${i === 0 ? ' hover' : ''}" role="option" data-code="${esc(r.code)}" data-rpjump="${esc(r.code)}">
+      <span class="rp-level">${esc(r.level)}</span>
+      <span class="rp-name">${esc(r.full)}</span>
+      <button type="button" class="rp-act" data-rpadd="${esc(r.code)}" title="다중 선택 합산에 추가">＋합산</button>
+    </div>
+  `).join('');
+  if (all.length > CAP) {
+    html += `<div class="rp-empty">총 ${all.length.toLocaleString()}건 중 ${CAP}건 표시 — 키워드를 더 좁혀 보세요</div>`;
+  }
+  dd.innerHTML = html;
+  dd.style.display = 'block';
+}
+
+function onRegionSearchKey(e) {
+  const dd = document.getElementById('region-search-results');
+  if (dd.style.display === 'none') return;
+  const items = dd.querySelectorAll('.rp-item');
+  if (!items.length) return;
+  if (e.key === 'ArrowDown') {
+    _rpHover = Math.min(_rpHover + 1, items.length - 1);
+    items.forEach((it, i) => it.classList.toggle('hover', i === _rpHover));
+    items[_rpHover].scrollIntoView({ block: 'nearest' });
+    e.preventDefault();
+  } else if (e.key === 'ArrowUp') {
+    _rpHover = Math.max(_rpHover - 1, 0);
+    items.forEach((it, i) => it.classList.toggle('hover', i === _rpHover));
+    items[_rpHover].scrollIntoView({ block: 'nearest' });
+    e.preventDefault();
+  } else if (e.key === 'Enter') {
+    const c = items[_rpHover]?.dataset.code;
+    if (c) rpJump(c);
+    e.preventDefault();
+  } else if (e.key === 'Escape') {
+    closeRegionResults();
+    document.getElementById('region-search').blur();
+  }
+}
+
+function closeRegionResults() {
+  const dd = document.getElementById('region-search-results');
+  if (dd) dd.style.display = 'none';
+}
+
+function rpJump(code) {
+  closeRegionResults();
+  const input = document.getElementById('region-search');
+  if (input) input.value = '';
+  navigateToRegion(code);
+}
+
+function rpAddToMulti(code) {
+  S.selection.add(code);
+  afterMultiSelectionChange();
+  onRegionSearch(document.getElementById('region-search').value);
+}
+
+// ===== BREADCRUMB =====
+function renderBreadcrumb() {
+  const bc = document.getElementById('breadcrumb');
+  if (!bc) return;
+  const code = S.selected;
+  if (code === MULTI_CODE) {
+    bc.innerHTML = `<span class="bc-item current">${S.selection.size}개 지역 합산</span>`;
+    return;
+  }
+  if (!code || code === '00') {
+    bc.innerHTML = `<span class="bc-item current">전국</span><span class="bc-hint">🔍 검색하거나 지도를 클릭하세요</span>`;
+    return;
+  }
+  const parts = [{ code: '00', name: '전국' }];
+  if (code.length >= 2) parts.push({ code: code.slice(0, 2), name: getRegionName(code.slice(0, 2)) });
+  if (code.length >= 5) {
+    const si = getSiParentCode(code.slice(0, 5));
+    if (si) parts.push({ code: si, name: getRegionName(si) });
+    parts.push({ code: code.slice(0, 5), name: getRegionName(code.slice(0, 5)) });
+  }
+  if (code.length === 10) parts.push({ code, name: getRegionName(code) });
+  bc.innerHTML = parts.map((p, i) => {
+    const isLast = i === parts.length - 1;
+    const sep = i > 0 ? '<span class="bc-sep">▸</span>' : '';
+    const cls = isLast ? 'bc-item current' : 'bc-item';
+    const nav = isLast ? '' : ` role="button" tabindex="0" data-nav="${esc(p.code)}"`;
+    return `${sep}<span class="${cls}"${nav}>${esc(p.name)}</span>`;
+  }).join('');
+}
+
+// ===== DROPDOWN GUIDANCE =====
+function updateDropdownGuidance() {
+  const sidoVal = document.getElementById('sel-sido').value;
+  const sggVal = document.getElementById('sel-sgg').value;
+  const sggSel = document.getElementById('sel-sgg');
+  const emdSel = document.getElementById('sel-emd');
+  const hsgg = document.getElementById('hint-sgg');
+  const hemd = document.getElementById('hint-emd');
+  const sggDisabled = !sidoVal || sidoVal === '00';
+  const emdDisabled = !sggVal;
+  sggSel.disabled = sggDisabled;
+  emdSel.disabled = emdDisabled;
+  if (hsgg) hsgg.style.display = sggDisabled ? 'block' : 'none';
+  if (hemd) hemd.style.display = emdDisabled ? 'block' : 'none';
+}
+
+// ===== HOVER PREVIEW =====
+function previewRegion(code) {
+  if (!code || code === S.selected || code === S._previewing) return;
+  if (!S.data.regions[code]) return;
+  if (!S._previewing) S._previewBackup = S.selected;
+  S._previewing = code;
+  S.selected = code;
+  renderKPI();
+  renderPyramid();
+  renderLift();
+  renderBreadcrumb();
+}
+
+function clearPreview() {
+  if (!S._previewing) return;
+  S.selected = S._previewBackup;
+  S._previewing = null;
+  S._previewBackup = null;
+  renderKPI();
+  renderPyramid();
+  renderLift();
+  renderBreadcrumb();
+}
+
+// ===== MAP LOADING =====
+function setMapLoading(on) {
+  const el = document.getElementById('map-loading');
+  if (el) el.classList.toggle('hidden', !on);
+}
+
+// ===== NAVIGATION =====
+// renderMap의 _renderMapToken으로 비동기 직렬화. 여기서는 동기 본문만 보호.
+function navigateToRegion(code) {
+  const len = code.length;
+  if (code === '00') {
+    document.getElementById('sel-sido').value = '00';
+    document.getElementById('sel-sgg').innerHTML = '<option value="">시군구 선택...</option>';
+    document.getElementById('sel-emd').innerHTML = '<option value="">읍면동 선택...</option>';
+  } else if (len === 2) {
+    document.getElementById('sel-sido').value = code;
+    populateSgg(code);
+    document.getElementById('sel-sgg').value = '';
+    document.getElementById('sel-emd').innerHTML = '<option value="">읍면동 선택...</option>';
+  } else if (len === 5) {
+    const sidoCode = code.slice(0, 2);
+    document.getElementById('sel-sido').value = sidoCode;
+    populateSgg(sidoCode);
+    document.getElementById('sel-sgg').value = code;
+    populateEmd(code);
+    document.getElementById('sel-emd').value = '';
+  } else if (len === 10) {
+    const sidoCode = code.slice(0, 2);
+    const sggCode = code.slice(0, 5);
+    document.getElementById('sel-sido').value = sidoCode;
+    populateSgg(sidoCode);
+    document.getElementById('sel-sgg').value = sggCode;
+    populateEmd(sggCode);
+    document.getElementById('sel-emd').value = code;
+  }
+  selectRegion(code);
+  if (code === '00') { mapLevel = 'sgg'; mapParent = null; }
+  else if (len === 2) { mapLevel = 'sgg'; mapParent = code; }
+  else if (len === 5) { mapLevel = 'emd'; mapParent = code; }
+  else if (len === 10) { mapLevel = 'emd'; mapParent = code.slice(0, 5); }
+  if (adk) renderMap();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== HELPERS =====
+function getRegionName(code) {
+  if (code === MULTI_CODE) return S.data?.regions[MULTI_CODE]?.name || '선택 합산';
+  if (!code || !S.data?.regions[code]) return '';
+  return S.data.regions[code].name.trim();
+}
+
+// 일반시 행정구(예: 고양시 일산동구) 처리: 5자리 구 코드의 부모 '시' 코드를 반환.
+// KOSIS 코드에서 일반시는 ...0, 산하 구는 같은 4자리 + 비0 끝자리로 표현된다.
+// 영동군/증평군처럼 4자리만 우연히 겹치는 경우를 배제하기 위해 자식은 '구', 부모는 '시'로 끝날 때만 인정.
+function getSiParentCode(sgg) {
+  if (!sgg || sgg.length !== 5) return null;
+  const r = S.data?.regions;
+  if (!r || !r[sgg] || !r[sgg].name.trim().endsWith('구')) return null;
+  const parent = sgg.slice(0, 4) + '0';
+  if (parent === sgg || !r[parent] || !r[parent].name.trim().endsWith('시')) return null;
+  return parent;
+}
+
+function getRegionFullName(code) {
+  if (code === MULTI_CODE) {
+    const arr = [...S.selection];
+    const names = arr.slice(0, 3).map(c => {
+      const p = getParentName(c);
+      const n = getRegionName(c);
+      return p ? p + ' ' + n : n;
+    });
+    return names.join(', ') + (arr.length > 3 ? ` 외 ${arr.length - 3}개` : '');
+  }
+  if (!code) return '';
+  const parts = [];
+  if (code.length >= 2) parts.push(getRegionName(code.slice(0, 2)));
+  if (code.length >= 5) {
+    const si = getSiParentCode(code.slice(0, 5));
+    if (si) parts.push(getRegionName(si));
+    parts.push(getRegionName(code.slice(0, 5)));
+  }
+  if (code.length === 10) parts.push(getRegionName(code));
+  return parts.join(' > ');
+}
+
+function getParentName(code) {
+  if (code.length === 2) return '';
+  if (code.length === 5) {
+    const si = getSiParentCode(code);
+    return getRegionName(code.slice(0, 2)) + (si ? ' ' + getRegionName(si) : '');
+  }
+  if (code.length === 10) {
+    const si = getSiParentCode(code.slice(0, 5));
+    return getRegionName(code.slice(0, 2)) + (si ? ' ' + getRegionName(si) : '') + ' ' + getRegionName(code.slice(0, 5));
+  }
+  return '';
+}
+
+// ===== EVENT LISTENERS =====
+document.getElementById('sel-sido').addEventListener('change', function() {
+  const code = this.value;
+  if (code === '00') {
+    document.getElementById('sel-sgg').innerHTML = '<option value="">시군구 선택...</option>';
+  } else {
+    populateSgg(code);
+  }
+  document.getElementById('sel-emd').innerHTML = '<option value="">읍면동 선택...</option>';
+  if (code) navigateToRegion(code);
+});
+
+document.getElementById('sel-sgg').addEventListener('change', function() {
+  const code = this.value;
+  if (code) {
+    populateEmd(code);
+    navigateToRegion(code);
+  }
+});
+
+document.getElementById('sel-emd').addEventListener('change', function() {
+  if (this.value) navigateToRegion(this.value);
+});
+
+// ===== MAP =====
+let map = null;
+let mapLayer = null;
+let adk = null;
+let adkVersion = null;
+let mapLevel = 'sgg';  // 'sido', 'sgg', 'emd'
+let mapParent = null;    // parent code for drill-down
+let mapMetric = 'pop';
+let mapTileLayer = null;
+let mapPalette = 'gray-red';
+let mapClassify = 'quantile';
+
+const PALETTES = {
+  'gray-red':    ['#e8e8e8','#e0c8c0','#d8a098','#d07868','#c85040','#b82818','#900000'],
+  'gray-orange': ['#e8e8e8','#e0d0b8','#d8b888','#d09850','#c87820','#e08800','#ff9e00'],
+  'gray-blue':   ['#e8e8e8','#c8d4e0','#a8c0d8','#78a8cc','#4890c0','#2070b0','#084890'],
+  'hot':         ['#1a0005','#5e0020','#9e1a00','#d45200','#f09800','#f5d000','#fafa6e'],
+  'cool':        ['#f7fcfd','#ccece6','#66c2a4','#41ae76','#238b45','#006d2c','#00441b']
+};
+let mapGeoCache = {};
+let mapFilteredCache = {};
+let _sggNeighborCache = {};
+let _sggBBoxCache = {};
+
+function _simplifyCoords(coords, tol) {
+  if (coords.length <= 2) return coords;
+  let maxD = 0, idx = 0;
+  const [x0, y0] = coords[0], [x1, y1] = coords[coords.length - 1];
+  const dx = x1 - x0, dy = y1 - y0, lenSq = dx * dx + dy * dy;
+  for (let i = 1; i < coords.length - 1; i++) {
+    const [px, py] = coords[i];
+    let d;
+    if (lenSq === 0) { d = Math.sqrt((px-x0)*(px-x0)+(py-y0)*(py-y0)); }
+    else { const t = Math.max(0, Math.min(1, ((px-x0)*dx+(py-y0)*dy)/lenSq)); d = Math.sqrt((px-x0-t*dx)**2+(py-y0-t*dy)**2); }
+    if (d > maxD) { maxD = d; idx = i; }
+  }
+  if (maxD > tol) {
+    const left = _simplifyCoords(coords.slice(0, idx + 1), tol);
+    const right = _simplifyCoords(coords.slice(idx), tol);
+    return left.slice(0, -1).concat(right);
+  }
+  return [coords[0], coords[coords.length - 1]];
+}
+
+function _simplifyGeometry(geom, tol) {
+  if (geom.type === 'Polygon') {
+    return { type: 'Polygon', coordinates: geom.coordinates.map(ring => _simplifyCoords(ring, tol)) };
+  } else if (geom.type === 'MultiPolygon') {
+    return { type: 'MultiPolygon', coordinates: geom.coordinates.map(poly => poly.map(ring => _simplifyCoords(ring, tol))) };
+  }
+  return geom;
+}
+
+function _ensureSggBBoxes(sggFc) {
+  if (Object.keys(_sggBBoxCache).length > 0) return;
+  for (const f of sggFc.features) {
+    const code = f.properties.sggcd;
+    let minLat = 90, maxLat = -90, minLng = 180, maxLng = -180;
+    const walk = (arr) => {
+      if (typeof arr[0] === 'number') { const lng = arr[0], lat = arr[1]; if (lat > 20 && lat < 45 && lng > 120 && lng < 135) { minLat = Math.min(minLat, lat); maxLat = Math.max(maxLat, lat); minLng = Math.min(minLng, lng); maxLng = Math.max(maxLng, lng); } return; }
+      for (const a of arr) walk(a);
+    };
+    walk(f.geometry.coordinates);
+    _sggBBoxCache[code] = [minLat, maxLat, minLng, maxLng];
+  }
+}
+
+// 단일 SGG의 이웃 집합만 계산. 다른 SGG의 캐시는 건드리지 않음.
+function _computeNeighborsFor(code) {
+  if (_sggNeighborCache[code]) return _sggNeighborCache[code];
+  const bbox = _sggBBoxCache[code];
+  if (!bbox) return new Set([code]);
+  const pad = 0.02;
+  const [aMinLat, aMaxLat, aMinLng, aMaxLng] = bbox;
+  const neighbors = new Set([code]);
+  for (const c2 in _sggBBoxCache) {
+    if (c2 === code) continue;
+    const [bMinLat, bMaxLat, bMinLng, bMaxLng] = _sggBBoxCache[c2];
+    if (aMinLat - pad <= bMaxLat && aMaxLat + pad >= bMinLat && aMinLng - pad <= bMaxLng && aMaxLng + pad >= bMinLng) {
+      neighbors.add(c2);
+    }
+  }
+  _sggNeighborCache[code] = neighbors;
+  return neighbors;
+}
+
+async function initMap() {
+  const koreaBounds = L.latLngBounds([32.5, 123.5], [39.5, 132.5]);
+  map = L.map('map', { zoomSnap: 0.5, zoomDelta: 0.5, doubleClickZoom: false, maxBounds: koreaBounds, maxBoundsViscosity: 1.0, minZoom: 6 }).setView([36.5, 127.8], 7);
+  map.createPane('sggBorderPane');
+  map.getPane('sggBorderPane').style.zIndex = 450;
+  map.getPane('sggBorderPane').style.pointerEvents = 'none';
+  mapTileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png', {
+    maxZoom: 18, attribution: '&copy; OSM &copy; CARTO'
+  }).addTo(map);
+
+  try {
+    // Pinned version + timeout so a slow/unreachable CDN fails fast instead of hanging the map indefinitely.
+    const ADK_URL = 'https://esm.sh/admdongkor@0.2.0';
+    const timeout = (ms) => new Promise((_, rej) => setTimeout(() => rej(new Error('admdongkor 로드 시간 초과')), ms));
+    adk = await Promise.race([import(ADK_URL), timeout(15000)]);
+    const vers = adk.versions(2025);
+    adkVersion = vers[vers.length - 1] || '20250401';
+    await renderMap();
+  } catch (e) {
+    console.error('admdongkor load failed:', e);
+    const sub = document.getElementById('map-subtitle');
+    if (sub) sub.textContent = '지도 데이터 로드 실패 — 네트워크를 확인하거나 새로고침 해보세요';
+  }
+
+  let _expandTimer = null;
+  map.on('moveend', () => {
+    if (mapLevel !== 'emd' || !mapParent) return;
+    clearTimeout(_expandTimer);
+    _expandTimer = setTimeout(expandEmdToView, 200);
+  });
+}
+
+async function expandEmdToView() {
+  if (mapLevel !== 'emd' || !mapParent) return;
+  const cacheKey = `${adkVersion}_emd`;
+  const fc = mapGeoCache[cacheKey];
+  if (!fc) return;
+  const sggCacheKey = `${adkVersion}_sgg`;
+  let sggFc = mapGeoCache[sggCacheKey];
+  if (!sggFc) { sggFc = await adk.get(adkVersion, 'sgg'); mapGeoCache[sggCacheKey] = sggFc; }
+  _ensureSggBBoxes(sggFc);
+
+  const b = map.getBounds();
+  const pad = 0.005;
+  const minLat = b.getSouth() - pad, maxLat = b.getNorth() + pad;
+  const minLng = b.getWest() - pad, maxLng = b.getEast() + pad;
+
+  const visibleSggs = new Set([mapParent]);
+  for (const sgg in _sggBBoxCache) {
+    const [bMinLat, bMaxLat, bMinLng, bMaxLng] = _sggBBoxCache[sgg];
+    if (bMinLat <= maxLat && bMaxLat >= minLat && bMinLng <= maxLng && bMaxLng >= minLng) {
+      visibleSggs.add(sgg);
+    }
+  }
+
+  const allowed = _computeNeighborsFor(mapParent);
+  let added = false;
+  for (const sgg of visibleSggs) {
+    if (allowed.has(sgg)) continue;
+    allowed.add(sgg);
+    added = true;
+  }
+  if (!added) return;
+  _sggNeighborCache[mapParent] = allowed;
+
+  const filterKey = `${adkVersion}_emd_${mapParent}`;
+  delete mapFilteredCache[filterKey];
+  await renderMap();
+}
+
+function getMetricValue(code) {
+  const kpi = calcKPI(code);
+  if (!kpi.total) return null;
+  switch (mapMetric) {
+    case 'aging': return parseFloat(kpi.agingIndex) || 0;
+    case 'young': return parseFloat(kpi.youngRatio) || 0;
+    case 'working': return parseFloat(kpi.workingRatio) || 0;
+    case 'pop': return kpi.total;
+    default: return 0;
+  }
+}
+
+function getMetricLabel() {
+  return { aging: '고령화지수', young: '유소년비율(%)', working: '생산가능인구(%)', pop: '총인구(명)' }[mapMetric];
+}
+
+function getColorScale(values) {
+  const sorted = values.filter(v => v !== null).sort((a, b) => a - b);
+  if (!sorted.length) return { min: 0, max: 100, pal: PALETTES[mapPalette], getColor: () => '#ccc' };
+  const pal = PALETTES[mapPalette] || PALETTES['gray-red'];
+  const n = pal.length;
+
+  let breaks;
+  if (mapClassify === 'equal') {
+    const lo = sorted[0], hi = sorted[sorted.length - 1];
+    breaks = Array.from({ length: n + 1 }, (_, i) => lo + (hi - lo) * i / n);
+  } else if (mapClassify === 'stddev') {
+    const mean = sorted.reduce((a, b) => a + b, 0) / sorted.length;
+    const std = Math.sqrt(sorted.reduce((a, b) => a + (b - mean) ** 2, 0) / sorted.length);
+    const lo = mean - 2 * std, hi = mean + 2 * std;
+    breaks = Array.from({ length: n + 1 }, (_, i) => lo + (hi - lo) * i / n);
+  } else {
+    breaks = Array.from({ length: n + 1 }, (_, i) => sorted[Math.min(Math.floor(i * sorted.length / n), sorted.length - 1)]);
+  }
+
+  const min = breaks[0], max = breaks[breaks.length - 1];
+
+  return {
+    min, max, pal,
+    getColor(v) {
+      if (v === null) return '#ddd';
+      for (let i = 1; i < breaks.length; i++) {
+        if (v <= breaks[i]) return pal[i - 1];
+      }
+      return pal[n - 1];
+    }
+  };
+}
+
+function getCodeFromFeature(f, level) {
+  const p = f.properties;
+  if (level === 'sido') return p.sidocd;
+  if (level === 'sgg') return p.sggcd;
+  return p.emdcd;
+}
+
+// 단일 진실: 지도 feature 스타일 계산. setStyle 콜백과 geoJSON style 콜백 모두 사용.
+function computeFeatureStyle(f, scale) {
+  const code = getCodeFromFeature(f, mapLevel);
+  const v = getMetricValue(code);
+  const anchor = S._previewBackup || S.selected;
+  const isExact = code === anchor;
+  const isSelected = isExact || anchor?.startsWith(code) || (S.multiViewActive && S.selection.has(code));
+  const isNeighbor = (mapLevel === 'emd' && mapParent && f.properties.sggcd !== mapParent)
+    || (mapLevel === 'sgg' && mapParent && f.properties.sidocd !== mapParent);
+  return {
+    fillColor: scale.getColor(v),
+    fillOpacity: isNeighbor ? 0.7 : 0.95,
+    color: isExact ? '#000' : (isSelected ? '#1A202C' : scale.getColor(v)),
+    weight: isExact ? 4 : (isSelected ? 2.5 : 0.5),
+    opacity: 1
+  };
+}
+
+let _renderMapToken = 0;
+async function renderMap() {
+  if (!adk || !map) return;
+  const token = ++_renderMapToken;
+  const aborted = () => token !== _renderMapToken;
+
+  const cacheKey = `${adkVersion}_${mapLevel}`;
+  let fc;
+  if (mapGeoCache[cacheKey]) {
+    fc = mapGeoCache[cacheKey];
+  } else {
+    setMapLoading(true);
+    try {
+      fc = await adk.get(adkVersion, mapLevel);
+      if (aborted()) return;
+      mapGeoCache[cacheKey] = fc;
+    } finally {
+      setMapLoading(false);
+    }
+  }
+
+  // Filter features for drill-down (cached per parent to avoid re-simplify on metric/palette change)
+  let features = fc.features;
+  const filterKey = `${adkVersion}_${mapLevel}_${mapParent || ''}`;
+  if (mapLevel === 'emd' && mapParent) {
+    if (mapFilteredCache[filterKey]) {
+      features = mapFilteredCache[filterKey];
+    } else {
+      if (!_sggNeighborCache[mapParent]) {
+        const sggCacheKey = `${adkVersion}_sgg`;
+        let sggFc = mapGeoCache[sggCacheKey];
+        if (!sggFc) { sggFc = await adk.get(adkVersion, 'sgg'); if (aborted()) return; mapGeoCache[sggCacheKey] = sggFc; }
+        _ensureSggBBoxes(sggFc);
+      }
+      const allowed = _computeNeighborsFor(mapParent);
+      features = fc.features.filter(f => allowed.has(f.properties.sggcd)).map(f => {
+        if (f.properties.sggcd === mapParent) return f;
+        return { ...f, geometry: _simplifyGeometry(f.geometry, 0.0002) };
+      });
+      mapFilteredCache[filterKey] = features;
+    }
+  }
+
+  const filteredFc = { type: 'FeatureCollection', features };
+
+  // Compute metric values for color scale (all features)
+  const values = features.map(f => {
+    const code = getCodeFromFeature(f, mapLevel);
+    return getMetricValue(code);
+  });
+  const scale = getColorScale(values);
+
+  // Remove old layers
+  if (mapLayer) map.removeLayer(mapLayer);
+  if (window._sggBorderLayer) { map.removeLayer(window._sggBorderLayer); window._sggBorderLayer = null; }
+
+  mapLayer = L.geoJSON(filteredFc, {
+    style: f => computeFeatureStyle(f, scale),
+    onEachFeature(f, layer) {
+      const code = getCodeFromFeature(f, mapLevel);
+      layer._fCode = code;
+      layer._fProps = f.properties;
+
+      layer.on('mouseover', function(e) {
+        if (window._hoveredMapLayer && window._hoveredMapLayer !== this) {
+          window._hoveredMapLayer.closeTooltip();
+          mapLayer.resetStyle(window._hoveredMapLayer);
+        }
+        window._hoveredMapLayer = this;
+        previewRegion(this._fCode);
+        if (!this.getTooltip()) {
+          const p = this._fProps;
+          const pathParts = [];
+          if (p.sidonm) pathParts.push(p.sidonm);
+          if (p.sggnm) pathParts.push(p.sggnm);
+          if (p.emdnm) pathParts.push(p.emdnm);
+          const name = pathParts[pathParts.length - 1] || '';
+          const pathStr = pathParts.length > 1 ? pathParts.slice(0, -1).join(' > ') : '';
+          const kpi = calcKPI(this._fCode);
+          const pop = kpi.total ? kpi.total.toLocaleString() : '-';
+          const tt = `${pathStr ? `<div style="font-size:.65rem;color:rgba(255,255,255,.5);margin-bottom:2px">${esc(pathStr)}</div>` : ''}
+            <div class="tt-name">${esc(name)}</div>
+            <div class="tt-row"><span class="tt-label">인구</span><span class="tt-val">${pop}명</span></div>
+            <div class="tt-row"><span class="tt-label">고령화지수</span><span class="tt-val">${kpi.agingIndex || '-'}</span></div>
+            <div class="tt-row"><span class="tt-label">유소년</span><span class="tt-val">${kpi.youngRatio || '-'}%</span></div>
+            <div class="tt-row"><span class="tt-label">생산가능</span><span class="tt-val">${kpi.workingRatio || '-'}%</span></div>`;
+          this.bindTooltip(tt, { sticky: true, className: 'map-tooltip-custom', direction: 'right', offset: [12, 0] });
+        }
+        this.openTooltip(e.latlng);
+        this.setStyle({ weight: 2, color: '#1A202C', fillOpacity: 0.85 });
+        this.bringToFront();
+      });
+      layer.on('mouseout', function() {
+        this.closeTooltip();
+        mapLayer.resetStyle(this);
+        if (window._hoveredMapLayer === this) window._hoveredMapLayer = null;
+        clearPreview();
+      });
+
+      layer.on('click', function(e) {
+        L.DomEvent.stopPropagation(e);
+        const c = this._fCode;
+        setTimeout(() => navigateToRegion(c), 0);
+      });
+
+      layer.on('dblclick', function(e) {
+        L.DomEvent.stopPropagation(e);
+        const c = this._fCode;
+        if (mapLevel === 'sido') { mapLevel = 'sgg'; mapParent = c; renderMap(); }
+        else if (mapLevel === 'sgg' && S.regionTree.sgg[c]?.children?.length > 0) {
+          mapLevel = 'emd'; mapParent = c; renderMap();
+        }
+      });
+    }
+  }).addTo(map);
+
+  // Add boundary overlay for drill-down context
+  if (mapLevel === 'emd' && mapParent) {
+    const sggCacheKey = `${adkVersion}_sgg`;
+    let sggFc = mapGeoCache[sggCacheKey];
+    if (!sggFc) { sggFc = await adk.get(adkVersion, 'sgg'); if (aborted()) return; mapGeoCache[sggCacheKey] = sggFc; }
+    window._sggBorderLayer = L.geoJSON({ type: 'FeatureCollection', features: sggFc.features }, {
+      interactive: false,
+      style(f) {
+        const isPrimary = f.properties.sggcd === mapParent;
+        return {
+          fillColor: 'transparent', fillOpacity: 0,
+          color: isPrimary ? '#1A202C' : 'rgba(150,150,150,0.25)',
+          weight: isPrimary ? 3.5 : 0.8,
+          opacity: 1,
+          dashArray: isPrimary ? null : '4 3'
+        };
+      },
+      pane: 'sggBorderPane'
+    }).addTo(map);
+  } else if (mapLevel === 'sgg' && mapParent) {
+    const sidoCacheKey = `${adkVersion}_sido`;
+    let sidoFc = mapGeoCache[sidoCacheKey];
+    if (!sidoFc) { sidoFc = await adk.get(adkVersion, 'sido'); if (aborted()) return; mapGeoCache[sidoCacheKey] = sidoFc; }
+    window._sggBorderLayer = L.geoJSON({ type: 'FeatureCollection', features: sidoFc.features }, {
+      interactive: false,
+      style(f) {
+        const isPrimary = f.properties.sidocd === mapParent;
+        return {
+          fillColor: 'transparent', fillOpacity: 0,
+          color: isPrimary ? '#1A202C' : 'rgba(150,150,150,0.2)',
+          weight: isPrimary ? 3.5 : 0.6,
+          opacity: 1,
+          dashArray: isPrimary ? null : '4 3'
+        };
+      },
+      pane: 'sggBorderPane'
+    }).addTo(map);
+  }
+
+  // Fit bounds — focus on selected region if specific, else parent context, else all
+  const anchor = S._previewBackup || S.selected;
+  let focusLayers = [];
+  if (anchor && anchor !== '00' && anchor !== MULTI_CODE) {
+    mapLayer.eachLayer(l => {
+      const c = getCodeFromFeature(l.feature, mapLevel);
+      if (c === anchor || (anchor.length > c.length && anchor.startsWith(c)) || (c.length > anchor.length && c.startsWith(anchor))) {
+        focusLayers.push(l);
+      }
+    });
+  }
+  if (focusLayers.length) {
+    try { map.fitBounds(L.featureGroup(focusLayers).getBounds(), { padding: [40, 40], maxZoom: mapLevel === 'emd' ? 13 : (mapLevel === 'sgg' ? 11 : 9) }); } catch(e) {}
+  } else if (mapLevel === 'emd' && mapParent) {
+    const primaryLayers = [];
+    mapLayer.eachLayer(l => { if (l.feature.properties.sggcd === mapParent) primaryLayers.push(l); });
+    if (primaryLayers.length) {
+      try { map.fitBounds(L.featureGroup(primaryLayers).getBounds(), { padding: [40, 40] }); } catch(e) {}
+    }
+  } else {
+    try { map.fitBounds(mapLayer.getBounds(), { padding: [20, 20] }); } catch(e) {}
+  }
+
+  // Update UI
+  const levelNames = { sido: '시도', sgg: '시군구', emd: '읍면동' };
+  const parentName = mapParent ? getRegionName(mapParent) : '';
+  document.getElementById('map-title').textContent = parentName ? parentName + ' ' + levelNames[mapLevel] : '전국 ' + levelNames[mapLevel];
+  document.getElementById('map-subtitle').textContent = `${levelNames[mapLevel]} 단위 | ${getMetricLabel()} | ${features.length}개 지역`;
+  document.getElementById('map-back').style.display = mapParent ? 'inline-block' : 'none';
+  document.querySelectorAll('[data-maplvl]').forEach(b => b.classList.toggle('active', b.dataset.maplvl === mapLevel));
+
+  // Legend
+  const legend = document.getElementById('map-legend');
+  const gradientCss = `linear-gradient(to right, ${scale.pal.join(', ')})`;
+  const minLabel = mapMetric === 'pop' ? scale.min.toLocaleString() : scale.min.toFixed(0);
+  const maxLabel = mapMetric === 'pop' ? scale.max.toLocaleString() : scale.max.toFixed(0);
+  legend.innerHTML = `<span>${minLabel}</span>
+    <div class="map-legend-gradient" style="background:${gradientCss}"></div>
+    <span>${maxLabel}</span>
+    <span style="margin-left:8px">${getMetricLabel()}</span>`;
+}
+
+function changeMapMetric(val) { mapMetric = val; renderMap(); }
+function changePalette(val) { mapPalette = val; renderMap(); }
+function changeClassify(val) { mapClassify = val; renderMap(); }
+function setMapViewLevel(lvl) {
+  if (lvl === 'emd') {
+    let sgg = null;
+    if (S.selected) {
+      if (S.selected.length === 5) sgg = S.selected;
+      else if (S.selected.length === 10) sgg = S.selected.slice(0, 5);
+    }
+    if (!sgg) {
+      alert('읍면동 보기는 시군구를 먼저 선택해야 합니다.');
+      return;
+    }
+    mapParent = sgg;
+  } else if (lvl === 'sido') {
+    mapParent = null;
+  } else if (lvl === 'sgg') {
+    mapParent = (S.selected && S.selected.length === 2 && S.selected !== '00') ? S.selected : null;
+  }
+  document.querySelectorAll('[data-maplvl]').forEach(b => b.classList.toggle('active', b.dataset.maplvl === lvl));
+  mapLevel = lvl;
+  renderMap();
+}
+
+function changeBasemap(style) {
+  if (!map || !mapTileLayer) return;
+  map.removeLayer(mapTileLayer);
+  const urls = {
+    gray: 'https://{s}.basemaps.cartocdn.com/light_nolabels/{z}/{x}/{y}{r}.png',
+    dark: 'https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png'
+  };
+  mapTileLayer = L.tileLayer(urls[style] || urls.gray, { maxZoom: 18, attribution: '&copy; OSM &copy; CARTO' }).addTo(map);
+  mapTileLayer.bringToBack();
+}
+
+// ===== RANKINGS =====
+let rankMetric = 'pop';
+const rankOrder = { sido: 'desc', sgg: 'desc' };
+
+function setRankMetric(metric) {
+  rankMetric = metric;
+  document.querySelectorAll('.rank-metric-btn').forEach(b => b.classList.toggle('active', b.dataset.rmetric === metric));
+  const metricLabels = { pop: '인구(명)', aging: '고령화지수', young: '유소년(%)', working: '생산가능(%)' };
+  const label = metricLabels[metric];
+  document.getElementById('rank-header-sido').textContent = label;
+  document.getElementById('rank-header-sgg').textContent = label;
+  renderRanking();
+}
+
+function setRankOrder(level, order, btn) {
+  rankOrder[level] = order;
+  btn.closest('.rank-order-toggle').querySelectorAll('.rank-order-btn').forEach(b => b.classList.toggle('active', b.dataset.order === order));
+  renderRankCard(level);
+}
+
+function renderRankCard(level) {
+  const tbody = document.getElementById(`rank-body-${level}`);
+  const pool = level === 'sido' ? Object.keys(S.regionTree.sido) : Object.keys(S.regionTree.sgg);
+
+  const items = pool.map(code => {
+    const kpi = calcKPI(code);
+    let val;
+    switch (rankMetric) {
+      case 'pop': val = kpi.total || 0; break;
+      case 'aging': val = parseFloat(kpi.agingIndex) || 0; break;
+      case 'young': val = parseFloat(kpi.youngRatio) || 0; break;
+      case 'working': val = parseFloat(kpi.workingRatio) || 0; break;
+    }
+    return { code, val, name: getRegionName(code), parent: getParentName(code) };
+  }).filter(x => x.val > 0);
+
+  const desc = rankOrder[level] === 'desc';
+  items.sort((a, b) => desc ? b.val - a.val : a.val - b.val);
+
+  const maxVal = desc ? items[0]?.val || 1 : Math.max(...items.map(x => x.val), 1);
+  const top = items.slice(0, 100);
+  tbody.innerHTML = top.map((item, i) => {
+    const barW = (item.val / maxVal * 100).toFixed(1);
+    const fmt = rankMetric === 'pop' ? item.val.toLocaleString() : item.val.toFixed(1);
+    const isSelected = item.code === S.selected;
+    const bg = isSelected ? 'background:rgba(52,152,219,.08)' : '';
+    return `<tr style="${bg}" data-nav="${esc(item.code)}">
+      <td class="rank-num">${i + 1}</td>
+      <td><div class="rank-name">${esc(item.name)}</div><div class="rank-parent">${esc(item.parent)}</div></td>
+      <td class="rank-val">${fmt}</td>
+      <td class="rank-bar-cell"><div class="rank-bar" style="width:${barW}%"></div></td>
+    </tr>`;
+  }).join('');
+}
+
+function renderRanking() {
+  renderRankCard('sido');
+  renderRankCard('sgg');
+}
+
+function mapDrillUp() {
+  if (mapLevel === 'emd' && mapParent) {
+    navigateToRegion(mapParent.slice(0, 2));
+  } else if (mapLevel === 'sgg') {
+    navigateToRegion('00');
+  }
+}
+
+function toggleMapFullscreen() {
+  const panel = document.getElementById('map').closest('.trio-panel');
+  const btn = document.getElementById('map-fullscreen-btn');
+  panel.classList.toggle('map-fullscreen');
+  const isFs = panel.classList.contains('map-fullscreen');
+  btn.textContent = isFs ? '✕ 닫기' : '⛶ 전체화면';
+  setTimeout(() => map.invalidateSize(), 100);
+}
+
+// Lightweight public-page guard: discourages crawlers and casual copying. Real CAPTCHA strength requires server-side token verification.
+function setupAccessGuard() {
+  const botPattern = /(bot|crawler|spider|slurp|scrapy|curl|wget|python-requests|headless|phantom|gptbot|chatgpt|ccbot|claudebot|anthropic|perplexity|bytespider|google-extended|facebookexternalhit|facebookbot|amazonbot|applebot-extended)/i;
+  const gate = document.getElementById('human-gate');
+  const btn = document.getElementById('human-gate-btn');
+  const captchaWrap = document.getElementById('human-captcha-wrap');
+  const captchaWidget = document.getElementById('human-captcha-widget');
+  const captchaStatus = document.getElementById('human-captcha-status');
+  const storageKey = 'popPyramidHumanConfirmed';
+  const allowInteractiveTarget = el => el && el.closest && el.closest('input,textarea,select,button,[contenteditable="true"]');
+  const isLikelyBot = botPattern.test(navigator.userAgent || '') || navigator.webdriver === true;
+  const turnstileKey = window.TURNSTILE_SITE_KEY || safeStorageGet('TURNSTILE_SITE_KEY');
+  const recaptchaKey = window.RECAPTCHA_SITE_KEY || safeStorageGet('RECAPTCHA_SITE_KEY');
+  let provider = readRuntimeSetting('CAPTCHA_PROVIDER').toLowerCase();
+  if (provider === 'cloudflare') provider = 'turnstile';
+  if (provider === 'google') provider = 'recaptcha';
+  if (!provider) provider = turnstileKey ? 'turnstile' : (recaptchaKey ? 'recaptcha' : '');
+  const siteKey = provider === 'turnstile'
+    ? (turnstileKey || readRuntimeSetting('CAPTCHA_SITE_KEY'))
+    : provider === 'recaptcha'
+      ? (recaptchaKey || readRuntimeSetting('CAPTCHA_SITE_KEY'))
+      : readRuntimeSetting('CAPTCHA_SITE_KEY');
+  const verifyEndpoint = readRuntimeSetting('CAPTCHA_VERIFY_ENDPOINT');
+  const captchaRequired = !!provider && !!siteKey;
+  let captchaVerified = !captchaRequired;
+
+  document.body.classList.add('copy-locked');
+
+  const setCaptchaStatus = text => {
+    if (captchaStatus) captchaStatus.textContent = text || '';
+  };
+
+  const unlock = () => {
+    try { sessionStorage.setItem(storageKey, '1'); } catch (e) {}
+    document.body.classList.add('human-ok');
+    gate?.setAttribute('aria-hidden', 'true');
+  };
+
+  const enableAfterCaptcha = () => {
+    captchaVerified = true;
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '확인하고 보기';
+    }
+    setCaptchaStatus('사람 확인이 완료되었습니다.');
+  };
+
+  const verifyCaptchaToken = async token => {
+    if (!token) return;
+    setCaptchaStatus('사람 확인 결과를 검증하는 중입니다.');
+    if (!verifyEndpoint) {
+      enableAfterCaptcha();
+      return;
+    }
+    try {
+      const resp = await fetch(verifyEndpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ provider, token })
+      });
+      if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+      const result = await resp.json();
+      if (result.success === true || result.ok === true || result.verified === true) {
+        enableAfterCaptcha();
+      } else {
+        captchaVerified = false;
+        if (btn) btn.disabled = true;
+        setCaptchaStatus('사람 확인에 실패했습니다. 다시 시도해주세요.');
+      }
+    } catch (e) {
+      captchaVerified = false;
+      if (btn) btn.disabled = true;
+      setCaptchaStatus('검증 서버에 연결하지 못했습니다. 잠시 후 다시 시도해주세요.');
+      console.warn('CAPTCHA verification failed:', e);
+    }
+  };
+
+  const renderCaptcha = async () => {
+    if (!captchaRequired || !captchaWrap || !captchaWidget || !btn) return;
+    captchaWrap.hidden = false;
+    btn.disabled = true;
+    btn.textContent = '확인 완료 후 보기';
+    setCaptchaStatus('사람 확인을 완료해주세요.');
+
+    try {
+      if (provider === 'turnstile') {
+        const turnstile = await loadExternalScript('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', 'turnstile');
+        turnstile.render('#human-captcha-widget', {
+          sitekey: siteKey,
+          callback: token => verifyCaptchaToken(token),
+          'expired-callback': () => {
+            captchaVerified = false;
+            btn.disabled = true;
+            setCaptchaStatus('확인이 만료되었습니다. 다시 진행해주세요.');
+          },
+          'error-callback': () => setCaptchaStatus('사람 확인 위젯을 불러오지 못했습니다.')
+        });
+      } else if (provider === 'recaptcha') {
+        const grecaptcha = await loadExternalScript('https://www.google.com/recaptcha/api.js?render=explicit', 'grecaptcha');
+        grecaptcha.render('human-captcha-widget', {
+          sitekey: siteKey,
+          callback: token => verifyCaptchaToken(token),
+          'expired-callback': () => {
+            captchaVerified = false;
+            btn.disabled = true;
+            setCaptchaStatus('확인이 만료되었습니다. 다시 진행해주세요.');
+          },
+          'error-callback': () => setCaptchaStatus('사람 확인 위젯을 불러오지 못했습니다.')
+        });
+      } else {
+        setCaptchaStatus('CAPTCHA 설정을 확인해주세요.');
+      }
+    } catch (e) {
+      setCaptchaStatus('사람 확인 위젯을 불러오지 못했습니다. 잠시 후 다시 시도해주세요.');
+      console.warn('CAPTCHA widget failed:', e);
+    }
+  };
+
+  if (isLikelyBot) {
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = '자동화된 접근은 허용되지 않습니다';
+    }
+  } else {
+    let alreadyConfirmed = false;
+    try { alreadyConfirmed = sessionStorage.getItem(storageKey) === '1'; } catch (e) {}
+    if (alreadyConfirmed) unlock();
+    else renderCaptcha();
+    btn?.addEventListener('click', () => {
+      if (!captchaVerified) {
+        setCaptchaStatus('사람 확인을 먼저 완료해주세요.');
+        return;
+      }
+      unlock();
+    });
+    gate?.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        if (captchaVerified) unlock();
+        else setCaptchaStatus('사람 확인을 먼저 완료해주세요.');
+      }
+    });
+  }
+
+  ['copy', 'cut', 'dragstart'].forEach(type => {
+    document.addEventListener(type, e => {
+      if (!allowInteractiveTarget(e.target)) e.preventDefault();
+    }, true);
+  });
+  document.addEventListener('contextmenu', e => {
+    if (!allowInteractiveTarget(e.target)) e.preventDefault();
+  }, true);
+  document.addEventListener('keydown', e => {
+    const key = (e.key || '').toLowerCase();
+    if ((e.ctrlKey || e.metaKey) && ['c', 's', 'u', 'p'].includes(key) && !allowInteractiveTarget(e.target)) {
+      e.preventDefault();
+    }
+  }, true);
+}
+
+// ===== EVENT WIRING (no inline handlers — keeps behavior identical while satisfying CSP/script-src) =====
+function setupEventListeners() {
+  const $ = id => document.getElementById(id);
+
+  // Sidebar toggle (mobile)
+  const mobileToggle = $('mobile-toggle');
+  const sidebar = $('sidebar');
+  if (mobileToggle && sidebar) {
+    mobileToggle.addEventListener('click', () => {
+      const open = sidebar.classList.toggle('open');
+      mobileToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+  }
+
+  // Region search input
+  const regionSearch = $('region-search');
+  if (regionSearch) {
+    const syncExpanded = () => {
+      const dd = $('region-search-results');
+      regionSearch.setAttribute('aria-expanded', dd && dd.style.display !== 'none' ? 'true' : 'false');
+    };
+    regionSearch.addEventListener('input', e => { onRegionSearch(e.target.value); setTimeout(syncExpanded, 100); });
+    regionSearch.addEventListener('focus', e => { onRegionSearch(e.target.value); setTimeout(syncExpanded, 100); });
+    regionSearch.addEventListener('keydown', e => onRegionSearchKey(e));
+    regionSearch.addEventListener('blur', () => setTimeout(() => { closeRegionResults(); syncExpanded(); }, 200));
+  }
+
+  // Multi-select search input
+  const multiSearch = $('multi-search');
+  if (multiSearch) {
+    multiSearch.addEventListener('input', e => { onMultiSearchInput(e.target.value); });
+    multiSearch.addEventListener('focus', e => { onMultiSearchInput(e.target.value); });
+    multiSearch.addEventListener('blur', () => setTimeout(() => {
+      const d = $('multi-search-results'); if (d) d.style.display = 'none';
+      multiSearch.setAttribute('aria-expanded', 'false');
+    }, 200));
+  }
+
+  // Bulk-add buttons
+  document.querySelectorAll('[data-bulk]').forEach(btn => btn.addEventListener('click', () => {
+    const k = btn.dataset.bulk;
+    if (k === 'sido') bulkAddAllSido();
+    else if (k === 'sgg') bulkAddCurrentSggs();
+    else if (k === 'emd') bulkAddCurrentEmds();
+  }));
+  $('multi-clear')?.addEventListener('click', clearMultiSelection);
+  $('multi-apply')?.addEventListener('click', toggleMultiView);
+
+  // Control-group + map view-level presets
+  document.querySelectorAll('[data-control]').forEach(btn => btn.addEventListener('click', () => setControl(btn.dataset.control)));
+  document.querySelectorAll('[data-maplvl]').forEach(btn => btn.addEventListener('click', () => setMapViewLevel(btn.dataset.maplvl)));
+
+  // Map option selects
+  document.querySelectorAll('[data-mapchange]').forEach(sel => sel.addEventListener('change', () => {
+    const v = sel.value;
+    switch (sel.dataset.mapchange) {
+      case 'metric': changeMapMetric(v); break;
+      case 'palette': changePalette(v); break;
+      case 'classify': changeClassify(v); break;
+      case 'basemap': changeBasemap(v); break;
+    }
+  }));
+  $('map-back')?.addEventListener('click', mapDrillUp);
+  $('map-fullscreen-btn')?.addEventListener('click', toggleMapFullscreen);
+
+  // Trend buttons
+  document.querySelectorAll('.trend-btn').forEach(btn => btn.addEventListener('click', () => setTrendMetric(btn.dataset.trendmetric)));
+
+  // Ranking buttons
+  document.querySelectorAll('.rank-metric-btn').forEach(btn => btn.addEventListener('click', () => setRankMetric(btn.dataset.rmetric)));
+  document.querySelectorAll('.rank-order-btn').forEach(btn => btn.addEventListener('click', () => setRankOrder(btn.dataset.level, btn.dataset.order, btn)));
+  // 하위 행정구역(small-multiples) 정렬
+  document.querySelectorAll('[data-smsort]').forEach(btn => btn.addEventListener('click', () => {
+    _smSort = btn.dataset.smsort;
+    document.querySelectorAll('.sm-sort-btn').forEach(b => b.classList.toggle('active', b.dataset.smsort === _smSort));
+    renderSmallMultiples();
+  }));
+
+  // ----- Delegation for dynamically-generated content (containers persist across re-renders) -----
+  // mousedown fires before the search input's blur closes the dropdown
+  document.body.addEventListener('mousedown', e => {
+    const add = e.target.closest('[data-rpadd]');
+    if (add) { e.preventDefault(); e.stopPropagation(); rpAddToMulti(add.dataset.rpadd); return; }
+    const jump = e.target.closest('[data-rpjump]');
+    if (jump) { e.preventDefault(); rpJump(jump.dataset.rpjump); return; }
+    const ms = e.target.closest('[data-multiadd]');
+    if (ms) { addFromMultiSearch(ms.dataset.multiadd); return; }
+  });
+  document.body.addEventListener('click', e => {
+    const rm = e.target.closest('[data-multiremove]');
+    if (rm) { removeFromMultiSelection(rm.dataset.multiremove); return; }
+    const nav = e.target.closest('[data-nav]');
+    if (nav) { navigateToRegion(nav.dataset.nav); return; }
+  });
+  // Keyboard activation for focusable role=button cards (Enter / Space)
+  document.body.addEventListener('keydown', e => {
+    if (e.key !== 'Enter' && e.key !== ' ') return;
+    const nav = e.target.closest && e.target.closest('[data-nav]');
+    if (nav && e.target === nav) { e.preventDefault(); navigateToRegion(nav.dataset.nav); }
+  });
+
+  // Pyramid / Lift tooltip hover (delegated on stable containers)
+  const pyramidChart = $('pyramid-chart');
+  if (pyramidChart) {
+    pyramidChart.addEventListener('mouseover', e => {
+      const row = e.target.closest('.pyramid-row');
+      if (row && row.dataset.idx != null) showTip(e, +row.dataset.idx);
+    });
+    pyramidChart.addEventListener('mouseout', e => {
+      const row = e.target.closest('.pyramid-row');
+      if (row && !row.contains(e.relatedTarget)) hideTip();
+    });
+  }
+  const liftChart = $('lift-chart');
+  if (liftChart) {
+    liftChart.addEventListener('mouseover', e => {
+      const row = e.target.closest('.lift-row');
+      if (row && row.dataset.idx != null) showLiftTip(e, +row.dataset.idx);
+    });
+    liftChart.addEventListener('mousemove', e => { if (e.target.closest('.lift-row')) moveLiftTip(e); });
+    liftChart.addEventListener('mouseout', e => {
+      const row = e.target.closest('.lift-row');
+      if (row && !row.contains(e.relatedTarget)) hideLiftTip();
+    });
+  }
+}
+
+// ===== INIT =====
+async function init() {
+  await loadRuntimeConfig();
+  setupAccessGuard();
+  setupEventListeners();
+  await loadData();
+  loadTrendData();
+  populateSido();
+  initControlDropdowns();
+
+  // 외부 딥링크 지원: ?code=<2/5/10자리 행정코드> 가 있으면 그 지역으로 시작(없거나 무효면 전국)
+  const _qcode = new URLSearchParams(location.search).get('code');
+  if (_qcode && S.data.regions[_qcode]) {
+    const _sido = _qcode.slice(0, 2);
+    document.getElementById('sel-sido').value = _sido;
+    if (_qcode.length >= 5) {
+      populateSgg(_sido);
+      const _sgg = document.getElementById('sel-sgg');
+      _sgg.disabled = false; _sgg.value = _qcode.slice(0, 5);
+    }
+    selectRegion(_qcode);
+  } else {
+    document.getElementById('sel-sido').value = '00';
+    selectRegion('00');
+  }
+  renderMultiChips();
+
+  initMap();
+}
+
+init().catch(e => {
+  console.error('init failed:', e);
+  const main = document.querySelector('.main');
+  if (main && !document.getElementById('init-error-banner')) {
+    const banner = document.createElement('div');
+    banner.id = 'init-error-banner';
+    banner.setAttribute('role', 'alert');
+    banner.style.cssText = 'background:#FEECEC;border:1px solid #E74C3C;color:#9B2C2C;padding:14px 18px;border-radius:8px;margin-bottom:16px;font-size:.9rem;font-weight:600';
+    banner.textContent = '데이터를 불러오지 못했습니다: ' + (e && e.message ? e.message : '알 수 없는 오류') + ' — 페이지를 새로고침 해주세요.';
+    main.prepend(banner);
+  }
+  const m = document.getElementById('map-subtitle');
+  if (m) m.textContent = '초기화 실패 — 새로고침 해보세요';
+});
+</script>
+</body>
+</html>

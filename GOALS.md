@@ -31,12 +31,14 @@
 - [x] file:// 에서 fetch 실패 시 atlas.js 폴백 → 그래도 실패하면 안내 문구
 - [x] 종이톤 신문 스타일(#F3F5F4/#1E2A32/#0E6E6B/#A03A38), 한국어, 타이틀 "대한민국 인구전망 아틀라스"
 - [x] footer·상세카드에 인구피라미드 탐색기(pop-pyramid) 크로스링크
+- [x] 같은 배포 안에 `pyramid.html` 통합 버전 추가
 - [ ] 시군구 검색(전 지역 통합 자동완성)
 - [ ] 두 지역 나란히 비교 모드
-- [ ] 읍면동 드릴다운(피라미드 탐색기 연계 강화)
+- [x] 읍면동 드릴다운(피라미드 탐색기 연계 강화)
 
 ### 배포
 - [x] `.gitignore`에 `.env` (키 커밋 금지)
 - [ ] GitHub 레포 생성 → Pages 활성화(main / root)
-- [ ] pop-pyramid ↔ atlas 상호 링크 확인
+- [x] pop-pyramid ↔ atlas 상호 링크 확인
+- [x] 공개 웹앱 봇 방어 공통요건 적용(robots/noai/사람 확인/복사 억제)
 - [ ] 연 1회(주민등록 연간 확정 후) `python build_data.py` 재실행 → data 갱신 커밋

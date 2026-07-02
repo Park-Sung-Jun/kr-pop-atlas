@@ -6,7 +6,7 @@
 - 전국 뷰(시도 단위) → 시도 클릭 → 시군구 뷰로 드릴다운
 - 탭: 개요(팬차트) / 지도·시뮬레이션(연도 재생) / 비교(막대) / 전망표(정렬) / 하이라이트
 - 상세 카드: 인구 흐름 스파크라인 + 피라미드(지역 전체 대조) + 연령구조 유사 지역 TOP3(코사인 유사도)
-- 함께 보기: [인구피라미드 탐색기](https://park-sung-jun.github.io/pop-pyramid) — 읍면동 단위 피라미드·대조군 비교 (같은 저자)
+- 함께 보기: `pyramid.html` — 읍면동 단위 피라미드·대조군 비교·전국 장기 인구 추세를 같은 배포 안에서 제공
 
 ## 실행 (로컬 미리보기)
 
@@ -16,6 +16,7 @@
 cd kr_pop_atlas
 python -m http.server 8080
 # http://localhost:8080/
+# http://localhost:8080/pyramid.html
 ```
 
 `index.html`을 파일로 직접 열어도 `data/atlas.js` 폴백으로 동작합니다.
@@ -59,3 +60,11 @@ git push -u origin main
 ```
 
 정적 파일(`index.html`, `data/`)만 있으면 되므로 별도 빌드 파이프라인이 필요 없습니다.
+
+## 통합 버전·보호 설정
+
+- `index.html`: 대한민국 인구전망 아틀라스
+- `pyramid.html`: 전국 시도·시군구·읍면동 인구피라미드 탐색기
+- `robots.txt`, `noai` 메타, 사람 확인 게이트, 복사·우클릭 억제 스크립트를 포함합니다.
+- CAPTCHA를 쓰려면 배포 환경에 `CAPTCHA_PROVIDER=turnstile|recaptcha`, `CAPTCHA_SITE_KEY`, 필요 시 `CAPTCHA_VERIFY_ENDPOINT`를 설정합니다.
+- 장기 인구 추세는 `api/kosis-trend.js`가 `KOSIS_API_KEY`, `KOSIS_TREND_USER_STATS_ID`를 이용해 KOSIS OpenAPI를 우선 호출하고, 실패하면 로컬 CSV로 표시합니다.
