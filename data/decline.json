@@ -823,6 +823,13 @@
         "org": "나라살림연구소",
         "url": "https://www.narasallim.net/report/546",
         "year": 2023
+      },
+      {
+        "name": "지방자치단체 세입세출(예산현액·결산세출) DT_110001_A011",
+        "org": "KOSIS·행정안전부 지방재정",
+        "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "year": 2023,
+        "tbl_id": "DT_110001_A011"
       }
     ],
     "fund_exec_national": [
@@ -860,7 +867,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5243,
+        "expenditure_settled_100m": 5677,
+        "expenditure_per_capita_manwon": 414.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11140": {
         "fiscal_independence_pct": 61.99,
@@ -870,7 +882,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5756,
+        "expenditure_settled_100m": 5395,
+        "expenditure_per_capita_manwon": 457.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11170": {
         "fiscal_independence_pct": 50.47,
@@ -880,7 +897,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6117,
+        "expenditure_settled_100m": 6499,
+        "expenditure_per_capita_manwon": 321.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11200": {
         "fiscal_independence_pct": 38.38,
@@ -890,7 +912,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6990,
+        "expenditure_settled_100m": 7565,
+        "expenditure_per_capita_manwon": 275.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11215": {
         "fiscal_independence_pct": 32.54,
@@ -900,7 +927,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7827,
+        "expenditure_settled_100m": 8004,
+        "expenditure_per_capita_manwon": 241.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11230": {
         "fiscal_independence_pct": 27.63,
@@ -910,7 +942,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7977,
+        "expenditure_settled_100m": 9107,
+        "expenditure_per_capita_manwon": 263.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11260": {
         "fiscal_independence_pct": 24.46,
@@ -920,7 +957,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10163,
+        "expenditure_settled_100m": 10842,
+        "expenditure_per_capita_manwon": 287.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11290": {
         "fiscal_independence_pct": 30.77,
@@ -930,7 +972,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9651,
+        "expenditure_settled_100m": 10460,
+        "expenditure_per_capita_manwon": 247.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11305": {
         "fiscal_independence_pct": 20.72,
@@ -940,7 +987,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8893,
+        "expenditure_settled_100m": 9758,
+        "expenditure_per_capita_manwon": 349.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11320": {
         "fiscal_independence_pct": 22.5,
@@ -950,7 +1002,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7920,
+        "expenditure_settled_100m": 8580,
+        "expenditure_per_capita_manwon": 286.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11350": {
         "fiscal_independence_pct": 18.83,
@@ -960,7 +1017,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 12278,
+        "expenditure_settled_100m": 12662,
+        "expenditure_per_capita_manwon": 261.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11380": {
         "fiscal_independence_pct": 20.39,
@@ -970,7 +1032,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10870,
+        "expenditure_settled_100m": 11209,
+        "expenditure_per_capita_manwon": 246.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11410": {
         "fiscal_independence_pct": 28.71,
@@ -980,7 +1047,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7538,
+        "expenditure_settled_100m": 7712,
+        "expenditure_per_capita_manwon": 256.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11440": {
         "fiscal_independence_pct": 39.11,
@@ -990,7 +1062,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7784,
+        "expenditure_settled_100m": 8346,
+        "expenditure_per_capita_manwon": 233.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11470": {
         "fiscal_independence_pct": 30.86,
@@ -1000,7 +1077,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9092,
+        "expenditure_settled_100m": 9296,
+        "expenditure_per_capita_manwon": 218.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11500": {
         "fiscal_independence_pct": 26.27,
@@ -1010,7 +1092,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 12262,
+        "expenditure_settled_100m": 12669,
+        "expenditure_per_capita_manwon": 230.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11530": {
         "fiscal_independence_pct": 26.68,
@@ -1020,7 +1107,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9088,
+        "expenditure_settled_100m": 10057,
+        "expenditure_per_capita_manwon": 262.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11545": {
         "fiscal_independence_pct": 32.23,
@@ -1030,7 +1122,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7104,
+        "expenditure_settled_100m": 7191,
+        "expenditure_per_capita_manwon": 322.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11560": {
         "fiscal_independence_pct": 41.87,
@@ -1040,7 +1137,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8293,
+        "expenditure_settled_100m": 9272,
+        "expenditure_per_capita_manwon": 249.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11590": {
         "fiscal_independence_pct": 34.67,
@@ -1050,7 +1152,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8001,
+        "expenditure_settled_100m": 8713,
+        "expenditure_per_capita_manwon": 234.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11620": {
         "fiscal_independence_pct": 22.88,
@@ -1060,7 +1167,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9715,
+        "expenditure_settled_100m": 10446,
+        "expenditure_per_capita_manwon": 218.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11650": {
         "fiscal_independence_pct": 62.75,
@@ -1070,7 +1182,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8530,
+        "expenditure_settled_100m": 9000,
+        "expenditure_per_capita_manwon": 217.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11680": {
         "fiscal_independence_pct": 66.19,
@@ -1080,7 +1197,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 12847,
+        "expenditure_settled_100m": 12486,
+        "expenditure_per_capita_manwon": 224.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11710": {
         "fiscal_independence_pct": 43.8,
@@ -1090,7 +1212,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 11752,
+        "expenditure_settled_100m": 12774,
+        "expenditure_per_capita_manwon": 198.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "11740": {
         "fiscal_independence_pct": 30.09,
@@ -1100,7 +1227,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9803,
+        "expenditure_settled_100m": 10396,
+        "expenditure_per_capita_manwon": 208.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26110": {
         "fiscal_independence_pct": 25.19,
@@ -1110,7 +1242,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 1913,
+        "expenditure_settled_100m": 2125,
+        "expenditure_per_capita_manwon": 581.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26140": {
         "fiscal_independence_pct": 20.93,
@@ -1120,7 +1257,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 3470,
+        "expenditure_settled_100m": 4081,
+        "expenditure_per_capita_manwon": 400.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26170": {
         "fiscal_independence_pct": 19.52,
@@ -1130,7 +1272,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 3496,
+        "expenditure_settled_100m": 3784,
+        "expenditure_per_capita_manwon": 451.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26200": {
         "fiscal_independence_pct": 15.58,
@@ -1140,7 +1287,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 3735,
+        "expenditure_settled_100m": 4449,
+        "expenditure_per_capita_manwon": 438.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26230": {
         "fiscal_independence_pct": 22.36,
@@ -1150,7 +1302,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7461,
+        "expenditure_settled_100m": 8107,
+        "expenditure_per_capita_manwon": 221.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26260": {
         "fiscal_independence_pct": 23.1,
@@ -1160,7 +1317,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4848,
+        "expenditure_settled_100m": 6021,
+        "expenditure_per_capita_manwon": 220.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26290": {
         "fiscal_independence_pct": 25.65,
@@ -1170,7 +1332,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5692,
+        "expenditure_settled_100m": 6684,
+        "expenditure_per_capita_manwon": 266.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26320": {
         "fiscal_independence_pct": 12.28,
@@ -1180,7 +1347,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6173,
+        "expenditure_settled_100m": 7036,
+        "expenditure_per_capita_manwon": 267.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26350": {
         "fiscal_independence_pct": 27.42,
@@ -1190,7 +1362,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7988,
+        "expenditure_settled_100m": 8359,
+        "expenditure_per_capita_manwon": 224.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26380": {
         "fiscal_independence_pct": 17.99,
@@ -1200,7 +1377,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6283,
+        "expenditure_settled_100m": 8096,
+        "expenditure_per_capita_manwon": 282.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26410": {
         "fiscal_independence_pct": 19.87,
@@ -1210,7 +1392,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5478,
+        "expenditure_settled_100m": 5833,
+        "expenditure_per_capita_manwon": 282.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26440": {
         "fiscal_independence_pct": 45.31,
@@ -1220,7 +1407,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4219,
+        "expenditure_settled_100m": 4853,
+        "expenditure_per_capita_manwon": 322.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26470": {
         "fiscal_independence_pct": 21.98,
@@ -1230,7 +1422,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4551,
+        "expenditure_settled_100m": 5209,
+        "expenditure_per_capita_manwon": 246.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26500": {
         "fiscal_independence_pct": 22.72,
@@ -1240,7 +1437,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4060,
+        "expenditure_settled_100m": 4474,
+        "expenditure_per_capita_manwon": 264.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26530": {
         "fiscal_independence_pct": 20.3,
@@ -1250,7 +1452,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5080,
+        "expenditure_settled_100m": 5601,
+        "expenditure_per_capita_manwon": 288.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "26710": {
         "fiscal_independence_pct": 32.22,
@@ -1260,7 +1467,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8165,
+        "expenditure_settled_100m": 8556,
+        "expenditure_per_capita_manwon": 489.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "27110": {
         "fiscal_independence_pct": 28.08,
@@ -1270,7 +1482,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 3029,
+        "expenditure_settled_100m": 3051,
+        "expenditure_per_capita_manwon": 302.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "27140": {
         "fiscal_independence_pct": 17.21,
@@ -1280,7 +1497,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8509,
+        "expenditure_settled_100m": 9221,
+        "expenditure_per_capita_manwon": 271.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "27170": {
         "fiscal_independence_pct": 18.09,
@@ -1290,7 +1512,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5410,
+        "expenditure_settled_100m": 5367,
+        "expenditure_per_capita_manwon": 327.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "27200": {
         "fiscal_independence_pct": 17.06,
@@ -1300,7 +1527,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4631,
+        "expenditure_settled_100m": 5154,
+        "expenditure_per_capita_manwon": 380.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "27230": {
         "fiscal_independence_pct": 20.34,
@@ -1310,7 +1542,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8751,
+        "expenditure_settled_100m": 9004,
+        "expenditure_per_capita_manwon": 219.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "27260": {
         "fiscal_independence_pct": 27.08,
@@ -1320,7 +1557,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8136,
+        "expenditure_settled_100m": 8562,
+        "expenditure_per_capita_manwon": 209.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "27290": {
         "fiscal_independence_pct": 20.21,
@@ -1330,7 +1572,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10104,
+        "expenditure_settled_100m": 10914,
+        "expenditure_per_capita_manwon": 211.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "27710": {
         "fiscal_independence_pct": 35.85,
@@ -1340,7 +1587,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8800,
+        "expenditure_settled_100m": 9931,
+        "expenditure_per_capita_manwon": 390.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "28110": {
         "fiscal_independence_pct": 46.25,
@@ -1350,7 +1602,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5119,
+        "expenditure_settled_100m": 5536,
+        "expenditure_per_capita_manwon": 313.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "28140": {
         "fiscal_independence_pct": 28.92,
@@ -1360,7 +1617,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 3043,
+        "expenditure_settled_100m": 3416,
+        "expenditure_per_capita_manwon": 604.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "28185": {
         "fiscal_independence_pct": 35.24,
@@ -1370,7 +1632,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7707,
+        "expenditure_settled_100m": 7450,
+        "expenditure_per_capita_manwon": 182.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "28200": {
         "fiscal_independence_pct": 22.67,
@@ -1380,7 +1647,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10888,
+        "expenditure_settled_100m": 11132,
+        "expenditure_per_capita_manwon": 231.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "28237": {
         "fiscal_independence_pct": 19.14,
@@ -1390,7 +1662,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10946,
+        "expenditure_settled_100m": 11223,
+        "expenditure_per_capita_manwon": 228.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "28245": {
         "fiscal_independence_pct": 19.46,
@@ -1400,7 +1677,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6394,
+        "expenditure_settled_100m": 6830,
+        "expenditure_per_capita_manwon": 245.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "28260": {
         "fiscal_independence_pct": 28.63,
@@ -1410,7 +1692,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 11410,
+        "expenditure_settled_100m": 12661,
+        "expenditure_per_capita_manwon": 193.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "28177": {
         "fiscal_independence_pct": 15.43,
@@ -1420,7 +1707,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9514,
+        "expenditure_settled_100m": 9909,
+        "expenditure_per_capita_manwon": 237.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "28710": {
         "fiscal_independence_pct": 15.13,
@@ -1430,7 +1722,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6394,
+        "expenditure_settled_100m": 6679,
+        "expenditure_per_capita_manwon": 958.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "28720": {
         "fiscal_independence_pct": 15.49,
@@ -1440,7 +1737,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 3897,
+        "expenditure_settled_100m": 4643,
+        "expenditure_per_capita_manwon": 2364.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "29110": {
         "fiscal_independence_pct": 15.74,
@@ -1450,7 +1752,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 3765,
+        "expenditure_settled_100m": 4829,
+        "expenditure_per_capita_manwon": 460.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "29140": {
         "fiscal_independence_pct": 21.25,
@@ -1460,7 +1767,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6779,
+        "expenditure_settled_100m": 7305,
+        "expenditure_per_capita_manwon": 265.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "29155": {
         "fiscal_independence_pct": 12.87,
@@ -1470,7 +1782,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5301,
+        "expenditure_settled_100m": 6284,
+        "expenditure_per_capita_manwon": 302.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "29170": {
         "fiscal_independence_pct": 13.54,
@@ -1480,7 +1797,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9850,
+        "expenditure_settled_100m": 10678,
+        "expenditure_per_capita_manwon": 256.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "29200": {
         "fiscal_independence_pct": 22.23,
@@ -1490,7 +1812,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8756,
+        "expenditure_settled_100m": 9639,
+        "expenditure_per_capita_manwon": 248.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "30110": {
         "fiscal_independence_pct": 12.6,
@@ -1500,7 +1827,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6790,
+        "expenditure_settled_100m": 7202,
+        "expenditure_per_capita_manwon": 329.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "30140": {
         "fiscal_independence_pct": 16.46,
@@ -1510,7 +1842,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6209,
+        "expenditure_settled_100m": 6433,
+        "expenditure_per_capita_manwon": 285.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "30170": {
         "fiscal_independence_pct": 19.29,
@@ -1520,7 +1857,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9341,
+        "expenditure_settled_100m": 10007,
+        "expenditure_per_capita_manwon": 216.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "30200": {
         "fiscal_independence_pct": 30.69,
@@ -1530,7 +1872,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7197,
+        "expenditure_settled_100m": 7765,
+        "expenditure_per_capita_manwon": 211.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "30230": {
         "fiscal_independence_pct": 17.06,
@@ -1540,7 +1887,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5283,
+        "expenditure_settled_100m": 5658,
+        "expenditure_per_capita_manwon": 341.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "31110": {
         "fiscal_independence_pct": 19.3,
@@ -1550,7 +1902,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4465,
+        "expenditure_settled_100m": 5217,
+        "expenditure_per_capita_manwon": 255.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "31140": {
         "fiscal_independence_pct": 32.14,
@@ -1560,7 +1917,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6689,
+        "expenditure_settled_100m": 6472,
+        "expenditure_per_capita_manwon": 212.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "31170": {
         "fiscal_independence_pct": 22.1,
@@ -1570,7 +1932,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 3382,
+        "expenditure_settled_100m": 3829,
+        "expenditure_per_capita_manwon": 256.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "31200": {
         "fiscal_independence_pct": 26.63,
@@ -1580,7 +1947,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4786,
+        "expenditure_settled_100m": 5141,
+        "expenditure_per_capita_manwon": 238.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "31710": {
         "fiscal_independence_pct": 43.06,
@@ -1590,7 +1962,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 11367,
+        "expenditure_settled_100m": 13480,
+        "expenditure_per_capita_manwon": 615.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41110": {
         "fiscal_independence_pct": 50.4,
@@ -1600,7 +1977,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 30720,
+        "expenditure_settled_100m": 33054,
+        "expenditure_per_capita_manwon": 278.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41130": {
         "fiscal_independence_pct": 61.97,
@@ -1610,7 +1992,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 34405,
+        "expenditure_settled_100m": 37144,
+        "expenditure_per_capita_manwon": 410.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41150": {
         "fiscal_independence_pct": 24.45,
@@ -1620,7 +2007,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 13882,
+        "expenditure_settled_100m": 15381,
+        "expenditure_per_capita_manwon": 333.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41170": {
         "fiscal_independence_pct": 42.0,
@@ -1630,7 +2022,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 16994,
+        "expenditure_settled_100m": 17232,
+        "expenditure_per_capita_manwon": 305.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41190": {
         "fiscal_independence_pct": 31.48,
@@ -1640,7 +2037,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 23144,
+        "expenditure_settled_100m": 24172,
+        "expenditure_per_capita_manwon": 318.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41210": {
         "fiscal_independence_pct": 42.78,
@@ -1650,7 +2052,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10535,
+        "expenditure_settled_100m": 11543,
+        "expenditure_per_capita_manwon": 392.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41220": {
         "fiscal_independence_pct": 44.58,
@@ -1660,7 +2067,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 22420,
+        "expenditure_settled_100m": 25208,
+        "expenditure_per_capita_manwon": 413.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41250": {
         "fiscal_independence_pct": 20.28,
@@ -1670,7 +2082,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5765,
+        "expenditure_settled_100m": 5922,
+        "expenditure_per_capita_manwon": 685.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41270": {
         "fiscal_independence_pct": 36.26,
@@ -1680,7 +2097,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 20203,
+        "expenditure_settled_100m": 21466,
+        "expenditure_per_capita_manwon": 350.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41280": {
         "fiscal_independence_pct": 37.12,
@@ -1690,7 +2112,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 29963,
+        "expenditure_settled_100m": 32395,
+        "expenditure_per_capita_manwon": 305.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41290": {
         "fiscal_independence_pct": 62.59,
@@ -1700,7 +2127,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4581,
+        "expenditure_settled_100m": 4972,
+        "expenditure_per_capita_manwon": 622.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41310": {
         "fiscal_independence_pct": 31.87,
@@ -1710,7 +2142,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6945,
+        "expenditure_settled_100m": 7484,
+        "expenditure_per_capita_manwon": 402.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41360": {
         "fiscal_independence_pct": 29.95,
@@ -1720,7 +2157,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 21714,
+        "expenditure_settled_100m": 22689,
+        "expenditure_per_capita_manwon": 310.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41370": {
         "fiscal_independence_pct": 43.86,
@@ -1730,7 +2172,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7311,
+        "expenditure_settled_100m": 7208,
+        "expenditure_per_capita_manwon": 289.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41390": {
         "fiscal_independence_pct": 42.19,
@@ -1740,7 +2187,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 15383,
+        "expenditure_settled_100m": 18683,
+        "expenditure_per_capita_manwon": 362.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41410": {
         "fiscal_independence_pct": 34.12,
@@ -1750,7 +2202,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8576,
+        "expenditure_settled_100m": 8756,
+        "expenditure_per_capita_manwon": 348.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41430": {
         "fiscal_independence_pct": 44.9,
@@ -1760,7 +2217,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5924,
+        "expenditure_settled_100m": 6469,
+        "expenditure_per_capita_manwon": 403.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41450": {
         "fiscal_independence_pct": 48.83,
@@ -1770,7 +2232,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9796,
+        "expenditure_settled_100m": 10505,
+        "expenditure_per_capita_manwon": 320.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41460": {
         "fiscal_independence_pct": 53.87,
@@ -1780,7 +2247,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 32147,
+        "expenditure_settled_100m": 33048,
+        "expenditure_per_capita_manwon": 302.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41480": {
         "fiscal_independence_pct": 35.32,
@@ -1790,7 +2262,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 19544,
+        "expenditure_settled_100m": 19672,
+        "expenditure_per_capita_manwon": 374.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41500": {
         "fiscal_independence_pct": 51.3,
@@ -1800,7 +2277,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 11667,
+        "expenditure_settled_100m": 13939,
+        "expenditure_per_capita_manwon": 625.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41550": {
         "fiscal_independence_pct": 34.36,
@@ -1810,7 +2292,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 11590,
+        "expenditure_settled_100m": 12819,
+        "expenditure_per_capita_manwon": 652.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41570": {
         "fiscal_independence_pct": 38.21,
@@ -1820,7 +2307,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 16103,
+        "expenditure_settled_100m": 17064,
+        "expenditure_per_capita_manwon": 352.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41590": {
         "fiscal_independence_pct": 58.46,
@@ -1830,7 +2322,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 31232,
+        "expenditure_settled_100m": 34929,
+        "expenditure_per_capita_manwon": 352.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41610": {
         "fiscal_independence_pct": 41.59,
@@ -1840,7 +2337,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 13309,
+        "expenditure_settled_100m": 16606,
+        "expenditure_per_capita_manwon": 417.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41630": {
         "fiscal_independence_pct": 27.96,
@@ -1850,7 +2352,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10836,
+        "expenditure_settled_100m": 11621,
+        "expenditure_per_capita_manwon": 392.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41650": {
         "fiscal_independence_pct": 31.91,
@@ -1860,7 +2367,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9597,
+        "expenditure_settled_100m": 12247,
+        "expenditure_per_capita_manwon": 872.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41670": {
         "fiscal_independence_pct": 30.22,
@@ -1870,7 +2382,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9614,
+        "expenditure_settled_100m": 12071,
+        "expenditure_per_capita_manwon": 1058.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41800": {
         "fiscal_independence_pct": 18.47,
@@ -1880,7 +2397,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6186,
+        "expenditure_settled_100m": 7113,
+        "expenditure_per_capita_manwon": 1680.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41820": {
         "fiscal_independence_pct": 23.02,
@@ -1890,7 +2412,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5399,
+        "expenditure_settled_100m": 6228,
+        "expenditure_per_capita_manwon": 1002.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "41830": {
         "fiscal_independence_pct": 20.68,
@@ -1900,7 +2427,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8823,
+        "expenditure_settled_100m": 10477,
+        "expenditure_per_capita_manwon": 825.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51110": {
         "fiscal_independence_pct": 19.8,
@@ -1910,7 +2442,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 16007,
+        "expenditure_settled_100m": 17053,
+        "expenditure_per_capita_manwon": 597.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51130": {
         "fiscal_independence_pct": 19.61,
@@ -1920,7 +2457,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 15870,
+        "expenditure_settled_100m": 18208,
+        "expenditure_per_capita_manwon": 501.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51150": {
         "fiscal_independence_pct": 19.46,
@@ -1930,7 +2472,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 14599,
+        "expenditure_settled_100m": 15678,
+        "expenditure_per_capita_manwon": 760.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51170": {
         "fiscal_independence_pct": 22.06,
@@ -1940,7 +2487,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5140,
+        "expenditure_settled_100m": 5667,
+        "expenditure_per_capita_manwon": 656.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51190": {
         "fiscal_independence_pct": 22.76,
@@ -1950,7 +2502,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5126,
+        "expenditure_settled_100m": 5056,
+        "expenditure_per_capita_manwon": 1363.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51210": {
         "fiscal_independence_pct": 19.37,
@@ -1960,7 +2517,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4956,
+        "expenditure_settled_100m": 5387,
+        "expenditure_per_capita_manwon": 676.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51230": {
         "fiscal_independence_pct": 13.01,
@@ -1970,7 +2532,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6221,
+        "expenditure_settled_100m": 8608,
+        "expenditure_per_capita_manwon": 1422.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51720": {
         "fiscal_independence_pct": 12.2,
@@ -1980,7 +2547,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7846,
+        "expenditure_settled_100m": 8853,
+        "expenditure_per_capita_manwon": 1339.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51730": {
         "fiscal_independence_pct": 15.65,
@@ -1990,7 +2562,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5935,
+        "expenditure_settled_100m": 6679,
+        "expenditure_per_capita_manwon": 1463.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51750": {
         "fiscal_independence_pct": 19.53,
@@ -2000,7 +2577,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5388,
+        "expenditure_settled_100m": 6115,
+        "expenditure_per_capita_manwon": 1696.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51760": {
         "fiscal_independence_pct": 14.0,
@@ -2010,7 +2592,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6059,
+        "expenditure_settled_100m": 7079,
+        "expenditure_per_capita_manwon": 1777.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51770": {
         "fiscal_independence_pct": 19.23,
@@ -2020,7 +2607,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5401,
+        "expenditure_settled_100m": 5920,
+        "expenditure_per_capita_manwon": 1697.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51780": {
         "fiscal_independence_pct": 13.88,
@@ -2030,7 +2622,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5565,
+        "expenditure_settled_100m": 6661,
+        "expenditure_per_capita_manwon": 1666.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51790": {
         "fiscal_independence_pct": 22.55,
@@ -2040,7 +2637,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4208,
+        "expenditure_settled_100m": 4263,
+        "expenditure_per_capita_manwon": 1905.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51800": {
         "fiscal_independence_pct": 16.0,
@@ -2050,7 +2652,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4189,
+        "expenditure_settled_100m": 4248,
+        "expenditure_per_capita_manwon": 2081.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51810": {
         "fiscal_independence_pct": 12.32,
@@ -2060,7 +2667,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6204,
+        "expenditure_settled_100m": 6509,
+        "expenditure_per_capita_manwon": 2109.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51820": {
         "fiscal_independence_pct": 12.79,
@@ -2070,7 +2682,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4337,
+        "expenditure_settled_100m": 4837,
+        "expenditure_per_capita_manwon": 1801.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "51830": {
         "fiscal_independence_pct": 16.31,
@@ -2080,7 +2697,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4347,
+        "expenditure_settled_100m": 4626,
+        "expenditure_per_capita_manwon": 1694.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43130": {
         "fiscal_independence_pct": 22.17,
@@ -2090,7 +2712,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 13034,
+        "expenditure_settled_100m": 16294,
+        "expenditure_per_capita_manwon": 788.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43150": {
         "fiscal_independence_pct": 19.35,
@@ -2100,7 +2727,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10595,
+        "expenditure_settled_100m": 11423,
+        "expenditure_per_capita_manwon": 892.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43110": {
         "fiscal_independence_pct": 32.34,
@@ -2110,7 +2742,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 32842,
+        "expenditure_settled_100m": 34982,
+        "expenditure_per_capita_manwon": 408.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43720": {
         "fiscal_independence_pct": 16.31,
@@ -2120,7 +2757,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4331,
+        "expenditure_settled_100m": 5112,
+        "expenditure_per_capita_manwon": 1674.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43730": {
         "fiscal_independence_pct": 14.37,
@@ -2130,7 +2772,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6152,
+        "expenditure_settled_100m": 6575,
+        "expenditure_per_capita_manwon": 1325.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43740": {
         "fiscal_independence_pct": 15.73,
@@ -2140,7 +2787,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6238,
+        "expenditure_settled_100m": 6880,
+        "expenditure_per_capita_manwon": 1598.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43750": {
         "fiscal_independence_pct": 32.1,
@@ -2150,7 +2802,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6539,
+        "expenditure_settled_100m": 7025,
+        "expenditure_per_capita_manwon": 811.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43760": {
         "fiscal_independence_pct": 12.79,
@@ -2160,7 +2817,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5674,
+        "expenditure_settled_100m": 7015,
+        "expenditure_per_capita_manwon": 1831.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43770": {
         "fiscal_independence_pct": 26.61,
@@ -2170,7 +2832,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8212,
+        "expenditure_settled_100m": 8969,
+        "expenditure_per_capita_manwon": 951.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43800": {
         "fiscal_independence_pct": 18.77,
@@ -2180,7 +2847,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4274,
+        "expenditure_settled_100m": 5017,
+        "expenditure_per_capita_manwon": 1871.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "43745": {
         "fiscal_independence_pct": 21.43,
@@ -2190,7 +2862,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 2742,
+        "expenditure_settled_100m": 3108,
+        "expenditure_per_capita_manwon": 847.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44130": {
         "fiscal_independence_pct": 37.95,
@@ -2200,7 +2877,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 23800,
+        "expenditure_settled_100m": 27659,
+        "expenditure_per_capita_manwon": 416.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44150": {
         "fiscal_independence_pct": 17.46,
@@ -2210,7 +2892,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8858,
+        "expenditure_settled_100m": 10708,
+        "expenditure_per_capita_manwon": 1071.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44180": {
         "fiscal_independence_pct": 14.8,
@@ -2220,7 +2907,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8925,
+        "expenditure_settled_100m": 10977,
+        "expenditure_per_capita_manwon": 1191.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44200": {
         "fiscal_independence_pct": 39.69,
@@ -2230,7 +2922,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 15011,
+        "expenditure_settled_100m": 17431,
+        "expenditure_per_capita_manwon": 485.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44210": {
         "fiscal_independence_pct": 22.63,
@@ -2240,7 +2937,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 11378,
+        "expenditure_settled_100m": 12119,
+        "expenditure_per_capita_manwon": 702.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44230": {
         "fiscal_independence_pct": 16.73,
@@ -2250,7 +2952,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9418,
+        "expenditure_settled_100m": 11007,
+        "expenditure_per_capita_manwon": 1030.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44250": {
         "fiscal_independence_pct": 25.93,
@@ -2260,7 +2967,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 2258,
+        "expenditure_settled_100m": 2726,
+        "expenditure_per_capita_manwon": 594.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44270": {
         "fiscal_independence_pct": 25.28,
@@ -2270,7 +2982,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 11464,
+        "expenditure_settled_100m": 12302,
+        "expenditure_per_capita_manwon": 712.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44710": {
         "fiscal_independence_pct": 15.29,
@@ -2280,7 +2997,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6084,
+        "expenditure_settled_100m": 6269,
+        "expenditure_per_capita_manwon": 1282.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44760": {
         "fiscal_independence_pct": 15.49,
@@ -2290,7 +3012,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7728,
+        "expenditure_settled_100m": 8946,
+        "expenditure_per_capita_manwon": 1532.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44770": {
         "fiscal_independence_pct": 13.22,
@@ -2300,7 +3027,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6018,
+        "expenditure_settled_100m": 6325,
+        "expenditure_per_capita_manwon": 1339.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44790": {
         "fiscal_independence_pct": 21.55,
@@ -2310,7 +3042,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5145,
+        "expenditure_settled_100m": 5935,
+        "expenditure_per_capita_manwon": 1979.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44800": {
         "fiscal_independence_pct": 18.46,
@@ -2320,7 +3057,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7815,
+        "expenditure_settled_100m": 8421,
+        "expenditure_per_capita_manwon": 837.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44810": {
         "fiscal_independence_pct": 13.73,
@@ -2330,7 +3072,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7329,
+        "expenditure_settled_100m": 8702,
+        "expenditure_per_capita_manwon": 1104.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "44825": {
         "fiscal_independence_pct": 16.17,
@@ -2340,7 +3087,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6880,
+        "expenditure_settled_100m": 7743,
+        "expenditure_per_capita_manwon": 1301.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52110": {
         "fiscal_independence_pct": 21.97,
@@ -2350,7 +3102,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 24458,
+        "expenditure_settled_100m": 25982,
+        "expenditure_per_capita_manwon": 415.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52130": {
         "fiscal_independence_pct": 22.14,
@@ -2360,7 +3117,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 16347,
+        "expenditure_settled_100m": 16537,
+        "expenditure_per_capita_manwon": 645.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52140": {
         "fiscal_independence_pct": 14.39,
@@ -2370,7 +3132,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 16726,
+        "expenditure_settled_100m": 17660,
+        "expenditure_per_capita_manwon": 661.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52180": {
         "fiscal_independence_pct": 14.62,
@@ -2380,7 +3147,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 11194,
+        "expenditure_settled_100m": 11247,
+        "expenditure_per_capita_manwon": 1112.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52190": {
         "fiscal_independence_pct": 10.17,
@@ -2390,7 +3162,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10264,
+        "expenditure_settled_100m": 10955,
+        "expenditure_per_capita_manwon": 1475.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52210": {
         "fiscal_independence_pct": 12.11,
@@ -2400,7 +3177,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9934,
+        "expenditure_settled_100m": 10823,
+        "expenditure_per_capita_manwon": 1325.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52710": {
         "fiscal_independence_pct": 17.65,
@@ -2410,7 +3192,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8187,
+        "expenditure_settled_100m": 8558,
+        "expenditure_per_capita_manwon": 852.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52720": {
         "fiscal_independence_pct": 10.44,
@@ -2420,7 +3207,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5184,
+        "expenditure_settled_100m": 5263,
+        "expenditure_per_capita_manwon": 2170.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52730": {
         "fiscal_independence_pct": 9.36,
@@ -2430,7 +3222,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5355,
+        "expenditure_settled_100m": 5352,
+        "expenditure_per_capita_manwon": 2348.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52740": {
         "fiscal_independence_pct": 12.05,
@@ -2440,7 +3237,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4622,
+        "expenditure_settled_100m": 5082,
+        "expenditure_per_capita_manwon": 2429.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52750": {
         "fiscal_independence_pct": 9.24,
@@ -2450,7 +3252,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5261,
+        "expenditure_settled_100m": 5456,
+        "expenditure_per_capita_manwon": 2159.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52770": {
         "fiscal_independence_pct": 15.03,
@@ -2460,7 +3267,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5035,
+        "expenditure_settled_100m": 5053,
+        "expenditure_per_capita_manwon": 1823.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52790": {
         "fiscal_independence_pct": 13.23,
@@ -2470,7 +3282,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7698,
+        "expenditure_settled_100m": 8222,
+        "expenditure_per_capita_manwon": 1631.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "52800": {
         "fiscal_independence_pct": 17.39,
@@ -2480,7 +3297,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7539,
+        "expenditure_settled_100m": 7449,
+        "expenditure_per_capita_manwon": 1577.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46110": {
         "fiscal_independence_pct": 20.55,
@@ -2490,7 +3312,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9496,
+        "expenditure_settled_100m": 11248,
+        "expenditure_per_capita_manwon": 556.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46130": {
         "fiscal_independence_pct": 28.73,
@@ -2500,7 +3327,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 15564,
+        "expenditure_settled_100m": 17023,
+        "expenditure_per_capita_manwon": 646.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46150": {
         "fiscal_independence_pct": 22.48,
@@ -2510,7 +3342,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 13931,
+        "expenditure_settled_100m": 16107,
+        "expenditure_per_capita_manwon": 584.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46170": {
         "fiscal_independence_pct": 16.21,
@@ -2520,7 +3357,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10034,
+        "expenditure_settled_100m": 10986,
+        "expenditure_per_capita_manwon": 938.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46230": {
         "fiscal_independence_pct": 28.23,
@@ -2530,7 +3372,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 11933,
+        "expenditure_settled_100m": 10941,
+        "expenditure_per_capita_manwon": 704.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46710": {
         "fiscal_independence_pct": 14.12,
@@ -2540,7 +3387,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5167,
+        "expenditure_settled_100m": 5712,
+        "expenditure_per_capita_manwon": 1292.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46720": {
         "fiscal_independence_pct": 13.9,
@@ -2550,7 +3402,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4694,
+        "expenditure_settled_100m": 4929,
+        "expenditure_per_capita_manwon": 1806.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46730": {
         "fiscal_independence_pct": 9.01,
@@ -2560,7 +3417,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 3454,
+        "expenditure_settled_100m": 4795,
+        "expenditure_per_capita_manwon": 2014.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46770": {
         "fiscal_independence_pct": 11.63,
@@ -2570,7 +3432,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8470,
+        "expenditure_settled_100m": 9230,
+        "expenditure_per_capita_manwon": 1552.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46780": {
         "fiscal_independence_pct": 14.12,
@@ -2580,7 +3447,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6203,
+        "expenditure_settled_100m": 6925,
+        "expenditure_per_capita_manwon": 1878.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46790": {
         "fiscal_independence_pct": 13.47,
@@ -2590,7 +3462,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7506,
+        "expenditure_settled_100m": 8218,
+        "expenditure_per_capita_manwon": 1364.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46800": {
         "fiscal_independence_pct": 10.43,
@@ -2600,7 +3477,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5120,
+        "expenditure_settled_100m": 6062,
+        "expenditure_per_capita_manwon": 1772.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46810": {
         "fiscal_independence_pct": 10.17,
@@ -2610,7 +3492,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4790,
+        "expenditure_settled_100m": 5807,
+        "expenditure_per_capita_manwon": 1826.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46820": {
         "fiscal_independence_pct": 12.88,
@@ -2620,7 +3507,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 8721,
+        "expenditure_settled_100m": 10251,
+        "expenditure_per_capita_manwon": 1648.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46830": {
         "fiscal_independence_pct": 15.98,
@@ -2630,7 +3522,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6414,
+        "expenditure_settled_100m": 7465,
+        "expenditure_per_capita_manwon": 1490.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46840": {
         "fiscal_independence_pct": 14.27,
@@ -2640,7 +3537,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5978,
+        "expenditure_settled_100m": 7736,
+        "expenditure_per_capita_manwon": 809.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46860": {
         "fiscal_independence_pct": 12.88,
@@ -2650,7 +3552,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5119,
+        "expenditure_settled_100m": 5704,
+        "expenditure_per_capita_manwon": 1936.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46870": {
         "fiscal_independence_pct": 12.45,
@@ -2660,7 +3567,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6556,
+        "expenditure_settled_100m": 7204,
+        "expenditure_per_capita_manwon": 1345.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46880": {
         "fiscal_independence_pct": 21.61,
@@ -2670,7 +3582,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5272,
+        "expenditure_settled_100m": 5544,
+        "expenditure_per_capita_manwon": 1290.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46890": {
         "fiscal_independence_pct": 7.21,
@@ -2680,7 +3597,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6407,
+        "expenditure_settled_100m": 6741,
+        "expenditure_per_capita_manwon": 1511.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46900": {
         "fiscal_independence_pct": 21.43,
@@ -2690,7 +3612,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4608,
+        "expenditure_settled_100m": 5911,
+        "expenditure_per_capita_manwon": 2113.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "46910": {
         "fiscal_independence_pct": 8.17,
@@ -2700,7 +3627,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6768,
+        "expenditure_settled_100m": 9334,
+        "expenditure_per_capita_manwon": 2229.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47110": {
         "fiscal_independence_pct": 26.0,
@@ -2710,7 +3642,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 26000,
+        "expenditure_settled_100m": 27629,
+        "expenditure_per_capita_manwon": 565.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47130": {
         "fiscal_independence_pct": 23.83,
@@ -2720,7 +3657,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 18450,
+        "expenditure_settled_100m": 19587,
+        "expenditure_per_capita_manwon": 802.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47150": {
         "fiscal_independence_pct": 19.28,
@@ -2730,7 +3672,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 13050,
+        "expenditure_settled_100m": 12218,
+        "expenditure_per_capita_manwon": 913.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47170": {
         "fiscal_independence_pct": 17.42,
@@ -2740,7 +3687,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 13975,
+        "expenditure_settled_100m": 14647,
+        "expenditure_per_capita_manwon": 959.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47190": {
         "fiscal_independence_pct": 34.1,
@@ -2750,7 +3702,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 18208,
+        "expenditure_settled_100m": 19135,
+        "expenditure_per_capita_manwon": 473.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47210": {
         "fiscal_independence_pct": 20.62,
@@ -2760,7 +3717,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9500,
+        "expenditure_settled_100m": 9961,
+        "expenditure_per_capita_manwon": 1025.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47230": {
         "fiscal_independence_pct": 15.35,
@@ -2770,7 +3732,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9884,
+        "expenditure_settled_100m": 11375,
+        "expenditure_per_capita_manwon": 1195.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47250": {
         "fiscal_independence_pct": 13.9,
@@ -2780,7 +3747,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 11500,
+        "expenditure_settled_100m": 12553,
+        "expenditure_per_capita_manwon": 1396.5,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47280": {
         "fiscal_independence_pct": 25.74,
@@ -2790,7 +3762,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9200,
+        "expenditure_settled_100m": 9300,
+        "expenditure_per_capita_manwon": 1423.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47290": {
         "fiscal_independence_pct": 24.54,
@@ -2800,7 +3777,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 12728,
+        "expenditure_settled_100m": 13371,
+        "expenditure_per_capita_manwon": 506.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47730": {
         "fiscal_independence_pct": 15.98,
@@ -2810,7 +3792,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6760,
+        "expenditure_settled_100m": 8155,
+        "expenditure_per_capita_manwon": 1702.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47750": {
         "fiscal_independence_pct": 13.3,
@@ -2820,7 +3807,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4660,
+        "expenditure_settled_100m": 5074,
+        "expenditure_per_capita_manwon": 2171.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47760": {
         "fiscal_independence_pct": 15.44,
@@ -2830,7 +3822,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 3883,
+        "expenditure_settled_100m": 4289,
+        "expenditure_per_capita_manwon": 2690.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47770": {
         "fiscal_independence_pct": 15.93,
@@ -2840,7 +3837,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5972,
+        "expenditure_settled_100m": 5713,
+        "expenditure_per_capita_manwon": 1747.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47820": {
         "fiscal_independence_pct": 14.72,
@@ -2850,7 +3852,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6020,
+        "expenditure_settled_100m": 6129,
+        "expenditure_per_capita_manwon": 1527.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47830": {
         "fiscal_independence_pct": 18.07,
@@ -2860,7 +3867,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 4311,
+        "expenditure_settled_100m": 4386,
+        "expenditure_per_capita_manwon": 1478.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47840": {
         "fiscal_independence_pct": 17.19,
@@ -2870,7 +3882,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5767,
+        "expenditure_settled_100m": 5944,
+        "expenditure_per_capita_manwon": 1459.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47850": {
         "fiscal_independence_pct": 31.04,
@@ -2880,7 +3897,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6735,
+        "expenditure_settled_100m": 7041,
+        "expenditure_per_capita_manwon": 671.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47900": {
         "fiscal_independence_pct": 15.35,
@@ -2890,7 +3912,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6461,
+        "expenditure_settled_100m": 6993,
+        "expenditure_per_capita_manwon": 1297.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47920": {
         "fiscal_independence_pct": 10.89,
@@ -2900,7 +3927,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5120,
+        "expenditure_settled_100m": 6702,
+        "expenditure_per_capita_manwon": 2366.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47930": {
         "fiscal_independence_pct": 24.52,
@@ -2910,7 +3942,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6425,
+        "expenditure_settled_100m": 7187,
+        "expenditure_per_capita_manwon": 1565.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "47940": {
         "fiscal_independence_pct": 17.93,
@@ -2920,7 +3957,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 2420,
+        "expenditure_settled_100m": 2219,
+        "expenditure_per_capita_manwon": 2551.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48170": {
         "fiscal_independence_pct": 25.02,
@@ -2930,7 +3972,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 19708,
+        "expenditure_settled_100m": 20085,
+        "expenditure_per_capita_manwon": 597.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48220": {
         "fiscal_independence_pct": 16.05,
@@ -2940,7 +3987,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7881,
+        "expenditure_settled_100m": 8527,
+        "expenditure_per_capita_manwon": 730.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48240": {
         "fiscal_independence_pct": 19.46,
@@ -2950,7 +4002,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 9034,
+        "expenditure_settled_100m": 8988,
+        "expenditure_per_capita_manwon": 832.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48250": {
         "fiscal_independence_pct": 28.91,
@@ -2960,7 +4017,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 21244,
+        "expenditure_settled_100m": 22604,
+        "expenditure_per_capita_manwon": 424.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48270": {
         "fiscal_independence_pct": 19.82,
@@ -2970,7 +4032,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 10665,
+        "expenditure_settled_100m": 12280,
+        "expenditure_per_capita_manwon": 1237.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48310": {
         "fiscal_independence_pct": 23.58,
@@ -2980,7 +4047,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 12082,
+        "expenditure_settled_100m": 12366,
+        "expenditure_per_capita_manwon": 534.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48330": {
         "fiscal_independence_pct": 32.19,
@@ -2990,7 +4062,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 16580,
+        "expenditure_settled_100m": 16012,
+        "expenditure_per_capita_manwon": 443.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48120": {
         "fiscal_independence_pct": 32.95,
@@ -3000,7 +4077,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 36998,
+        "expenditure_settled_100m": 41130,
+        "expenditure_per_capita_manwon": 415.1,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48720": {
         "fiscal_independence_pct": 19.86,
@@ -3010,7 +4092,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 5008,
+        "expenditure_settled_100m": 5058,
+        "expenditure_per_capita_manwon": 2052.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48730": {
         "fiscal_independence_pct": 26.68,
@@ -3020,7 +4107,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7408,
+        "expenditure_settled_100m": 6722,
+        "expenditure_per_capita_manwon": 1167.8,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48740": {
         "fiscal_independence_pct": 23.5,
@@ -3030,7 +4122,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6401,
+        "expenditure_settled_100m": 6254,
+        "expenditure_per_capita_manwon": 1139.2,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48820": {
         "fiscal_independence_pct": 16.16,
@@ -3040,7 +4137,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6842,
+        "expenditure_settled_100m": 6646,
+        "expenditure_per_capita_manwon": 1411.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48840": {
         "fiscal_independence_pct": 17.62,
@@ -3050,7 +4152,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6091,
+        "expenditure_settled_100m": 5966,
+        "expenditure_per_capita_manwon": 1463.3,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48850": {
         "fiscal_independence_pct": 16.1,
@@ -3060,7 +4167,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6935,
+        "expenditure_settled_100m": 7158,
+        "expenditure_per_capita_manwon": 1790.7,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48860": {
         "fiscal_independence_pct": 21.44,
@@ -3070,7 +4182,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6323,
+        "expenditure_settled_100m": 6119,
+        "expenditure_per_capita_manwon": 1868.6,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48870": {
         "fiscal_independence_pct": 19.62,
@@ -3080,7 +4197,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 6180,
+        "expenditure_settled_100m": 5689,
+        "expenditure_per_capita_manwon": 1603.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48880": {
         "fiscal_independence_pct": 22.87,
@@ -3090,7 +4212,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7701,
+        "expenditure_settled_100m": 7723,
+        "expenditure_per_capita_manwon": 1309.4,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "48890": {
         "fiscal_independence_pct": 11.58,
@@ -3100,7 +4227,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시군구",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 7513,
+        "expenditure_settled_100m": 7791,
+        "expenditure_per_capita_manwon": 1988.0,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "27720": {
         "fiscal_independence_pct": 12.22,
@@ -3120,7 +4252,12 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시도단위대체",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": 20028,
+        "expenditure_settled_100m": 21632,
+        "expenditure_per_capita_manwon": 551.9,
+        "settle_year": 2023,
+        "settle_src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
       },
       "50110": {
         "fiscal_independence_pct": 39.51,
@@ -3130,7 +4267,10 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시도단위대체",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": null,
+        "expenditure_settled_100m": null,
+        "settle_note": "행정시(자치단체 아님)로 단체 단위 예산·결산 미제공"
       },
       "50130": {
         "fiscal_independence_pct": 39.51,
@@ -3140,12 +4280,15 @@
         "budget_total_krw": null,
         "fund_exec_pct": null,
         "level": "시도단위대체",
-        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "budget_final_100m": null,
+        "expenditure_settled_100m": null,
+        "settle_note": "행정시(자치단체 아님)로 단체 단위 예산·결산 미제공"
       }
     },
     "coverage": {
       "fiscal_independence_codes": 229,
-      "budget_total_codes": 0,
+      "budget_total_codes": 226,
       "fiscal_year_latest": 2025,
       "fiscal_year_range": [
         2022,
@@ -3155,8 +4298,9 @@
         "36110",
         "50110",
         "50130"
-      ]
+      ],
+      "settle_year": 2023
     },
-    "notes": "재정자립도·재정자주도는 KOSIS e-지방지표(orgId=101, DT_1YL20921/DT_1YL20891)에서 전 시군구를 수집해 atlas 이름매칭으로 매핑했습니다. fiscal_independence_pct 는 세입과목개편전(T10) 기준이며 개편후(T20)는 별도 필드로 병기했습니다. 세종·제주시·서귀포시는 자치구 단위 지표가 없어 해당 시도 단위 값으로 대체(level=시도단위대체)했습니다. 지자체 예산규모(총계)는 전 시군구를 제공하는 공개 API 표가 없어 budget_total_krw 는 미공표(null)입니다. 지방소멸대응기금 개별 시군 집행률도 공개 API 부재로 by_code 는 null이며, 전국 합계 집행률만 fund_exec_national 에 배분연도·기준일을 병기해 등재했습니다. 기금은 229개 전 시군에 배분되지 않으며(광역계정+인구감소·관심지역 대상), 광역이 기초로 재이전하거나 위탁·출자 시 실집행과 무관하게 집행률이 100%로 잡히는 착시가 있습니다."
+    "notes": "재정자립도·재정자주도는 KOSIS e-지방지표(orgId=101, DT_1YL20921/DT_1YL20891)에서 전 시군구를 수집해 atlas 이름매칭으로 매핑했습니다. fiscal_independence_pct 는 세입과목개편전(T10) 기준이며 개편후(T20)는 별도 필드로 병기했습니다. 세종·제주시·서귀포시는 자치구 단위 지표가 없어 해당 시도 단위 값으로 대체(level=시도단위대체)했습니다. 지자체 예산규모(총계)는 전 시군구를 제공하는 공개 API 표가 없어 budget_total_krw 는 미공표(null)입니다. 지방소멸대응기금 개별 시군 집행률도 공개 API 부재로 by_code 는 null이며, 전국 합계 집행률만 fund_exec_national 에 배분연도·기준일을 병기해 등재했습니다. 기금은 229개 전 시군에 배분되지 않으며(광역계정+인구감소·관심지역 대상), 광역이 기초로 재이전하거나 위탁·출자 시 실집행과 무관하게 집행률이 100%로 잡히는 착시가 있습니다. [예산·집행 추가] 지자체 예산규모(예산현액 최종)·실제지출(결산세출)·주민 1인당 세출을 KOSIS 행정안전부 지방재정 표(DT_110001_A011, 2023)에서 전 시군구로 병합했습니다. 예산현액은 최종예산, 결산세출은 이월·추경 포함 총계 기준이라 둘의 단순 비율(집행률)은 산정하지 않았습니다. 제주시·서귀포시는 행정시로 단체 단위 예산·결산이 없어 금액은 null입니다."
   }
 }

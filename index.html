@@ -572,7 +572,18 @@ function budgetHTML(r){
  }else{
   fiLine=`재정자립도 <b>자료 없음</b> — 시군구 선택 시 표기됩니다.`;
  }
- const budLine=(bc&&bc.budget_total_krw!=null)?`예산총계 <b>${okm(bc.budget_total_krw)}</b>`:`예산총계 <b>자료 없음</b> <span style="color:${soft}">(전 시군구 제공 공개 API 표 부재)</span>`;
+ const won100m=v=>v==null?null:(v>=10000?(v/10000).toFixed(v>=100000?0:1).replace(/\.0$/,'')+'조원':v.toLocaleString('ko-KR')+'억원');
+ let budLine;
+ if(bc&&bc.budget_final_100m!=null){
+  const sy=bc.settle_year||'';
+  const ex=bc.expenditure_settled_100m!=null?` · 실제 지출(결산세출) <b>${won100m(bc.expenditure_settled_100m)}</b>`:'';
+  const pc=bc.expenditure_per_capita_manwon!=null?` · 주민 1인당 세출 <b style="color:${red}">${bc.expenditure_per_capita_manwon.toLocaleString('ko-KR')}만원</b>`:'';
+  budLine=`예산 규모(예산현액) <b style="color:${sea}">${won100m(bc.budget_final_100m)}</b>${ex}${pc} <span style="color:${soft}">(${sy}년 결산 기준)</span>`;
+ }else if(bc&&bc.settle_note){
+  budLine=`예산 규모 <b>자료 없음</b> <span style="color:${soft}">(${bc.settle_note})</span>`;
+ }else{
+  budLine=`예산 규모 <b>자료 없음</b> — 시군구 선택 시 표기됩니다`;
+ }
  const fe=(B.fund_exec_national||[]).map(x=>`${x.alloc_year}년 배분 <b>${x.rate_pct}%</b> <span style="color:${soft};font-size:11px">(기준 ${x.asof})</span>`).join(' · ');
  const indiv=(bc&&bc.fund_exec_pct!=null)?`개별 집행률 <b>${bc.fund_exec_pct}%</b>`:`개별 시군 집행률·사용처는 미공표 — <a href="https://lofin365.go.kr" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700">지방재정365</a>에서 확인`;
  const bs=B.sources||[];
@@ -580,10 +591,11 @@ function budgetHTML(r){
  const fund=bs.find(s=>/집행/.test(s.name))||bs[2];
  const sl=[kosis&&`<a href="${kosis.url}" target="_blank" rel="noreferrer" style="color:${sea}">${kosis.name}(${kosis.org})</a>`,fund&&`<a href="${fund.url}" target="_blank" rel="noreferrer" style="color:${sea}">${fund.name}</a>`].filter(Boolean).join(' · ');
  return `<div class="brief" style="margin:14px 0 0">
-  <h3>예산·재정 <span class="bd">KOSIS e-지방지표 · 나라살림</span></h3>
+  <h3>예산·재정 <span class="bd">KOSIS e-지방지표·지방재정 · 나라살림</span></h3>
   <p class="num">${fiLine}</p>
   <p class="num" style="font-size:12.5px;color:${soft}">재정자립도는 인구감소지수 8개 지표 중 하나로, 인구감소지역 지정 판정에도 쓰이는 지표입니다.</p>
   <p class="num">${budLine}.</p>
+  ${(bc&&bc.expenditure_per_capita_manwon!=null)?`<p class="num" style="font-size:12.5px;color:${soft}">주민 1인당 세출은 실제 지출을 인구로 나눈 값으로, 인구가 적을수록 커집니다 — 소멸위험 지역일수록 1인당 재정투입이 크게 나타나는 구조입니다. 예산현액과 결산세출은 이월·추경 등 기준이 달라 단순 집행률로 비교하지 않습니다.</p>`:''}
   <div class="bh" style="margin-top:8px">지방소멸대응기금 집행률</div>
   <p class="num">전국 합계 ${fe||'자료 없음'}.</p>
   <p class="num" style="font-size:13px">${indiv}.</p>
