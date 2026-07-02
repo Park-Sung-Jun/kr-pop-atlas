@@ -1,0 +1,799 @@
+{
+  "meta": {
+    "generated": "2026-07-02",
+    "sources": [
+      {
+        "name": "인구감소지역 지정 현황",
+        "org": "행정안전부",
+        "url": "https://www.mois.go.kr/frt/sub/a06/b06/populationDecline/screen.do",
+        "year": 2021
+      },
+      {
+        "name": "인구감소지역 지원 특별법 안내",
+        "org": "행정안전부",
+        "url": "https://www.mois.go.kr/frt/sub/a06/b06/populationDeclineLaw/screen.do",
+        "year": 2023
+      },
+      {
+        "name": "지방소멸대응기금 안내(연도별 배분현황)",
+        "org": "행정안전부",
+        "url": "https://www.mois.go.kr/frt/sub/a06/b06/localextinctionFund/screen.do",
+        "year": 2025
+      },
+      {
+        "name": "지방소멸대응기금 배분기준 고시(제2024-6호)",
+        "org": "행정안전부",
+        "url": "https://www.mois.go.kr/frt/bbs/type001/commonSelectBoardArticle.do?bbsId=BBSMSTR_000000000016&nttId=106561",
+        "year": 2024
+      },
+      {
+        "name": "2025년도 지방소멸대응기금 배분 자료",
+        "org": "KDI 경제정보센터",
+        "url": "https://eiec.kdi.re.kr/policy/materialView.do?num=259239",
+        "year": 2025
+      },
+      {
+        "name": "2024년도 차등배분 자료",
+        "org": "KDI 경제정보센터",
+        "url": "https://eiec.kdi.re.kr/policy/materialView.do?num=244398",
+        "year": 2024
+      },
+      {
+        "name": "지방소멸대응기금 최초(2022) 배분 자료",
+        "org": "KDI 경제정보센터",
+        "url": "https://eiec.kdi.re.kr/policy/materialView.do?num=229097",
+        "year": 2022
+      },
+      {
+        "name": "지방소멸대응기금 집행/배분 분석",
+        "org": "나라살림연구소",
+        "url": "https://www.narasallim.net/report/546",
+        "year": 2023
+      },
+      {
+        "name": "고향사랑기부제 안내",
+        "org": "행정안전부",
+        "url": "https://www.mois.go.kr/frt/sub/a06/b06/hometownLovedonation/screen.do",
+        "year": 2023
+      },
+      {
+        "name": "생활인구 중심 지방소멸대응 정책브리핑",
+        "org": "대한민국 정책브리핑(korea.kr)",
+        "url": "https://www.korea.kr/news/policyNewsView.do?newsId=148955792",
+        "year": 2025
+      }
+    ],
+    "notes": "인구감소지역 89곳은 행안부 최초지정(2021.10) 명단으로, 군위군은 2023년 대구 편입 반영. 관심지역 18곳은 언론·2차출처 재인용(확신도 중간, 행안부 원문 1:1 대조 미완). 지방소멸대응기금 by_code는 시군구별 개별 배분액·등급이 공식 원문에서 확정 확인되지 않아 비움({}). grade_bands는 확인된 연도별 등급체계·배분범위만 수록(2022~2023 등급별 금액 미확인). 모든 개별 배분액은 확인 전까지 amount_krw:null. 확인 못한 값은 생성하지 않음.",
+    "unmatched": [],
+    "atlas_source": "KOSIS 국가통계포털 OpenAPI — 행정안전부 주민등록인구현황 (시군구별 DT_1B040A3 · 성/연령 5세별 DT_1B04005N)"
+  },
+  "designation": {
+    "criteria": "인구감소지수 8개 지표 종합: 연평균인구증감률, 인구밀도, 청년순이동률, 주간인구, 고령화비율, 유소년비율, 조출생률, 재정자립도",
+    "law": "지방자치분권 및 지역균형발전 특별법 제2조·시행령 제3조 및 인구감소지역 지원 특별법(근거 법령 원문 대조 권장)",
+    "designated_year": 2021,
+    "reassessment_cycle_years": 5,
+    "next_reassessment": 2026,
+    "total_count": 89,
+    "interest_count": 18,
+    "counted_designated": 89,
+    "counted_interest": 18,
+    "codes": {
+      "26110": {
+        "name": "중구",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "26140": {
+        "name": "서구",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "26170": {
+        "name": "동구",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "26200": {
+        "name": "영도구",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "26410": {
+        "name": "금정구",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "27170": {
+        "name": "서구",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "27200": {
+        "name": "남구",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "27720": {
+        "name": "군위군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "28140": {
+        "name": "동구",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "28710": {
+        "name": "강화군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "28720": {
+        "name": "옹진군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "29110": {
+        "name": "동구",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "30110": {
+        "name": "동구",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "30140": {
+        "name": "중구",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "30230": {
+        "name": "대덕구",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "41250": {
+        "name": "동두천시",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "41650": {
+        "name": "포천시",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "41800": {
+        "name": "연천군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "41820": {
+        "name": "가평군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "43150": {
+        "name": "제천시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "43720": {
+        "name": "보은군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "43730": {
+        "name": "옥천군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "43740": {
+        "name": "영동군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "43760": {
+        "name": "괴산군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "43800": {
+        "name": "단양군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "44150": {
+        "name": "공주시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "44180": {
+        "name": "보령시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "44230": {
+        "name": "논산시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "44710": {
+        "name": "금산군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "44760": {
+        "name": "부여군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "44770": {
+        "name": "서천군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "44790": {
+        "name": "청양군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "44810": {
+        "name": "예산군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "44825": {
+        "name": "태안군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46710": {
+        "name": "담양군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46720": {
+        "name": "곡성군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46730": {
+        "name": "구례군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46770": {
+        "name": "고흥군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46780": {
+        "name": "보성군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46790": {
+        "name": "화순군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46800": {
+        "name": "장흥군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46810": {
+        "name": "강진군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46820": {
+        "name": "해남군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46830": {
+        "name": "영암군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46860": {
+        "name": "함평군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46870": {
+        "name": "영광군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46880": {
+        "name": "장성군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46890": {
+        "name": "완도군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46900": {
+        "name": "진도군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "46910": {
+        "name": "신안군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47130": {
+        "name": "경주시",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "47150": {
+        "name": "김천시",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "47170": {
+        "name": "안동시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47210": {
+        "name": "영주시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47230": {
+        "name": "영천시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47250": {
+        "name": "상주시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47280": {
+        "name": "문경시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47730": {
+        "name": "의성군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47750": {
+        "name": "청송군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47760": {
+        "name": "영양군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47770": {
+        "name": "영덕군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47820": {
+        "name": "청도군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47830": {
+        "name": "고령군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47840": {
+        "name": "성주군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47920": {
+        "name": "봉화군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47930": {
+        "name": "울진군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "47940": {
+        "name": "울릉군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48220": {
+        "name": "통영시",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "48240": {
+        "name": "사천시",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "48270": {
+        "name": "밀양시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48720": {
+        "name": "의령군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48730": {
+        "name": "함안군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48740": {
+        "name": "창녕군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48820": {
+        "name": "고성군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48840": {
+        "name": "남해군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48850": {
+        "name": "하동군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48860": {
+        "name": "산청군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48870": {
+        "name": "함양군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48880": {
+        "name": "거창군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "48890": {
+        "name": "합천군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51150": {
+        "name": "강릉시",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "51170": {
+        "name": "동해시",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "51190": {
+        "name": "태백시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51210": {
+        "name": "속초시",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "51230": {
+        "name": "삼척시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51720": {
+        "name": "홍천군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51730": {
+        "name": "횡성군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51750": {
+        "name": "영월군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51760": {
+        "name": "평창군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51770": {
+        "name": "정선군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51780": {
+        "name": "철원군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51790": {
+        "name": "화천군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51800": {
+        "name": "양구군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51810": {
+        "name": "인제군",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "51820": {
+        "name": "고성군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "51830": {
+        "name": "양양군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "52140": {
+        "name": "익산시",
+        "designated": false,
+        "type": "관심지역"
+      },
+      "52180": {
+        "name": "정읍시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "52190": {
+        "name": "남원시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "52210": {
+        "name": "김제시",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "52720": {
+        "name": "진안군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "52730": {
+        "name": "무주군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "52740": {
+        "name": "장수군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "52750": {
+        "name": "임실군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "52770": {
+        "name": "순창군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "52790": {
+        "name": "고창군",
+        "designated": true,
+        "type": "인구감소지역"
+      },
+      "52800": {
+        "name": "부안군",
+        "designated": true,
+        "type": "인구감소지역"
+      }
+    }
+  },
+  "fund": {
+    "annual_total_krw": 1000000000000,
+    "start_year": 2022,
+    "end_year": 2031,
+    "period_years": 10,
+    "first_year_total_krw": 750000000000,
+    "account_split": {
+      "광역지원계정_krw": 250000000000,
+      "기초지원계정_krw": 750000000000,
+      "note": "1조원 기준, 광역25%/기초75%"
+    },
+    "operator": "17개 시·도 조합 → 한국지방재정공제회 위탁 운용",
+    "distribution_method": "기초=평가단 성과평가 등급 차등배분 / 광역=인구감소지역 비율 등 정액배분",
+    "recipients_2025": {
+      "광역": 15,
+      "기초": 107,
+      "note": "기초=인구감소지역89+관심지역18"
+    },
+    "grade_bands": [
+      {
+        "year": 2022,
+        "system": "A~E 5단계",
+        "designated_range_krw": null,
+        "interest_range_krw": null,
+        "confidence": "낮음",
+        "note": "등급체계는 확인, 등급별 개별 금액 미확인"
+      },
+      {
+        "year": 2024,
+        "system": "S·A·B·C 4단계",
+        "designated_range_krw": [
+          6400000000,
+          14400000000
+        ],
+        "interest_range_krw": [
+          1600000000,
+          3600000000
+        ],
+        "confidence": "중간",
+        "note": "최고-최저 등급차 56억→80억 확대(KDI 244398)"
+      },
+      {
+        "year": 2025,
+        "system": "우수·양호 2단계",
+        "designated_range_krw": [
+          7200000000,
+          16000000000
+        ],
+        "interest_range_krw": [
+          1800000000,
+          4000000000
+        ],
+        "confidence": "중간",
+        "note": "인구감소 기본72억+우수88억=최대160억, 관심 기본18억+우수22억=최대40억. 우수 인구감소 8곳·우수 관심 2곳(개별 명단 미확인)"
+      }
+    ],
+    "execution": [
+      {
+        "scope": "2022년 배분분",
+        "as_of": "2023-06-30",
+        "overall_rate": 0.3757,
+        "wide_area_rate": 0.9367,
+        "basic_rate": 0.1885,
+        "zero_exec_count": 11,
+        "confidence": "중간~높음",
+        "source_url": "https://www.narasallim.net/report/546"
+      }
+    ],
+    "by_code": {},
+    "by_code_note": "시군구별 개별 배분액·등급은 행안부 고시 붙임 PDF 파싱 필요. 확인 전까지 비움."
+  },
+  "policy_playbook": [
+    {
+      "profile": "소멸_고위험",
+      "desc": "소멸위험지수 0.2 미만 초고령·인구급감 지역. 정주기반 유지가 최우선.",
+      "measures": [
+        {
+          "title": "지방소멸대응기금 노인·의료 집중투자",
+          "real_program": "지방소멸대응기금(기초지원계정) 노인·의료 분야",
+          "desc": "찾아가는 의료·돌봄, 폐교·유휴시설 리모델링 등 생존기반 투자로 집행률을 높여 차등배분 우수등급 확보.",
+          "source_url": "https://www.mois.go.kr/frt/sub/a06/b06/localextinctionFund/screen.do"
+        },
+        {
+          "title": "생활인구·체류인구 확대",
+          "real_program": "생활인구 제도(주민등록+체류인구 합산)",
+          "desc": "완도 '치유의 섬'형 체류형 관광·여객선 운임지원으로 정주인구 감소를 생활인구로 보완.",
+          "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148955792"
+        },
+        {
+          "title": "고향사랑기부제 지정기부 연계",
+          "real_program": "고향사랑기부제(2023 시행, 지정기부)",
+          "desc": "돌봄·의료 등 특정사업 지정기부로 세외재원 확보(답례품 30% 이내, 10만원까지 전액 세액공제).",
+          "source_url": "https://www.mois.go.kr/frt/sub/a06/b06/hometownLovedonation/screen.do"
+        },
+        {
+          "title": "빈집·유휴자산 정비",
+          "real_program": "지방소멸대응기금 주거 분야",
+          "desc": "빈집 정비 후 리빙스테이션·청년상회 전환으로 재정착 기반 조성(영월군 사례).",
+          "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148955792"
+        }
+      ]
+    },
+    {
+      "profile": "위험_진입",
+      "desc": "소멸위험 진입(지수 0.2~0.5) 지역. 청년유입·일자리로 반등 시도.",
+      "measures": [
+        {
+          "title": "로컬 창업·청년 일자리",
+          "real_program": "지방소멸대응기금 산업·일자리 분야",
+          "desc": "청년 로컬창업 지원, 청년협력가 양성·마을 파견(하동군 사례)으로 유출 방지.",
+          "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148955792"
+        },
+        {
+          "title": "관계인구 → 정주인구 전환",
+          "real_program": "생활인구·관계인구 정책",
+          "desc": "워케이션·두지역살이 프로그램으로 관계인구를 형성하고 정주로 유도.",
+          "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148955792"
+        },
+        {
+          "title": "성과평가 대응 집행관리",
+          "real_program": "지방소멸대응기금 성과평가 차등배분",
+          "desc": "집행률·성과지표 관리로 우수등급(최대 160억) 확보, 사업 다층화.",
+          "source_url": "https://eiec.kdi.re.kr/policy/materialView.do?num=259239"
+        },
+        {
+          "title": "고향사랑기부 답례품 지역경제 연계",
+          "real_program": "고향사랑기부제 답례품",
+          "desc": "지역 농특산품 답례품으로 소상공인 매출·기부수입 동시 확보.",
+          "source_url": "https://www.mois.go.kr/frt/sub/a06/b06/hometownLovedonation/screen.do"
+        }
+      ]
+    },
+    {
+      "profile": "중견도시_감소",
+      "desc": "인구 규모는 있으나 감소세인 중소도시. 산업·주거 재구조화 중심.",
+      "measures": [
+        {
+          "title": "산업·일자리 거점 투자",
+          "real_program": "지방소멸대응기금 산업·일자리 분야",
+          "desc": "지역 주력산업 연계 일자리·창업공간으로 청년 정착 유도(2023 산업·일자리 비중 25%).",
+          "source_url": "https://www.narasallim.net/report/744"
+        },
+        {
+          "title": "주거·정주여건 개선",
+          "real_program": "지방소멸대응기금 주거 분야",
+          "desc": "청년·신혼 주거지원과 생활SOC로 전입 유인(2023 주거 비중 22%).",
+          "source_url": "https://www.narasallim.net/report/744"
+        },
+        {
+          "title": "교육·보육 정주매력 강화",
+          "real_program": "지방소멸대응기금 교육·보육 분야",
+          "desc": "돌봄·교육 인프라로 청년가구 유지, 통근·통학 교통 연계.",
+          "source_url": "https://www.mois.go.kr/frt/sub/a06/b06/localextinctionFund/screen.do"
+        }
+      ]
+    },
+    {
+      "profile": "정체_증가",
+      "desc": "인구 정체 또는 증가 지역(지정 제외). 광역 정액계정·연계협력 활용.",
+      "measures": [
+        {
+          "title": "광역지원계정 연계협력",
+          "real_program": "지방소멸대응기금 광역지원계정(정액배분)",
+          "desc": "인접 인구감소지역과 광역 연계사업(교통·의료·관광 벨트)으로 균형발전 견인.",
+          "source_url": "https://eiec.kdi.re.kr/policy/materialView.do?num=259239"
+        },
+        {
+          "title": "생활인구 허브 기능",
+          "real_program": "생활인구 제도",
+          "desc": "인근 소멸위험 지역의 생활인구 유입 거점(의료·상권) 역할로 광역 상생.",
+          "source_url": "https://www.korea.kr/news/policyNewsView.do?newsId=148955792"
+        },
+        {
+          "title": "고향사랑기부 매칭·홍보 지원",
+          "real_program": "고향사랑기부제",
+          "desc": "규모·행정역량을 활용해 인접 지역 기부 캠페인·플랫폼을 공동 운영.",
+          "source_url": "https://www.mois.go.kr/frt/sub/a06/b06/hometownLovedonation/screen.do"
+        }
+      ]
+    }
+  ]
+}
