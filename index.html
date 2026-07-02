@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>대한민국 인구전망 아틀라스</title>
+<meta name="description" content="전국 17개 시도·229개 시군구의 2031 인구 전망과 소멸위험을 지도·카토그램·연도 시뮬레이션·인구 피라미드로 탐색하는 아틀라스">
+<!-- 차트는 인라인 SVG로 직접 렌더링: 외부 라이브러리/CDN 불필요 -->
+<style>
+:root{--paper:#F3F5F4;--ink:#1E2A32;--soft:#4D5D66;--sea:#0E6E6B;--red:#A03A38;--line:#D4DBD9;--card:#fff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:'Apple SD Gothic Neo','Pretendard','Malgun Gothic','Noto Sans KR',sans-serif;font-size:15.5px;line-height:1.7;letter-spacing:-.01em}
+.num{font-variant-numeric:tabular-nums}
+.wrap{max-width:980px;margin:0 auto;padding:0 22px}
+header{border-bottom:3px solid var(--ink);padding:40px 0 20px;background:var(--card)}
+.meta{display:flex;justify-content:space-between;font-size:12px;color:var(--soft);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.masthead{font-size:13px;font-weight:800;letter-spacing:.18em;color:var(--red);margin-bottom:6px}
+h1{font-size:clamp(22px,4.2vw,34px);font-weight:800;line-height:1.32;letter-spacing:-.03em;word-break:keep-all}
+h1 .a{color:var(--red)}
+/* 지역 선택 바 */
+.regbar{background:var(--card);border-bottom:1.5px solid var(--ink);padding:10px 0}
+.regbar .wrap{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.rbtn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:20px;padding:4px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.rbtn:hover{border-color:var(--ink)}
+.rbtn.on{background:var(--ink);border-color:var(--ink);color:#fff}
+.rbtn.nat{border-width:1.5px;border-color:var(--ink)}
+.keyline{background:var(--ink);color:#EDF1F0;padding:22px 0}
+.keyline .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi small{display:block;font-size:11.5px;color:#9FB1B4;letter-spacing:.08em;margin-bottom:3px}
+.kpi strong{font-size:clamp(18px,2.8vw,24px);font-weight:800}
+.kpi span{display:block;font-size:12px;color:#C4CFCE;word-break:keep-all}
+@media(max-width:760px){.keyline .wrap{grid-template-columns:1fr 1fr}}
+main{padding:8px 0 60px}
+section{margin-top:48px}
+.ch{display:flex;align-items:baseline;gap:12px;border-bottom:1.5px solid var(--ink);padding-bottom:9px;margin-bottom:18px}
+.ch em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--red);letter-spacing:.12em}
+.ch h2{font-size:20px;font-weight:800;letter-spacing:-.02em}
+p{margin-bottom:12px;word-break:keep-all}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 16px 10px;margin:16px 0}
+.card h3{font-size:14px;font-weight:700}
+.card .src{font-size:11.5px;color:var(--soft);margin-bottom:10px}
+.cbox{position:relative;height:340px}.cbox.tall{height:560px}
+table{width:100%;border-collapse:collapse;background:var(--card);font-size:13.5px;margin:14px 0}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
+th:first-child,td:first-child{text-align:left}
+thead th{border-top:2px solid var(--ink);border-bottom:1.5px solid var(--ink);background:#EDF0EF;font-size:12.5px;cursor:pointer;user-select:none}
+thead th:hover{background:#E2E8E6}
+td.down{color:var(--red);font-weight:600}td.up{color:var(--sea);font-weight:600}
+.tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;font-weight:700}
+.g0{background:#F6E3E2;color:#8C2F2D}.g1{background:#FBEDE4;color:#A55225}
+.g2{background:#FFF6DE;color:#8A6A12}.g3{background:#E7F1EF;color:#0E6E6B}.g4{background:#DDEDEA;color:#0A5350}
+.tbl-scroll{overflow-x:auto}
+footer{border-top:2px solid var(--ink);padding:22px 0 56px;font-size:12.5px;color:var(--soft)}
+footer li{padding:2px 0}
+.note{font-size:12.5px;color:var(--soft);border-left:3px solid var(--line);padding-left:12px;margin:12px 0;word-break:keep-all}
+#tip{position:fixed;z-index:99;background:#1E2A32;color:#EDF1F0;font-size:12px;padding:8px 11px;border-radius:8px;pointer-events:none;display:none;max-width:280px;line-height:1.55;box-shadow:0 4px 16px rgba(0,0,0,.28)}
+#tip b{color:#fff}#tip .tt{color:#9FB1B4;font-size:11px}
+.simbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:4px 0 14px}
+.simbar button{border:1.5px solid var(--ink);background:var(--ink);color:#fff;border-radius:8px;padding:6px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.simbar button:hover{opacity:.88}
+.simbar input[type=range]{flex:1;min-width:180px;accent-color:#1E2A32;height:26px}
+.simbar .ylab{font-size:20px;font-weight:800;min-width:56px;text-align:center}
+.simbar .ytag{font-size:11px;font-weight:700;border-radius:20px;padding:2px 9px}
+.simbar .ytag.actual{background:#E7F1EF;color:#0E6E6B}.simbar .ytag.fore{background:#F6E3E2;color:#8C2F2D}
+.simkpi{font-size:12.5px;color:var(--soft);margin-left:auto}
+.maps2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.maps2{grid-template-columns:1fr}}
+.maps2 h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.mapbox{position:relative;height:430px;background:#FBFCFB;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.mapbox svg{display:block}
+.map-sgg{stroke:#fff;stroke-width:.8;cursor:pointer;transition:fill .35s}
+.map-sgg:hover{stroke:var(--ink);stroke-width:1.4}
+.carto-c{stroke:#fff;stroke-width:1;cursor:pointer;transition:fill .35s}
+.carto-c:hover{stroke:var(--ink);stroke-width:1.5}
+.leg{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--soft);margin-top:10px;flex-wrap:wrap}
+.leg .bar{width:150px;height:10px;border-radius:5px;background:linear-gradient(90deg,#A03A38,#F2EFEA,#0E6E6B)}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:26px 0 0;border-bottom:2px solid var(--ink)}
+.tbtn{border:1.5px solid var(--ink);border-bottom:none;background:#fff;color:var(--ink);font:inherit;font-size:13.5px;font-weight:700;padding:8px 16px;border-radius:10px 10px 0 0;cursor:pointer}
+.tbtn.active{background:var(--ink);color:#fff}
+.pane{display:none}.pane.active{display:block}
+.sortbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 10px}
+.sortbar span{font-size:12px;color:var(--soft)}
+.sbtn{border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 12px;font:inherit;font-size:12px;font-weight:700;color:var(--soft);cursor:pointer}
+.sbtn.on{border-color:var(--ink);background:var(--ink);color:#fff}
+.hlgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
+@media(max-width:760px){.hlgrid{grid-template-columns:1fr 1fr}}
+.hlcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;cursor:pointer}
+.hlcard:hover{border-color:var(--ink)}
+.hlcard small{display:block;font-size:11px;color:var(--soft);letter-spacing:.06em;margin-bottom:4px}
+.hlcard b{font-size:18px}
+.hlcard .v{font-size:13.5px;font-weight:700;margin-top:2px}
+.ranks{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:760px){.ranks{grid-template-columns:1fr}}
+.rk{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.rk h4{font-size:13px;margin-bottom:8px}
+.rk ol{margin-left:0}
+.rk li{list-style:none;display:flex;justify-content:space-between;gap:8px;padding:5px 2px;border-bottom:1px dashed var(--line);cursor:pointer;font-size:13px}
+.rk li:hover{background:#F4F6F5}
+#boot{padding:80px 22px;text-align:center;color:var(--soft);font-size:14px}
+#app{display:none}
+</style></head><body>
+
+<div id="boot">데이터를 불러오는 중입니다…</div>
+
+<div id="app">
+<header><div class="wrap">
+  <div class="meta"><span>KOSIS 국가통계포털 · 주민등록인구 기반 자동 산출</span><span id="mGen"></span></div>
+  <div class="masthead">대한민국 인구전망 아틀라스</div>
+  <h1 id="h1"></h1>
+</div></header>
+
+<div class="regbar"><div class="wrap" id="regbar"></div></div>
+
+<div class="keyline"><div class="wrap">
+  <div class="kpi"><small id="k1t"></small><strong class="num" id="k1v"></strong><span id="k1s"></span></div>
+  <div class="kpi"><small>2031 전망 (중심)</small><strong class="num" id="k2v"></strong><span id="k2s"></span></div>
+  <div class="kpi"><small id="k3t">소멸위험 지역</small><strong class="num" id="k3v"></strong><span>위험지수 0.5 미만</span></div>
+  <div class="kpi"><small>고령비중 최고</small><strong class="num" id="k4v"></strong><span id="k4s"></span></div>
+</div></div>
+
+<main class="wrap">
+  <nav class="tabs" id="tabs" role="tablist">
+    <button class="tbtn active" data-t="t1" type="button">① 개요</button>
+    <button class="tbtn" data-t="t4" type="button">② 지도·시뮬레이션</button>
+    <button class="tbtn" data-t="t3" type="button">③ 비교</button>
+    <button class="tbtn" data-t="t2" type="button">④ 전망표</button>
+    <button class="tbtn" data-t="t5" type="button">⑤ 하이라이트</button>
+  </nav>
+
+  <section class="pane active" id="t1">
+    <div class="ch" style="margin-top:28px"><em>01</em><h2 id="h01"></h2></div>
+    <div class="card"><h3 id="fanTitle"></h3>
+      <div class="src" id="fanSrc"></div>
+      <div class="cbox"><div id="fan" style="width:100%;height:100%"></div></div>
+      <div id="fanlegend" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:12px;color:var(--soft);margin-top:8px"></div></div>
+    <p class="note" id="note1"></p>
+  </section>
+
+  <section class="pane" id="t2">
+    <div class="ch" style="margin-top:28px"><em>02</em><h2 id="h02"></h2></div>
+    <p>소멸위험지수 = 20~39세 여성 ÷ 65세 이상 (이상호 지수, 0.5 미만 소멸위험 진입 · 0.2 미만 고위험).</p>
+    <div class="sortbar"><span>빠른 정렬</span>
+      <button class="sbtn on" data-qs="pop_last:desc" type="button">인구 많은 순</button>
+      <button class="sbtn" data-qs="chg:asc" type="button">감소 큰 순</button>
+      <button class="sbtn" data-qs="risk_idx:asc" type="button">소멸위험 큰 순</button>
+      <button class="sbtn" data-qs="old_pct:desc" type="button">고령비중 높은 순</button>
+      <button class="sbtn" data-qs="name:asc" type="button">가나다</button>
+      <span style="margin-left:6px">열 머리글 클릭으로도 정렬됩니다</span>
+    </div>
+    <div class="tbl-scroll"><table id="tbl" class="num">
+      <thead><tr>
+        <th data-k="name" id="thName">지역</th><th data-k="pop_last" id="thPop"></th>
+        <th data-k="cagr5">연평균 증감률</th><th data-k="p2031_B">2031 전망(중심)</th>
+        <th data-k="chg" id="thChg"></th><th data-k="old_pct">고령비중</th>
+        <th data-k="risk_idx">소멸위험지수</th><th data-k="risk_idx2">등급</th>
+      </tr></thead><tbody id="tb"></tbody>
+    </table></div>
+  </section>
+
+  <section class="pane" id="t3">
+    <div class="ch" style="margin-top:28px"><em>03</em><h2 id="h03"></h2></div>
+    <div class="sortbar"><span>정렬</span>
+      <button class="sbtn on" data-bs="asc" type="button">감소 큰 순</button>
+      <button class="sbtn" data-bs="desc" type="button">증가/선방 순</button>
+      <button class="sbtn" data-bs="pop" type="button">인구 큰 순</button>
+      <button class="sbtn" data-bs="name" type="button">가나다</button>
+      <span style="margin-left:6px">막대에 올리면 상세, 클릭하면 지도 탭에 고정</span>
+    </div>
+    <div class="card"><div class="cbox tall" id="barsBox"><div id="bars" style="width:100%;height:100%"></div></div></div>
+  </section>
+
+  <section class="pane" id="t4">
+    <div class="ch" style="margin-top:28px"><em>04</em><h2 id="h04"></h2></div>
+    <p id="mapGuide"></p>
+    <div class="card">
+      <div class="simbar">
+        <button id="play" type="button">▶ 재생</button>
+        <input id="yr" type="range" min="0" max="0" value="0" step="1" aria-label="연도 선택">
+        <span class="ylab num" id="ylab"></span><span class="ytag" id="ytag"></span>
+        <select id="pick" aria-label="지역 선택" style="border:1px solid var(--line);border-radius:8px;padding:5px 8px;font:inherit;font-size:12.5px"></select>
+        <span class="simkpi num" id="simkpi"></span>
+      </div>
+      <div class="maps2">
+        <div><h4>행정 경계 지도 <span style="color:var(--soft);font-weight:400" id="mapSub"></span></h4><div class="mapbox" id="map"></div></div>
+        <div><h4>카토그램 <span style="color:var(--soft);font-weight:400">· 원 면적 = 그 해 인구</span></h4><div class="mapbox" id="carto"></div></div>
+      </div>
+      <div class="leg"><span id="legLab"></span><span class="num">−25%</span><span class="bar"></span><span class="num">+10%</span></div>
+      <div id="detail"></div>
+    </div>
+  </section>
+
+  <section class="pane" id="t5">
+    <div class="ch" style="margin-top:28px"><em>05</em><h2>하이라이트 — 한눈에 보는 기록들</h2></div>
+    <p>카드나 순위를 클릭하면 지도·시뮬레이션 탭에서 해당 지역 상세가 열립니다.</p>
+    <div class="hlgrid" id="hlgrid"></div>
+    <div class="ranks" id="ranks"></div>
+  </section>
+</main>
+<div id="tip"></div>
+
+<footer><div class="wrap">
+  <b style="color:var(--ink)">데이터 출처 및 산출 방법</b>
+  <ul>
+    <li id="ftSrc"></li>
+    <li>전망 산식: B(중심)=최근 5년 CAGR 연장 · A(가속)=최근 3년 CAGR 연장 · C(완화)=5년 CAGR×0.6 (통계청 중위추계의 실적 대비 감속 비율 준용)</li>
+    <li>소멸위험지수: 이상호(한국고용정보원) 기준 — (20~39세 여성)/(65세 이상)</li>
+    <li>함께 보기: <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:var(--sea);font-weight:700">인구피라미드 탐색기</a> — 전국 시도·시군구·읍면동 성·연령 피라미드, 대조군 비교·유사 지역 탐색 (같은 저자)</li>
+  </ul>
+  <p class="note" style="margin-top:12px" id="ftNote"></p>
+</div></footer>
+</div>
+
+<script>
+'use strict';
+const ink='#1E2A32',soft='#4D5D66',line='#D4DBD9',sea='#0E6E6B',red='#A03A38';
+const SVGNS='http://www.w3.org/2000/svg';
+const el=(t,a,x)=>{const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);if(x!=null)e.textContent=x;return e;};
+const $=id=>document.getElementById(id);
+const f=n=>n==null?'-':n.toLocaleString('ko-KR');
+const G=k=>k==null?'-':k<0.2?'<span class="tag g0">소멸 고위험</span>':k<0.5?'<span class="tag g1">소멸위험 진입</span>':k<1?'<span class="tag g2">소멸 주의</span>':k<1.5?'<span class="tag g3">보통</span>':'<span class="tag g4">저위험</span>';
+
+/* ── 전역 상태 (지역 전환 시 initRegion에서 재구성) ── */
+let A=null,D=null;
+let rowsAll=[],byCode={},SIM=null,YRS=[],yi=0,playing=null,pinned=null,cartoNodes=null,sparkFn=null,simTot0=0;
+let rows=[],barSort='asc',mapEls={},cartoEls={};
+const REF={};const reg=(c,e)=>{(REF[c]||(REF[c]=[])).push(e)};
+const hl=(c,on)=>{(REF[c]||[]).forEach(e=>{e.setAttribute('stroke',on?'#111':(e.dataset.s0||'#fff'));e.setAttribute('stroke-width',on?2.4:(e.dataset.w0||1))})};
+const shortNm=n=>D.isNat?n:n.replace(/(시|군|구)$/,'');
+const unit=()=>D.isNat?'시도':'시군구';
+
+/* ── 공용 툴팁 ── */
+const tip=$('tip');
+function showTip(h,x,y){tip.innerHTML=h;tip.style.display='block';const w=tip.offsetWidth,ht=tip.offsetHeight;
+ let L=x+14,T=y+16;if(L+w>innerWidth-8)L=x-w-14;if(T+ht>innerHeight-8)T=y-ht-16;tip.style.left=L+'px';tip.style.top=T+'px';}
+const hideTip=()=>{tip.style.display='none'};
+
+/* ── 탭 ── */
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('.tbtn');if(!b)return;
+ document.querySelectorAll('.tbtn').forEach(x=>x.classList.toggle('active',x===b));
+ document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active',p.id===b.dataset.t));
+ requestAnimationFrame(redraw);});
+const goTab=id=>document.querySelector(`.tbtn[data-t="${id}"]`).click();
+
+/* ── 지역 뷰 구성 ── */
+function natView(){
+ const feats=[];let bb=[999,999,-999,-999];
+ A.sido.forEach(s=>{if(!s.geo)return;
+  s.geo.features.forEach(ft=>feats.push({code:s.code,name:s.short,rings:ft.rings}));
+  const b=s.geo.bbox;bb=[Math.min(bb[0],b[0]),Math.min(bb[1],b[1]),Math.max(bb[2],b[2]),Math.max(bb[3],b[3])];});
+ return {key:'KR',isNat:true,name:'전국',rows:A.national.rows,fan:A.national.fan,
+  sim:A.national.sim,geo:{features:feats,bbox:bb},cent:A.national.cent,
+  pyr:A.national.pyr,pyrAll:A.national.pyrAll};
+}
+function sidoView(code){const s=A.sido.find(x=>x.code===code);
+ return {key:s.code,isNat:false,name:s.short,fullName:s.name,rows:s.rows,fan:s.fan,
+  sim:s.sim,geo:s.geo,cent:s.cent,pyr:s.pyr,pyrAll:s.pyrAll};
+}
+function enterSido(code){selectRegion(code);}
+function selectRegion(key){
+ if(playing){clearInterval(playing);playing=null;$('play').textContent='▶ 재생';}
+ pinned=null;sparkFn=null;$('detail').innerHTML='';
+ D=(key==='KR')?natView():sidoView(key);
+ try{history.replaceState(null,'','#'+key);}catch(e){}
+ document.querySelectorAll('.rbtn').forEach(b=>b.classList.toggle('on',b.dataset.r===key));
+ initRegion();
+}
+
+/* ── 지역 초기화: 파생값·텍스트·표·픽커·하이라이트 재구성 ── */
+function initRegion(){
+ rowsAll=D.rows.map(r=>({...r,chg:(r.p2031_B-r.pop_last)/r.pop_last*100}));
+ byCode={};rowsAll.forEach(r=>byCode[r.code]=r);
+ SIM=D.sim;YRS=SIM.years;yi=SIM.actualN-1;
+ simTot0=0;rowsAll.forEach(r=>simTot0+=SIM.byCode[r.code][0]);
+ const M=A.meta,lastY=M.last,startY=M.start;
+ const decl=rowsAll.filter(r=>r.chg<0).length;
+ const risk=rowsAll.filter(r=>r.risk_idx!=null&&r.risk_idx<0.5).length;
+ const oldTop=[...rowsAll].filter(r=>r.old_pct!=null).sort((a,b)=>b.old_pct-a.old_pct)[0];
+ const nm=D.isNat?'전국 17개 시도':`${D.fullName||D.name} ${rowsAll.length}개 시·군·구`;
+ $('h1').innerHTML=`${nm} 중 <span class="a num">${decl}곳</span>이<br>2031년까지 인구 감소 — ${unit()}별 정밀 전망`;
+ $('mGen').textContent='생성 '+M.generated;
+ $('k1t').textContent=`${D.name} 합계 (${lastY} 실적)`;
+ $('k1v').textContent=D.fan.actual[SIM.actualN-1].toLocaleString('ko-KR')+'만 명';
+ $('k1s').textContent=D.isNat?'시군구 합산, 주민등록 기준':'시군구 합산, 주민등록 기준';
+ $('k2v').textContent=D.fan.endB.toLocaleString('ko-KR')+'만 명';
+ $('k2s').textContent=`범위 ${D.fan.endA.toLocaleString('ko-KR')}~${D.fan.endC.toLocaleString('ko-KR')}만`;
+ $('k3v').textContent=`${risk} / ${rowsAll.length}곳`;
+ $('k4v').textContent=oldTop?oldTop.old_pct+'%':'자료 없음';
+ $('k4s').textContent=oldTop?oldTop.name:'';
+ $('h01').textContent=`${D.name} 전체 궤적 — 실적과 2031 시나리오`;
+ $('fanTitle').textContent=`${D.name}(시군구 합산) 주민등록인구: 실적 ${startY}~${lastY} + 전망`;
+ $('fanSrc').textContent=`단위: 만 명 · 실적 = KOSIS 주민등록인구 · 전망 = ${unit()}별 시나리오 합산 (A 최근3년 페이스 / B 최근5년 페이스 / C 완화) · 그래프에 마우스를 올리면 연도별 값이 보입니다`;
+ $('note1').textContent=M.note+(D.isNat?' 전국 값은 17개 시도(시군구 합산)의 합계입니다.':'');
+ $('h02').textContent=`${unit()}별 2031 전망표`;
+ $('thName').textContent=unit()==='시도'?'시도':'시군구';
+ $('thPop').textContent=`${lastY} 인구`;
+ $('thChg').textContent=`${lastY}→2031`;
+ $('h03').textContent=`${unit()}별 증감률 비교 (${lastY}→2031, 중심 시나리오)`;
+ $('h04').textContent=`${unit()} 지도 · 카토그램 — 연도별 시뮬레이션`;
+ $('mapGuide').innerHTML=`▶ 재생을 누르면 ${startY}→2031년이 흐르며 지도 색(${startY} 대비 증감)과 카토그램 원 크기(그 해 인구)가 함께 움직입니다. 지도·카토그램 어디에 올려도 <b>같은 지역이 동시에 강조</b>됩니다. `+
+  (D.isNat?`지도·카토그램을 <b>클릭하면 그 시도의 시군구 뷰로 들어갑니다.`:`클릭하면 아래에 상세 카드가 고정됩니다.`);
+ $('mapSub').textContent=`· 색 = ${startY} 대비 증감`;
+ $('legLab').textContent=`${startY}년 대비`;
+ $('ftSrc').textContent=M.source;
+ $('ftNote').textContent=`본 표의 2031년 값은 공표 통계를 잇는 추세 기반 전망치이며, 대규모 산업단지 조성·행정구역 개편 등 구조 변화는 반영하지 않음. ${M.note}`;
+ /* 표 */
+ rows=[...rowsAll].sort((a,b)=>b.pop_last-a.pop_last);
+ document.querySelectorAll('[data-qs]').forEach((x,i)=>x.classList.toggle('on',i===0));
+ drawTable();
+ /* 비교 막대 높이 */
+ $('barsBox').style.height=Math.max(340,rowsAll.length*22+46)+'px';
+ barSort='asc';document.querySelectorAll('[data-bs]').forEach((x,i)=>x.classList.toggle('on',i===0));
+ /* 시뮬레이션 컨트롤 */
+ const yrEl=$('yr');yrEl.max=YRS.length-1;yrEl.value=yi;
+ const pk=$('pick');
+ pk.innerHTML=`<option value="">${unit()} 바로가기…</option>`+[...rowsAll].sort((a,b)=>a.name.localeCompare(b.name,'ko')).map(r=>`<option value="${r.code}">${r.name}</option>`).join('');
+ buildHighlights();
+ redraw();
+ window.scrollTo({top:0});
+}
+
+/* ── 01 팬차트 ── */
+function fanChart(host){
+ const W=host.clientWidth||900,H=host.clientHeight||340,m={t:16,r:14,b:32,l:52};
+ const iw=W-m.l-m.r,ih=H-m.t-m.b,yrs=D.fan.years,n=yrs.length;
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:'100%',preserveAspectRatio:'xMidYMid meet'});
+ const all=[].concat(D.fan.actual,D.fan.A,D.fan.B,D.fan.C).filter(v=>v!=null);
+ let lo=Math.min(...all),hi=Math.max(...all);const pad=(hi-lo)*0.14||1;lo-=pad;hi+=pad;
+ const X=i=>m.l+(n<=1?0:i*iw/(n-1)),Y=v=>m.t+ih-(v-lo)/(hi-lo)*ih;
+ for(let t=0;t<=4;t++){const val=lo+(hi-lo)*t/4,y=Y(val);
+  svg.appendChild(el('line',{x1:m.l,y1:y,x2:m.l+iw,y2:y,stroke:line,'stroke-width':1}));
+  svg.appendChild(el('text',{x:m.l-7,y:y+4,'text-anchor':'end','font-size':11,fill:soft},val>=1000?Math.round(val).toLocaleString('ko-KR'):val.toFixed(0)));}
+ yrs.forEach((yr,i)=>{if(i%2===0||i===n-1)svg.appendChild(el('text',{x:X(i),y:H-11,'text-anchor':'middle','font-size':11,fill:soft},yr));});
+ svg.appendChild(el('text',{x:m.l-7,y:m.t-4,'text-anchor':'end','font-size':10,fill:soft},'만 명'));
+ const line_=(arr,c,w,dash)=>{let d='';arr.forEach((v,i)=>{if(v==null)return;d+=(d?'L':'M')+X(i)+' '+Y(v);});if(!d)return;
+  const p=el('path',{d,fill:'none',stroke:c,'stroke-width':w,'stroke-linejoin':'round','stroke-linecap':'round'});if(dash)p.setAttribute('stroke-dasharray',dash);svg.appendChild(p);};
+ line_(D.fan.C,sea,1.6,'6 4');line_(D.fan.A,red,1.6,'3 4');line_(D.fan.B,red,3);line_(D.fan.actual,ink,2.5);
+ D.fan.actual.forEach((v,i)=>{if(v!=null)svg.appendChild(el('circle',{cx:X(i),cy:Y(v),r:3,fill:ink}));});
+ const guide=el('line',{x1:-9,x2:-9,y1:m.t,y2:m.t+ih,stroke:soft,'stroke-width':1,'stroke-dasharray':'3 3',opacity:0});svg.appendChild(guide);
+ const ov=el('rect',{x:m.l,y:m.t,width:iw,height:ih,fill:'transparent'});
+ ov.addEventListener('mousemove',ev=>{const rc=svg.getBoundingClientRect();const fx=(ev.clientX-rc.left)*W/rc.width;
+  let i=Math.round((fx-m.l)/(iw/(n-1)));i=Math.max(0,Math.min(n-1,i));
+  guide.setAttribute('x1',X(i));guide.setAttribute('x2',X(i));guide.setAttribute('opacity',1);
+  const va=D.fan.actual[i];
+  showTip(`<b>${yrs[i]}년</b><br>`+(va!=null?`실적 <b>${f(va)}만 명</b>`:`A ${f(D.fan.A[i])}만 · <b>B ${f(D.fan.B[i])}만</b> · C ${f(D.fan.C[i])}만`),ev.clientX,ev.clientY);});
+ ov.addEventListener('mouseleave',()=>{hideTip();guide.setAttribute('opacity',0)});
+ svg.appendChild(ov);host.appendChild(svg);
+}
+
+/* ── 02 표 + 빠른 정렬 ── */
+function drawTable(){$('tb').innerHTML=rows.map(r=>
+ `<tr><td><b>${r.name}</b></td><td>${f(r.pop_last)}</td>
+ <td class="${r.cagr5<0?'down':'up'}">${(r.cagr5*100).toFixed(2)}%</td>
+ <td>${f(r.p2031_B)}</td><td class="${r.chg<0?'down':'up'}">${r.chg.toFixed(1)}%</td>
+ <td>${r.old_pct==null?'-':r.old_pct+'%'}</td><td>${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}</td><td>${G(r.risk_idx)}</td></tr>`).join('')}
+let asc=false;document.querySelectorAll('thead th').forEach(th=>th.onclick=()=>{const k=th.dataset.k;if(!k)return;
+ asc=!asc;rows.sort((a,b)=>{const x=a[k.replace('2','')]??-1e18,y=b[k.replace('2','')]??-1e18;
+ return (typeof x=='string')?(asc?x.localeCompare(y,'ko'):y.localeCompare(x,'ko')):(asc?x-y:y-x)});drawTable()});
+document.querySelectorAll('[data-qs]').forEach(b=>b.onclick=()=>{
+ document.querySelectorAll('[data-qs]').forEach(x=>x.classList.toggle('on',x===b));
+ const[k,dir]=b.dataset.qs.split(':');
+ rows.sort((a,c)=>{const x=a[k]??1e18,y=c[k]??1e18;return typeof x=='string'?(dir=='asc'?x.localeCompare(y,'ko'):y.localeCompare(x,'ko')):(dir=='asc'?x-y:y-x)});drawTable();});
+
+/* ── 03 막대 ── */
+const BSORT={asc:(a,b)=>a.chg-b.chg,desc:(a,b)=>b.chg-a.chg,pop:(a,b)=>b.pop_last-a.pop_last,name:(a,b)=>a.name.localeCompare(b.name,'ko')};
+document.querySelectorAll('[data-bs]').forEach(b=>b.onclick=()=>{barSort=b.dataset.bs;
+ document.querySelectorAll('[data-bs]').forEach(x=>x.classList.toggle('on',x===b));redraw();});
+const rowTip=r=>`<b>${r.name}</b><br>${A.meta.last}년 ${f(r.pop_last)}명 → 2031년 ${f(r.p2031_B)}명 (<b>${r.chg>=0?'+':''}${r.chg.toFixed(1)}%</b>)<br>고령 ${r.old_pct==null?'-':r.old_pct+'%'} · 위험지수 ${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}<br><span class="tt">클릭하면 지도 탭에 상세 고정</span>`;
+function barChart(host){
+ const rs=[...rowsAll].sort(BSORT[barSort]);
+ const W=host.clientWidth||900,H=host.clientHeight||560,m={t:8,r:48,b:26,l:74};
+ const iw=W-m.l-m.r,ih=H-m.t-m.b;
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:'100%',preserveAspectRatio:'xMidYMid meet'});
+ const vals=rs.map(r=>r.chg);let lo=Math.min(0,...vals),hi=Math.max(0,...vals);const pad=(hi-lo)*0.08||1;lo-=pad;hi+=pad;
+ const X=v=>m.l+(v-lo)/(hi-lo)*iw,bh=ih/rs.length,bw=Math.min(bh*0.6,16),x0=X(0);
+ svg.appendChild(el('line',{x1:x0,y1:m.t,x2:x0,y2:m.t+ih,stroke:soft,'stroke-width':1}));
+ rs.forEach((r,i)=>{const yc=m.t+i*bh+bh/2,xv=X(r.chg),c=r.chg<0?red:sea,x=Math.min(x0,xv),w=Math.abs(xv-x0);
+  const rect=el('rect',{x,y:yc-bw/2,width:Math.max(w,1),height:bw,fill:c,rx:2,cursor:'pointer'});
+  rect.dataset.s0='none';rect.dataset.w0='0';reg(r.code,rect);
+  rect.addEventListener('mousemove',ev=>{showTip(rowTip(r),ev.clientX,ev.clientY);hl(r.code,true)});
+  rect.addEventListener('mouseleave',()=>{hideTip();hl(r.code,false)});
+  rect.addEventListener('click',()=>{goTab('t4');pinDetail(r.code)});
+  svg.appendChild(rect);
+  svg.appendChild(el('text',{x:m.l-6,y:yc+4,'text-anchor':'end','font-size':11,fill:ink},r.name));
+  svg.appendChild(el('text',{x:r.chg<0?x-4:x+w+4,y:yc+4,'text-anchor':r.chg<0?'end':'start','font-size':10.5,fill:c},r.chg.toFixed(1)+'%'));});
+ svg.appendChild(el('text',{x:m.l+iw/2,y:H-6,'text-anchor':'middle','font-size':11,fill:soft},`% (${A.meta.last}→2031)`));
+ host.appendChild(svg);
+}
+
+/* ── 04 지도·카토그램·연도 시뮬레이션 ── */
+const lerp=(a,b,t)=>a+(b-a)*t;
+function colFor(g){const R=[160,58,56],P=[242,239,234],S=[14,110,107];let c;
+ if(g<=0){const t=Math.min(1,-g/25);c=[lerp(P[0],R[0],t),lerp(P[1],R[1],t),lerp(P[2],R[2],t)];}
+ else{const t=Math.min(1,g/10);c=[lerp(P[0],S[0],t),lerp(P[1],S[1],t),lerp(P[2],S[2],t)];}
+ return`rgb(${c.map(Math.round).join(',')})`;}
+const pct=c=>{const s=SIM.byCode[c];return((s[yi]/s[0]-1)*100).toFixed(1)};
+function makeP(w,h,pad){const[b0,b1,b2,b3]=D.geo.bbox,kx=Math.cos((b1+b3)/2*Math.PI/180);
+ const s=Math.min((w-2*pad)/((b2-b0)*kx),(h-2*pad)/(b3-b1));
+ const ox=(w-(b2-b0)*kx*s)/2,oy=(h-(b3-b1)*s)/2;
+ return p=>[ox+(p[0]-b0)*kx*s,oy+(b3-p[1])*s];}
+function attach(e,code){
+ e.addEventListener('mousemove',ev=>{const r=byCode[code];
+  showTip(`<b>${r.name}</b> · ${YRS[yi]}년${yi>=SIM.actualN?' (전망)':''}<br>인구 <b>${f(SIM.byCode[code][yi])}</b>명 · ${A.meta.start} 대비 <b>${pct(code)}%</b><br>고령 ${r.old_pct==null?'-':r.old_pct+'%'} · 위험지수 ${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}<br><span class="tt">${D.isNat?'클릭하면 시군구 뷰로 이동':'클릭하면 상세 카드 고정'}</span>`,ev.clientX,ev.clientY);hl(code,true);});
+ e.addEventListener('mouseleave',()=>{hideTip();hl(code,false)});
+ e.addEventListener('click',()=>{if(D.isNat){hideTip();enterSido(code);}else pinDetail(code);});}
+function drawMap(host){host.innerHTML='';const W=host.clientWidth||460,H=host.clientHeight||430;
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:'100%'});const P=makeP(W,H,10);mapEls={};
+ D.geo.features.forEach(ft=>{const d=ft.rings.map(rg=>'M'+rg.map(pt=>{const q=P(pt);return q[0].toFixed(1)+' '+q[1].toFixed(1)}).join('L')+'Z').join('');
+  const p=el('path',{d,class:'map-sgg',fill:'#EDEDEA'});p.dataset.s0='#fff';p.dataset.w0='.8';
+  attach(p,ft.code);(mapEls[ft.code]||(mapEls[ft.code]=[])).push(p);reg(ft.code,p);svg.appendChild(p);});
+ rowsAll.forEach(r=>{const c=D.cent[r.code];if(!c)return;const q=P(c);
+  svg.appendChild(el('text',{x:q[0],y:q[1]+3,'text-anchor':'middle','font-size':9,fill:ink,'pointer-events':'none'},shortNm(r.name)));});
+ host.appendChild(svg);}
+function drawCarto(host){host.innerHTML='';const W=host.clientWidth||460,H=host.clientHeight||430;
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:'100%'});const P=makeP(W,H,34);
+ const maxP=Math.max(...rowsAll.map(r=>Math.max(...SIM.byCode[r.code])));
+ window._ck=Math.min(W,H)*0.125/Math.sqrt(maxP);window._cwh=[W,H];
+ const cb=D.geo.bbox,fallback=[(cb[0]+cb[2])/2,(cb[1]+cb[3])/2];
+ cartoNodes=rowsAll.map(r=>{const q=P(D.cent[r.code]||fallback);return{code:r.code,x:q[0],y:q[1]}});
+ cartoEls={};
+ cartoNodes.forEach(nd=>{const c=el('circle',{class:'carto-c',r:5,fill:'#ccc'});c.dataset.s0='#fff';c.dataset.w0='1';
+  attach(c,nd.code);reg(nd.code,c);
+  const t1=el('text',{'text-anchor':'middle','font-size':10,'font-weight':700,fill:'#fff','pointer-events':'none'});
+  const t2=el('text',{'text-anchor':'middle','font-size':9,fill:'rgba(255,255,255,.85)','pointer-events':'none'});
+  cartoEls[nd.code]={c,t1,t2};svg.appendChild(c);svg.appendChild(t1);svg.appendChild(t2);});
+ host.appendChild(svg);}
+function relax(){const k=window._ck,[W,H]=window._cwh,R={};
+ cartoNodes.forEach(nd=>R[nd.code]=k*Math.sqrt(SIM.byCode[nd.code][yi]));
+ for(let it=0;it<90;it++){for(let i=0;i<cartoNodes.length;i++)for(let j=i+1;j<cartoNodes.length;j++){
+   const a=cartoNodes[i],b=cartoNodes[j];let dx=b.x-a.x,dy=b.y-a.y;const d=Math.hypot(dx,dy)||.01,min=R[a.code]+R[b.code]+1.5;
+   if(d<min){const push=(min-d)/2/d;a.x-=dx*push;a.y-=dy*push;b.x+=dx*push;b.y+=dy*push;}}
+  cartoNodes.forEach(nd=>{const r=R[nd.code];nd.x=Math.max(r+2,Math.min(W-r-2,nd.x));nd.y=Math.max(r+2,Math.min(H-r-2,nd.y));});}
+ return R;}
+function update(){
+ $('yr').value=yi;
+ $('ylab').textContent=YRS[yi];
+ const tg=$('ytag'),fore=yi>=SIM.actualN;
+ tg.textContent=fore?'전망':'실적';tg.className='ytag '+(fore?'fore':'actual');
+ let tot=0;rowsAll.forEach(r=>tot+=SIM.byCode[r.code][yi]);
+ $('simkpi').textContent=`${D.name} 합계 ${(tot/10000).toFixed(1)}만 명 (${A.meta.start} 대비 ${((tot/simTot0-1)*100).toFixed(1)}%)`;
+ rowsAll.forEach(r=>{const col=colFor(+pct(r.code));(mapEls[r.code]||[]).forEach(p=>p.setAttribute('fill',col));});
+ if(cartoNodes){const R=relax();cartoNodes.forEach(nd=>{const e=cartoEls[nd.code];if(!e)return;const r=R[nd.code];
+  e.c.setAttribute('cx',nd.x);e.c.setAttribute('cy',nd.y);e.c.setAttribute('r',r);e.c.setAttribute('fill',colFor(+pct(nd.code)));
+  const nm=shortNm(byCode[nd.code].name);
+  e.t1.setAttribute('x',nd.x);e.t1.setAttribute('y',nd.y+(r>=16?0:3));e.t1.textContent=r>=9?nm:'';
+  e.t2.setAttribute('x',nd.x);e.t2.setAttribute('y',nd.y+12);e.t2.textContent=r>=16?(SIM.byCode[nd.code][yi]/10000).toFixed(1)+'만':'';});}
+ if(pinned&&sparkFn)sparkFn();}
+$('yr').addEventListener('input',e=>{yi=+e.target.value;update()});
+$('play').addEventListener('click',()=>{const b=$('play');
+ if(playing){clearInterval(playing);playing=null;b.textContent='▶ 재생';return;}
+ if(yi>=YRS.length-1)yi=0;b.textContent='⏸ 정지';update();
+ playing=setInterval(()=>{yi++;update();if(yi>=YRS.length-1){clearInterval(playing);playing=null;b.textContent='▶ 재생';}},620);});
+$('pick').addEventListener('change',()=>{const v=$('pick').value;if(v)pinDetail(v)});
+
+/* ── 상세 카드: 스파크라인 + 성·연령 피라미드 + 유사 지역 ── */
+const vec=c=>{const p=D.pyr[c];const t=p.m.reduce((a,b)=>a+b,0)+p.f.reduce((a,b)=>a+b,0);return p.m.concat(p.f).map(v=>v/t)};
+const cos=(a,b)=>{let s=0,na=0,nb=0;for(let i=0;i<a.length;i++){s+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i];}return s/Math.sqrt(na*nb)};
+const simTop=(c,n=3)=>{const me=vec(c);return rowsAll.filter(r=>r.code!=c&&D.pyr[r.code]&&D.pyr[r.code].ages.length===D.pyr[c].ages.length).map(r=>({r,s:cos(me,vec(r.code))})).sort((a,b)=>b.s-a.s).slice(0,n)};
+function pyramid(host,code){const p=D.pyr[code],g=D.pyrAll;
+ if(!p){host.innerHTML=`<div style="color:${soft};font-size:12px">자료 없음</div>`;return;}
+ const W=host.clientWidth||420,H=210,m={t:6,b:16,l:30,r:6},n=p.ages.length,ih=H-m.t-m.b,bh=ih/n;
+ const tt=p.m.reduce((a,b)=>a+b,0)+p.f.reduce((a,b)=>a+b,0),gt=g.m.reduce((a,b)=>a+b,0)+g.f.reduce((a,b)=>a+b,0);
+ const gi=a=>g.ages.indexOf(a);
+ const sh=i=>{const j=gi(p.ages[i]);return[p.m[i]/tt*100,p.f[i]/tt*100,j<0?0:g.m[j]/gt*100,j<0?0:g.f[j]/gt*100]};
+ let mx=0;for(let i=0;i<n;i++)sh(i).forEach(v=>mx=Math.max(mx,v));
+ const cx=m.l+(W-m.l-m.r)/2,half=(W-m.l-m.r)/2-4,S=v=>v/mx*half;
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H});
+ for(let i=0;i<n;i++){const y=m.t+ih-(i+1)*bh,[sm,sf,gm,gf]=sh(i);
+  svg.appendChild(el('rect',{x:cx-S(sm),y:y+1,width:S(sm),height:Math.max(bh-2,1),fill:sea,opacity:.85}));
+  svg.appendChild(el('rect',{x:cx,y:y+1,width:S(sf),height:Math.max(bh-2,1),fill:red,opacity:.8}));
+  svg.appendChild(el('line',{x1:cx-S(gm),y1:y,x2:cx-S(gm),y2:y+bh-1,stroke:ink,'stroke-width':1}));
+  svg.appendChild(el('line',{x1:cx+S(gf),y1:y,x2:cx+S(gf),y2:y+bh-1,stroke:ink,'stroke-width':1}));
+  if(p.ages[i]%20==0)svg.appendChild(el('text',{x:m.l-4,y:y+bh,'text-anchor':'end','font-size':9,fill:soft},p.ages[i]));}
+ svg.appendChild(el('text',{x:cx-half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:sea},'남'));
+ svg.appendChild(el('text',{x:cx+half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:red},'여'));
+ host.innerHTML='';host.appendChild(svg);}
+function drawSpark(host,code){const s=SIM.byCode[code],W=host.clientWidth||420,H=110,m={t:14,b:14,l:6,r:6};
+ const lo=Math.min(...s),hi=Math.max(...s);
+ const X=i=>m.l+i*(W-m.l-m.r)/(s.length-1),Y=v=>m.t+(H-m.t-m.b)*(1-(v-lo)/((hi-lo)||1));
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H});
+ let d1='',d2='';s.forEach((v,i)=>{const seg=X(i)+' '+Y(v);if(i<SIM.actualN)d1+=(d1?'L':'M')+seg;if(i>=SIM.actualN-1)d2+=(d2?'L':'M')+seg;});
+ svg.appendChild(el('path',{d:d1,fill:'none',stroke:ink,'stroke-width':2}));
+ svg.appendChild(el('path',{d:d2,fill:'none',stroke:red,'stroke-width':2,'stroke-dasharray':'4 3'}));
+ svg.appendChild(el('text',{x:X(0),y:H-2,'font-size':9,fill:soft},YRS[0]));
+ svg.appendChild(el('text',{x:X(s.length-1),y:H-2,'text-anchor':'end','font-size':9,fill:soft},'2031'));
+ const dot=el('circle',{r:4,fill:red,stroke:'#fff','stroke-width':1.5});
+ const lab=el('text',{'font-size':10,'font-weight':700,fill:ink,'text-anchor':'middle'});
+ svg.appendChild(dot);svg.appendChild(lab);
+ sparkFn=()=>{dot.setAttribute('cx',X(yi));dot.setAttribute('cy',Y(s[yi]));lab.setAttribute('x',Math.max(24,Math.min(W-24,X(yi))));lab.setAttribute('y',Math.max(10,Y(s[yi])-8));lab.textContent=f(s[yi]);};
+ sparkFn();host.innerHTML='';host.appendChild(svg);}
+function pinDetail(code){pinned=code;const r=byCode[code];const dEl=$('detail');
+ const drill=D.isNat?`<button id="drill" style="border:1.5px solid ${ink};background:${ink};color:#fff;border-radius:8px;padding:4px 12px;font:inherit;font-size:12px;font-weight:700;cursor:pointer;margin-left:8px">→ ${r.name} 시군구 보기</button>`:'';
+ dEl.innerHTML=`<div style="margin-top:16px;border-top:1.5px solid ${ink};padding-top:12px">
+ <div style="display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px">
+  <span><b style="font-size:17px">${r.name}</b>${drill}</span><button id="dx" style="border:0;background:none;font-size:14px;color:${soft};cursor:pointer">✕ 닫기</button></div>
+ <div style="display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin:6px 0 10px" class="num">
+  <span>${A.meta.last}년 <b>${f(r.pop_last)}</b>명</span>
+  <span>2031 <b>${f(r.p2031_B)}</b>명 (<b style="color:${r.chg<0?red:sea}">${r.chg>=0?'+':''}${r.chg.toFixed(1)}%</b>)</span>
+  <span>고령 <b>${r.old_pct==null?'-':r.old_pct+'%'}</b></span>
+  <span>위험지수 <b>${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}</b> ${G(r.risk_idx)}</span></div>
+ <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="maps2">
+  <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">인구 흐름 ${A.meta.start}→2031 · 점 = 시뮬레이션 연도</div><div id="spark"></div></div>
+  <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">성·연령 피라미드 (막대 = ${r.name} · 검은 선 = ${D.name} 전체, ${A.meta.pyrYear}년)</div><div id="pyr"></div></div></div>
+ <div style="font-size:12.5px;margin-top:10px" id="simlist"></div>
+ <div style="font-size:12px;margin-top:8px;color:${soft}">읍면동 단위 피라미드·전국 비교는 → <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700">인구피라미드 탐색기</a></div></div>`;
+ $('dx').onclick=()=>{pinned=null;sparkFn=null;dEl.innerHTML='';};
+ if(D.isNat)$('drill').onclick=()=>enterSido(code);
+ drawSpark($('spark'),code);
+ pyramid($('pyr'),code);
+ const sl=$('simlist');
+ if(D.pyr[code]){const t=simTop(code);
+  sl.innerHTML=t.length?`연령구조가 가장 비슷한 ${unit()}: `+t.map(x=>`<a href="#" data-sim="${x.r.code}" style="color:${ink};font-weight:700">${x.r.name}</a> <span style="color:${soft};font-size:11px">(유사도 ${(x.s*100).toFixed(1)})</span>`).join(' · ')
+   :`같은 시도 안에 비교할 ${unit()}이(가) 없습니다.`;
+  sl.querySelectorAll('[data-sim]').forEach(a=>a.onclick=e=>{e.preventDefault();pinDetail(a.dataset.sim)});}
+ else sl.textContent='연령 자료 없음';
+ dEl.scrollIntoView({behavior:'smooth',block:'nearest'});}
+
+/* ── 05 하이라이트 ── */
+function buildHighlights(){const rs=rowsAll;
+ const items=[
+  ['인구 최다',[...rs].sort((a,b)=>b.pop_last-a.pop_last)[0],r=>f(r.pop_last)+'명'],
+  ['감소율 1위 (→2031)',[...rs].sort((a,b)=>a.chg-b.chg)[0],r=>r.chg.toFixed(1)+'%'],
+  ['그나마 선방',[...rs].sort((a,b)=>b.chg-a.chg)[0],r=>(r.chg>=0?'+':'')+r.chg.toFixed(1)+'%'],
+  ['고령비중 최고',[...rs].filter(r=>r.old_pct!=null).sort((a,b)=>b.old_pct-a.old_pct)[0],r=>r.old_pct+'%'],
+  ['소멸위험 최고',[...rs].filter(r=>r.risk_idx!=null).sort((a,b)=>a.risk_idx-b.risk_idx)[0],r=>'지수 '+r.risk_idx.toFixed(2)],
+  ['상대적으로 젊음',[...rs].filter(r=>r.risk_idx!=null).sort((a,b)=>b.risk_idx-a.risk_idx)[0],r=>'지수 '+r.risk_idx.toFixed(2)],
+ ].filter(([,r])=>r);
+ $('hlgrid').innerHTML=items.map(([t,r,fm])=>`<div class="hlcard" data-c="${r.code}"><small>${t}</small><b>${r.name}</b><div class="v num">${fm(r)}</div></div>`).join('');
+ const top5=(key,dir,fm,title)=>`<div class="rk"><h4>${title}</h4><ol>${[...rs].filter(r=>r[key]!=null).sort((a,b)=>dir=='asc'?a[key]-b[key]:b[key]-a[key]).slice(0,5).map((r,i)=>`<li data-c="${r.code}"><span>${i+1}. <b>${r.name}</b></span><span class="num">${fm(r)}</span></li>`).join('')}</ol></div>`;
+ $('ranks').innerHTML=
+  top5('chg','asc',r=>r.chg.toFixed(1)+'%','감소율 TOP5 (→2031)')+
+  top5('p2031_B','desc',r=>f(r.p2031_B)+'명','2031 전망 인구 TOP5');
+}
+$('t5').addEventListener('click',e=>{const c=e.target.closest('[data-c]');if(c){goTab('t4');pinDetail(c.dataset.c);}});
+
+/* ── 렌더 오케스트레이션 ── */
+function redraw(){if(!D)return;for(const k in REF)delete REF[k];
+ const F=$('fan');if(F.clientWidth){F.innerHTML='';fanChart(F);
+  $('fanlegend').innerHTML=[['실적',ink,0],['A 가속 → '+f(D.fan.endA),red,1],['B 중심 → '+f(D.fan.endB),red,0],['C 완화 → '+f(D.fan.endC),sea,1]]
+   .map(([t,c,d])=>`<span style="display:inline-flex;align-items:center;gap:6px"><span style="display:inline-block;width:22px;border-top:${d?'2px dashed':'3px solid'} ${c}"></span>${t}</span>`).join('');}
+ const B=$('bars');if(B.clientWidth){B.innerHTML='';barChart(B);}
+ if(D.geo){const M=$('map');
+  if(M.clientWidth){drawMap(M);drawCarto($('carto'));update();}}}
+window.addEventListener('resize',()=>{clearTimeout(window._rt);window._rt=setTimeout(redraw,160);});
+
+/* ── 부트스트랩 ── */
+function boot(atlas){
+ A=atlas;
+ const bar=$('regbar');
+ bar.innerHTML=`<button class="rbtn nat" data-r="KR" type="button">전국</button>`+
+  A.sido.map(s=>`<button class="rbtn" data-r="${s.code}" type="button">${s.short}</button>`).join('');
+ bar.addEventListener('click',e=>{const b=e.target.closest('.rbtn');if(b)selectRegion(b.dataset.r);});
+ $('boot').style.display='none';$('app').style.display='block';
+ const h=(location.hash||'').replace('#','');
+ selectRegion(h==='KR'||A.sido.some(s=>s.code===h)?h:'KR');
+}
+function fail(){$('boot').innerHTML='데이터 파일을 불러오지 못했습니다.<br>배포된 페이지에서 열거나, 저장소를 통째로 내려받아 웹 서버로 열어 주세요.';}
+fetch('data/atlas.json')
+ .then(r=>{if(!r.ok)throw new Error();return r.json()})
+ .then(boot)
+ .catch(()=>{const s=document.createElement('script');s.src='data/atlas.js';
+  s.onload=()=>window.ATLAS?boot(window.ATLAS):fail();s.onerror=fail;document.head.appendChild(s);});
+</script></body></html>
