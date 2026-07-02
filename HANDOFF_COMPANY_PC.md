@@ -30,6 +30,8 @@ kr-pop-atlas_company_pc_YYYYMMDD_HHMMSS/
   HANDOFF_COMPANY_PC.md
 ```
 
+네트워크 드라이브에서 폴더 단위 복사가 느리거나 멈추면, 같은 내용을 담은 ZIP 패키지로 전달합니다. 회사 PC에서는 ZIP을 로컬 폴더에 풀고 `kr-pop-atlas` 폴더에서 작업을 시작하면 됩니다.
+
 - `kr-pop-atlas/`: 회사 PC에서 바로 열 작업 폴더입니다.
 - `pop_pyramid_reference/`: 기존 단독 피라미드 탐색기 참고본입니다.
 - `git-bundles/`: Git 이력을 단일 파일로 담은 백업입니다.
