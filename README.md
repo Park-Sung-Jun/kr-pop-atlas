@@ -64,7 +64,7 @@ git push -u origin main
 ## 통합 버전·보호 설정
 
 - `index.html`: 대한민국 인구전망 아틀라스
-- `pyramid.html`: 전국 시도·시군구·읍면동 인구피라미드 탐색기
+- `pyramid.html`: 전국 시도·시군구·읍면동 인구피라미드 탐색기와 전체 제공 연도별 장기 추세 표
 - `robots.txt`, `noai` 메타, 사람 확인 게이트, 복사·우클릭 억제 스크립트를 포함합니다.
 - CAPTCHA를 쓰려면 배포 환경에 `CAPTCHA_PROVIDER=turnstile|recaptcha`, `CAPTCHA_SITE_KEY`, 필요 시 `CAPTCHA_VERIFY_ENDPOINT`를 설정합니다.
 - 장기 인구 추세는 `api/kosis-trend.js`가 `KOSIS_API_KEY`, `KOSIS_TREND_USER_STATS_ID`를 이용해 KOSIS OpenAPI를 우선 호출하고, 실패하면 로컬 CSV로 표시합니다.

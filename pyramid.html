@@ -372,6 +372,19 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,[t
 .trend-stat .value{font-size:1rem;font-weight:800}
 .trend-stat .sub{font-size:.68rem;color:var(--t4);margin-top:3px}
 .trend-empty{display:flex;align-items:center;justify-content:center;height:260px;color:var(--t3);font-size:.82rem}
+.trend-year-block{margin-top:16px;border-top:1px solid var(--border);padding-top:14px}
+.trend-year-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:10px}
+.trend-year-head .panel-title{margin-bottom:0}
+.trend-year-caption{font-size:.68rem;color:var(--t4);text-align:right}
+.trend-table-scroll{max-height:320px;overflow:auto;border:1px solid var(--border);border-radius:8px;background:var(--surface)}
+.trend-year-grid{width:100%;border-collapse:separate;border-spacing:0;font-size:.75rem}
+.trend-year-grid th,.trend-year-grid td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;white-space:nowrap}
+.trend-year-grid th:first-child,.trend-year-grid td:first-child{text-align:left}
+.trend-year-grid thead th{position:sticky;top:0;z-index:1;background:#F8FBFF;color:var(--t3);font-size:.68rem;font-weight:800}
+.trend-year-grid tbody th{font-weight:800;color:var(--t2)}
+.trend-year-grid tr.projected{background:#FFF8F8}
+.trend-year-grid .active{color:var(--accent);background:rgba(52,152,219,.08)}
+.trend-year-grid tbody tr:hover{background:var(--bg)}
 @media(max-width:768px){
   .trend-head{flex-direction:column}
   .trend-controls{justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;width:100%;padding-bottom:2px;scrollbar-width:none}
@@ -491,6 +504,13 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,[t
         <div class="trend-note">실선: 관측 · 점선: 추계</div>
       </div>
       <div id="trend-stats" class="trend-stats"></div>
+    </div>
+    <div class="trend-year-block">
+      <div class="trend-year-head">
+        <div class="panel-title">전체 연도 자료</div>
+        <div class="trend-year-caption" id="trend-year-caption">연도별 전체 지표</div>
+      </div>
+      <div id="trend-year-table" class="trend-empty">추세 데이터 로딩 중</div>
     </div>
   </section>
 
@@ -634,6 +654,7 @@ a:focus-visible,button:focus-visible,select:focus-visible,input:focus-visible,[t
 </main>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha384-cxOPjt7s7Iz04uaHJceBmS+qpjv2JkIHNVcuOrM+YHwZOmJGBXI00mdUXEq65HTH" crossorigin="anonymous"></script>
+<script src="assets/trend-table.js"></script>
 <script>
 // ===== STATE =====
 const S = {
@@ -1162,10 +1183,13 @@ function renderTrend() {
   const chart = document.getElementById('trend-chart');
   const stats = document.getElementById('trend-stats');
   const subtitle = document.getElementById('trend-subtitle');
+  const yearTable = document.getElementById('trend-year-table');
+  const yearCaption = document.getElementById('trend-year-caption');
   if (!chart || !stats) return;
   if (!S.trend) {
     chart.innerHTML = '<div class="trend-empty">추세 데이터 로딩 중</div>';
     stats.innerHTML = '';
+    if (yearTable) yearTable.innerHTML = '<div class="trend-empty">추세 데이터 로딩 중</div>';
     return;
   }
 
@@ -1176,6 +1200,7 @@ function renderTrend() {
   if (!years.length || !vals.some(Boolean)) {
     chart.innerHTML = '<div class="trend-empty">표시할 추세 데이터가 없습니다</div>';
     stats.innerHTML = '';
+    if (yearTable) yearTable.innerHTML = '<div class="trend-empty">표시할 연도별 자료가 없습니다</div>';
     return;
   }
 
@@ -1216,6 +1241,8 @@ function renderTrend() {
     <div class="trend-stat"><div class="label">2070</div><div class="value">${esc(formatTrendValue(final.val))}</div><div class="sub">${final.val >= current.val ? '+' : ''}${(((final.val / current.val) - 1) * 100).toFixed(1)}%</div></div>
   `;
   if (subtitle) subtitle.textContent = `${minYear}-${maxYear} | ${S.trend.source || 'KOSIS'} | 2026년 이후는 장래추계`;
+  if (yearCaption) yearCaption.textContent = `${minYear}-${maxYear} 전체 연도 · 관측/추계 구분`;
+  window.TrendYearTable?.renderTrendYearTable(yearTable, { ...S.trend, cutoffYear: 2025 }, metric);
 }
 
 function renderPyramid() {
