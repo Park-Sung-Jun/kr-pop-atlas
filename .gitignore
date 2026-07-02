@@ -3,3 +3,5 @@
 __pycache__/
 shot_*.png
 docs_shots/
+
+.vercel

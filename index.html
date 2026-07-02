@@ -94,6 +94,8 @@ footer li{padding:2px 0}
 .rk ol{margin-left:0}
 .rk li{list-style:none;display:flex;justify-content:space-between;gap:8px;padding:5px 2px;border-bottom:1px dashed var(--line);cursor:pointer;font-size:13px}
 .rk li:hover{background:#F4F6F5}
+.pyrlink{display:inline-block;border:1.5px solid var(--ink);border-radius:8px;padding:5px 12px;font-size:12.5px;font-weight:700;color:var(--ink);text-decoration:none;background:#fff;white-space:nowrap}
+.pyrlink:hover{background:var(--ink);color:#fff}
 #boot{padding:80px 22px;text-align:center;color:var(--soft);font-size:14px}
 #app{display:none}
 </style></head><body>
@@ -103,7 +105,10 @@ footer li{padding:2px 0}
 <div id="app">
 <header><div class="wrap">
   <div class="meta"><span>KOSIS 국가통계포털 · 주민등록인구 기반 자동 산출</span><span id="mGen"></span></div>
-  <div class="masthead">대한민국 인구전망 아틀라스</div>
+  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px">
+    <div class="masthead" style="margin-bottom:0">대한민국 인구전망 아틀라스</div>
+    <a class="pyrlink" id="pyrTop" href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer">🔗 인구피라미드 탐색기 →</a>
+  </div>
   <h1 id="h1"></h1>
 </div></header>
 
@@ -162,7 +167,7 @@ footer li{padding:2px 0}
       <button class="sbtn" data-bs="desc" type="button">증가/선방 순</button>
       <button class="sbtn" data-bs="pop" type="button">인구 큰 순</button>
       <button class="sbtn" data-bs="name" type="button">가나다</button>
-      <span style="margin-left:6px">막대에 올리면 상세, 클릭하면 지도 탭에 고정</span>
+      <span style="margin-left:6px" id="barHint">막대에 올리면 상세, 클릭하면 지도 탭에 고정</span>
     </div>
     <div class="card"><div class="cbox tall" id="barsBox"><div id="bars" style="width:100%;height:100%"></div></div></div>
   </section>
@@ -231,6 +236,12 @@ const tip=$('tip');
 function showTip(h,x,y){tip.innerHTML=h;tip.style.display='block';const w=tip.offsetWidth,ht=tip.offsetHeight;
  let L=x+14,T=y+16;if(L+w>innerWidth-8)L=x-w-14;if(T+ht>innerHeight-8)T=y-ht-16;tip.style.left=L+'px';tip.style.top=T+'px';}
 const hideTip=()=>{tip.style.display='none'};
+/* 툴팁이 화면에 남는 것 방지: 스크롤·차트 밖 이동·터치·탭 전환 시 즉시 숨김 + 강조 해제 */
+const clearHl=()=>{for(const c in REF)hl(c,false)};
+addEventListener('scroll',()=>{hideTip();clearHl()},true);
+document.addEventListener('mousemove',e=>{if(tip.style.display==='block'&&!(e.target.closest&&e.target.closest('svg')))
+ {hideTip();clearHl();}},true);
+document.addEventListener('touchstart',e=>{if(!(e.target.closest&&e.target.closest('svg'))){hideTip();clearHl();}},true);
 
 /* ── 탭 ── */
 $('tabs').addEventListener('click',e=>{const b=e.target.closest('.tbtn');if(!b)return;
@@ -293,6 +304,7 @@ function initRegion(){
  $('thPop').textContent=`${lastY} 인구`;
  $('thChg').textContent=`${lastY}→2031`;
  $('h03').textContent=`${unit()}별 증감률 비교 (${lastY}→2031, 중심 시나리오)`;
+ $('barHint').textContent=D.isNat?'막대에 올리면 상세, 클릭하면 그 시도의 시군구 지도로 이동':'막대에 올리면 상세, 클릭하면 지도 탭에 고정';
  $('h04').textContent=`${unit()} 지도 · 카토그램 — 연도별 시뮬레이션`;
  $('mapGuide').innerHTML=`▶ 재생을 누르면 ${startY}→2031년이 흐르며 지도 색(${startY} 대비 증감)과 카토그램 원 크기(그 해 인구)가 함께 움직입니다. 지도·카토그램 어디에 올려도 <b>같은 지역이 동시에 강조</b>됩니다. `+
   (D.isNat?`지도·카토그램을 <b>클릭하면 그 시도의 시군구 뷰로 들어갑니다.`:`클릭하면 아래에 상세 카드가 고정됩니다.`);
@@ -362,7 +374,7 @@ document.querySelectorAll('[data-qs]').forEach(b=>b.onclick=()=>{
 const BSORT={asc:(a,b)=>a.chg-b.chg,desc:(a,b)=>b.chg-a.chg,pop:(a,b)=>b.pop_last-a.pop_last,name:(a,b)=>a.name.localeCompare(b.name,'ko')};
 document.querySelectorAll('[data-bs]').forEach(b=>b.onclick=()=>{barSort=b.dataset.bs;
  document.querySelectorAll('[data-bs]').forEach(x=>x.classList.toggle('on',x===b));redraw();});
-const rowTip=r=>`<b>${r.name}</b><br>${A.meta.last}년 ${f(r.pop_last)}명 → 2031년 ${f(r.p2031_B)}명 (<b>${r.chg>=0?'+':''}${r.chg.toFixed(1)}%</b>)<br>고령 ${r.old_pct==null?'-':r.old_pct+'%'} · 위험지수 ${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}<br><span class="tt">클릭하면 지도 탭에 상세 고정</span>`;
+const rowTip=r=>`<b>${r.name}</b><br>${A.meta.last}년 ${f(r.pop_last)}명 → 2031년 ${f(r.p2031_B)}명 (<b>${r.chg>=0?'+':''}${r.chg.toFixed(1)}%</b>)<br>고령 ${r.old_pct==null?'-':r.old_pct+'%'} · 위험지수 ${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}<br><span class="tt">${D.isNat?'클릭하면 그 시도의 시군구 지도로 이동':'클릭하면 지도 탭에 상세 고정'}</span>`;
 function barChart(host){
  const rs=[...rowsAll].sort(BSORT[barSort]);
  const W=host.clientWidth||900,H=host.clientHeight||560,m={t:8,r:48,b:26,l:74};
@@ -376,7 +388,7 @@ function barChart(host){
   rect.dataset.s0='none';rect.dataset.w0='0';reg(r.code,rect);
   rect.addEventListener('mousemove',ev=>{showTip(rowTip(r),ev.clientX,ev.clientY);hl(r.code,true)});
   rect.addEventListener('mouseleave',()=>{hideTip();hl(r.code,false)});
-  rect.addEventListener('click',()=>{goTab('t4');pinDetail(r.code)});
+  rect.addEventListener('click',()=>{hideTip();goTab('t4');if(D.isNat)enterSido(r.code);else pinDetail(r.code)});
   svg.appendChild(rect);
   svg.appendChild(el('text',{x:m.l-6,y:yc+4,'text-anchor':'end','font-size':11,fill:ink},r.name));
   svg.appendChild(el('text',{x:r.chg<0?x-4:x+w+4,y:yc+4,'text-anchor':r.chg<0?'end':'start','font-size':10.5,fill:c},r.chg.toFixed(1)+'%'));});
@@ -497,7 +509,7 @@ function pinDetail(code){pinned=code;const r=byCode[code];const dEl=$('detail');
   <span>위험지수 <b>${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}</b> ${G(r.risk_idx)}</span></div>
  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="maps2">
   <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">인구 흐름 ${A.meta.start}→2031 · 점 = 시뮬레이션 연도</div><div id="spark"></div></div>
-  <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">성·연령 피라미드 (막대 = ${r.name} · 검은 선 = ${D.name} 전체, ${A.meta.pyrYear}년)</div><div id="pyr"></div></div></div>
+  <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">성·연령 피라미드 (막대 = ${r.name} · 검은 선 = ${D.name} 전체, ${A.meta.pyrYear}년) <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700;text-decoration:none">읍면동까지 →</a></div><div id="pyr"></div></div></div>
  <div style="font-size:12.5px;margin-top:10px" id="simlist"></div>
  <div style="font-size:12px;margin-top:8px;color:${soft}">읍면동 단위 피라미드·전국 비교는 → <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700">인구피라미드 탐색기</a></div></div>`;
  $('dx').onclick=()=>{pinned=null;sparkFn=null;dEl.innerHTML='';};
@@ -531,7 +543,7 @@ function buildHighlights(){const rs=rowsAll;
 $('t5').addEventListener('click',e=>{const c=e.target.closest('[data-c]');if(c){goTab('t4');pinDetail(c.dataset.c);}});
 
 /* ── 렌더 오케스트레이션 ── */
-function redraw(){if(!D)return;for(const k in REF)delete REF[k];
+function redraw(){if(!D)return;hideTip();for(const k in REF)delete REF[k];
  const F=$('fan');if(F.clientWidth){F.innerHTML='';fanChart(F);
   $('fanlegend').innerHTML=[['실적',ink,0],['A 가속 → '+f(D.fan.endA),red,1],['B 중심 → '+f(D.fan.endB),red,0],['C 완화 → '+f(D.fan.endC),sea,1]]
    .map(([t,c,d])=>`<span style="display:inline-flex;align-items:center;gap:6px"><span style="display:inline-block;width:22px;border-top:${d?'2px dashed':'3px solid'} ${c}"></span>${t}</span>`).join('');}
