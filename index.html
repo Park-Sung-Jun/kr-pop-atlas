@@ -542,8 +542,38 @@ function declineHTML(r){
   <div class="bh">연계 가능한 실제 제도 (매칭 프로필: ${pf.profile.replace(/_/g,' ')})</div>
   <ul class="num">${meas}</ul>
   <p class="dis">${srcLine}. ${DISC}</p></div>`;}
+/* ── 예산·재정 하위섹션 (재정자립도·예산규모·기금 집행률, 출처·연도 병기) ── */
+function budgetHTML(r){
+ if(!DECLINE||!DECLINE.budget)return '';
+ const B=DECLINE.budget,bc=(B.by_code||{})[r.code]||null;
+ let fiLine;
+ if(bc&&bc.fiscal_independence_pct!=null){
+  const yr=bc.fiscal_year||'';
+  const af=bc.fiscal_independence_pct_after_reform!=null?` · 세입과목개편후 <b>${bc.fiscal_independence_pct_after_reform}%</b>`:'';
+  const au=bc.fiscal_autonomy_pct!=null?` · 재정자주도 <b>${bc.fiscal_autonomy_pct}%</b>`:'';
+  const sub=bc.level==='시도단위대체'?` <span style="color:${soft}">(자치구 지표 부재로 소속 시도 값 대체)</span>`:'';
+  fiLine=`재정자립도 <b style="color:${sea}">${bc.fiscal_independence_pct}%</b> (${yr}년 · 세입과목개편전)${af}${au}.${sub}`;
+ }else{
+  fiLine=`재정자립도 <b>자료 없음</b> — 시군구 선택 시 표기됩니다.`;
+ }
+ const budLine=(bc&&bc.budget_total_krw!=null)?`예산총계 <b>${okm(bc.budget_total_krw)}</b>`:`예산총계 <b>자료 없음</b> <span style="color:${soft}">(전 시군구 제공 공개 API 표 부재)</span>`;
+ const fe=(B.fund_exec_national||[]).map(x=>`${x.alloc_year}년 배분 <b>${x.rate_pct}%</b> <span style="color:${soft};font-size:11px">(기준 ${x.asof})</span>`).join(' · ');
+ const indiv=(bc&&bc.fund_exec_pct!=null)?`개별 집행률 <b>${bc.fund_exec_pct}%</b>`:`개별 시군 집행률·사용처는 미공표 — <a href="https://lofin365.go.kr" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700">지방재정365</a>에서 확인`;
+ const bs=B.sources||[];
+ const kosis=bs.find(s=>/재정자립도/.test(s.name))||bs[0];
+ const fund=bs.find(s=>/집행/.test(s.name))||bs[2];
+ const sl=[kosis&&`<a href="${kosis.url}" target="_blank" rel="noreferrer" style="color:${sea}">${kosis.name}(${kosis.org})</a>`,fund&&`<a href="${fund.url}" target="_blank" rel="noreferrer" style="color:${sea}">${fund.name}</a>`].filter(Boolean).join(' · ');
+ return `<div class="brief" style="margin:14px 0 0">
+  <h3>예산·재정 <span class="bd">KOSIS e-지방지표 · 나라살림</span></h3>
+  <p class="num">${fiLine}</p>
+  <p class="num" style="font-size:12.5px;color:${soft}">재정자립도는 인구감소지수 8개 지표 중 하나로, 인구감소지역 지정 판정에도 쓰이는 지표입니다.</p>
+  <p class="num">${budLine}.</p>
+  <div class="bh" style="margin-top:8px">지방소멸대응기금 집행률</div>
+  <p class="num">전국 합계 ${fe||'자료 없음'}.</p>
+  <p class="num" style="font-size:13px">${indiv}.</p>
+  <p class="dis">출처: ${sl||'자료 없음'}. ${DISC}</p></div>`;}
 function renderDeclineSources(){
- if(!DECLINE)return;const S=DECLINE.meta.sources||[];
+ if(!DECLINE)return;const S=(DECLINE.meta.sources||[]).concat((DECLINE.budget&&DECLINE.budget.sources)||[]);
  const li=S.map(s=>`<a href="${s.url}" target="_blank" rel="noreferrer" style="color:${sea}">${s.name}</a> — ${s.org}, ${s.year}`).join(' · ');
  const host=$('declSrc');if(host){host.style.display='block';
   host.innerHTML=`<b style="color:${ink}">인구감소지역·지방소멸대응기금·정책 출처</b><br>${li}<br><span style="color:${soft}">${DECLINE.meta.notes||''}</span>`;}}
@@ -670,6 +700,7 @@ function pinDetail(code){pinned=code;const r=byCode[code];const dEl=$('detail');
   <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">인구 흐름 ${A.meta.start}→2031 · 점 = 시뮬레이션 연도</div><div id="spark"></div></div>
   <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">성·연령 피라미드 (막대 = ${r.name} · 검은 선 = ${D.name} 전체, ${A.meta.pyrYear}년) <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700;text-decoration:none">읍면동까지 →</a></div><div id="pyr"></div></div></div>
  ${declineHTML(r)}
+ ${budgetHTML(r)}
  ${briefHTML(r)}
  <div style="font-size:12.5px;margin-top:10px" id="simlist"></div>
  <div style="font-size:12px;margin-top:8px;color:${soft}">읍면동 단위 피라미드·전국 비교는 → <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700">인구피라미드 탐색기</a></div></div>`;

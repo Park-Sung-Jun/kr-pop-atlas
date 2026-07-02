@@ -795,5 +795,2368 @@
         }
       ]
     }
-  ]
+  ],
+  "budget": {
+    "sources": [
+      {
+        "name": "재정자립도(시도/시/군/구) e-지방지표",
+        "org": "KOSIS·행정안전부",
+        "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "year": 2025,
+        "tbl_id": "DT_1YL20921"
+      },
+      {
+        "name": "재정자주도(시도/시/군/구) e-지방지표",
+        "org": "KOSIS·행정안전부",
+        "url": "https://kosis.kr/openapi/Param/statisticsParameterData.do",
+        "year": 2025,
+        "tbl_id": "DT_1YL20891"
+      },
+      {
+        "name": "지방소멸대응기금 2022~2024 전국 집행 내역(보고서 736)",
+        "org": "나라살림연구소",
+        "url": "https://narasallim.net/report/736",
+        "year": 2025
+      },
+      {
+        "name": "지방소멸대응기금 집행/배분 분석(보고서 546)",
+        "org": "나라살림연구소",
+        "url": "https://www.narasallim.net/report/546",
+        "year": 2023
+      }
+    ],
+    "fund_exec_national": [
+      {
+        "alloc_year": 2022,
+        "rate_pct": 37.57,
+        "asof": "2023-06-30",
+        "source_url": "https://www.narasallim.net/report/546"
+      },
+      {
+        "alloc_year": 2022,
+        "rate_pct": 84.4,
+        "asof": "2024-12-31",
+        "source_url": "https://narasallim.net/report/736"
+      },
+      {
+        "alloc_year": 2023,
+        "rate_pct": 58.7,
+        "asof": "2024-12-31",
+        "source_url": "https://narasallim.net/report/736"
+      },
+      {
+        "alloc_year": 2024,
+        "rate_pct": 42.2,
+        "asof": "2024-12-31",
+        "source_url": "https://narasallim.net/report/736"
+      }
+    ],
+    "by_code": {
+      "11110": {
+        "fiscal_independence_pct": 49.13,
+        "fiscal_independence_pct_after_reform": 39.84,
+        "fiscal_autonomy_pct": 64.29,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11140": {
+        "fiscal_independence_pct": 61.99,
+        "fiscal_independence_pct_after_reform": 55.71,
+        "fiscal_autonomy_pct": 67.14,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11170": {
+        "fiscal_independence_pct": 50.47,
+        "fiscal_independence_pct_after_reform": 37.32,
+        "fiscal_autonomy_pct": 64.3,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11200": {
+        "fiscal_independence_pct": 38.38,
+        "fiscal_independence_pct_after_reform": 32.9,
+        "fiscal_autonomy_pct": 57.47,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11215": {
+        "fiscal_independence_pct": 32.54,
+        "fiscal_independence_pct_after_reform": 23.03,
+        "fiscal_autonomy_pct": 53.87,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11230": {
+        "fiscal_independence_pct": 27.63,
+        "fiscal_independence_pct_after_reform": 20.29,
+        "fiscal_autonomy_pct": 51.48,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11260": {
+        "fiscal_independence_pct": 24.46,
+        "fiscal_independence_pct_after_reform": 15.1,
+        "fiscal_autonomy_pct": 45.22,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11290": {
+        "fiscal_independence_pct": 30.77,
+        "fiscal_independence_pct_after_reform": 17.0,
+        "fiscal_autonomy_pct": 51.95,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11305": {
+        "fiscal_independence_pct": 20.72,
+        "fiscal_independence_pct_after_reform": 15.56,
+        "fiscal_autonomy_pct": 45.69,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11320": {
+        "fiscal_independence_pct": 22.5,
+        "fiscal_independence_pct_after_reform": 16.76,
+        "fiscal_autonomy_pct": 48.94,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11350": {
+        "fiscal_independence_pct": 18.83,
+        "fiscal_independence_pct_after_reform": 16.55,
+        "fiscal_autonomy_pct": 41.73,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11380": {
+        "fiscal_independence_pct": 20.39,
+        "fiscal_independence_pct_after_reform": 15.7,
+        "fiscal_autonomy_pct": 42.21,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11410": {
+        "fiscal_independence_pct": 28.71,
+        "fiscal_independence_pct_after_reform": 21.58,
+        "fiscal_autonomy_pct": 52.14,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11440": {
+        "fiscal_independence_pct": 39.11,
+        "fiscal_independence_pct_after_reform": 29.16,
+        "fiscal_autonomy_pct": 55.55,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11470": {
+        "fiscal_independence_pct": 30.86,
+        "fiscal_independence_pct_after_reform": 23.19,
+        "fiscal_autonomy_pct": 49.76,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11500": {
+        "fiscal_independence_pct": 26.27,
+        "fiscal_independence_pct_after_reform": 19.43,
+        "fiscal_autonomy_pct": 43.05,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11530": {
+        "fiscal_independence_pct": 26.68,
+        "fiscal_independence_pct_after_reform": 19.61,
+        "fiscal_autonomy_pct": 48.46,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11545": {
+        "fiscal_independence_pct": 32.23,
+        "fiscal_independence_pct_after_reform": 21.59,
+        "fiscal_autonomy_pct": 53.61,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11560": {
+        "fiscal_independence_pct": 41.87,
+        "fiscal_independence_pct_after_reform": 34.34,
+        "fiscal_autonomy_pct": 54.45,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11590": {
+        "fiscal_independence_pct": 34.67,
+        "fiscal_independence_pct_after_reform": 28.19,
+        "fiscal_autonomy_pct": 54.84,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11620": {
+        "fiscal_independence_pct": 22.88,
+        "fiscal_independence_pct_after_reform": 17.15,
+        "fiscal_autonomy_pct": 46.34,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11650": {
+        "fiscal_independence_pct": 62.75,
+        "fiscal_independence_pct_after_reform": 52.62,
+        "fiscal_autonomy_pct": 65.13,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11680": {
+        "fiscal_independence_pct": 66.19,
+        "fiscal_independence_pct_after_reform": 54.8,
+        "fiscal_autonomy_pct": 68.02,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11710": {
+        "fiscal_independence_pct": 43.8,
+        "fiscal_independence_pct_after_reform": 32.83,
+        "fiscal_autonomy_pct": 50.29,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "11740": {
+        "fiscal_independence_pct": 30.09,
+        "fiscal_independence_pct_after_reform": 24.89,
+        "fiscal_autonomy_pct": 48.14,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26110": {
+        "fiscal_independence_pct": 25.19,
+        "fiscal_independence_pct_after_reform": 22.63,
+        "fiscal_autonomy_pct": 51.57,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26140": {
+        "fiscal_independence_pct": 20.93,
+        "fiscal_independence_pct_after_reform": 12.41,
+        "fiscal_autonomy_pct": 39.43,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26170": {
+        "fiscal_independence_pct": 19.52,
+        "fiscal_independence_pct_after_reform": 14.75,
+        "fiscal_autonomy_pct": 37.62,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26200": {
+        "fiscal_independence_pct": 15.58,
+        "fiscal_independence_pct_after_reform": 9.49,
+        "fiscal_autonomy_pct": 33.12,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26230": {
+        "fiscal_independence_pct": 22.36,
+        "fiscal_independence_pct_after_reform": 17.7,
+        "fiscal_autonomy_pct": 29.73,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26260": {
+        "fiscal_independence_pct": 23.1,
+        "fiscal_independence_pct_after_reform": 18.07,
+        "fiscal_autonomy_pct": 33.09,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26290": {
+        "fiscal_independence_pct": 25.65,
+        "fiscal_independence_pct_after_reform": 17.07,
+        "fiscal_autonomy_pct": 37.47,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26320": {
+        "fiscal_independence_pct": 12.28,
+        "fiscal_independence_pct_after_reform": 9.88,
+        "fiscal_autonomy_pct": 25.8,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26350": {
+        "fiscal_independence_pct": 27.42,
+        "fiscal_independence_pct_after_reform": 24.88,
+        "fiscal_autonomy_pct": 31.64,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26380": {
+        "fiscal_independence_pct": 17.99,
+        "fiscal_independence_pct_after_reform": 15.07,
+        "fiscal_autonomy_pct": 34.14,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26410": {
+        "fiscal_independence_pct": 19.87,
+        "fiscal_independence_pct_after_reform": 15.63,
+        "fiscal_autonomy_pct": 33.75,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26440": {
+        "fiscal_independence_pct": 45.31,
+        "fiscal_independence_pct_after_reform": 39.58,
+        "fiscal_autonomy_pct": 53.71,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26470": {
+        "fiscal_independence_pct": 21.98,
+        "fiscal_independence_pct_after_reform": 17.5,
+        "fiscal_autonomy_pct": 33.68,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26500": {
+        "fiscal_independence_pct": 22.72,
+        "fiscal_independence_pct_after_reform": 16.33,
+        "fiscal_autonomy_pct": 36.37,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26530": {
+        "fiscal_independence_pct": 20.3,
+        "fiscal_independence_pct_after_reform": 15.97,
+        "fiscal_autonomy_pct": 31.94,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "26710": {
+        "fiscal_independence_pct": 32.22,
+        "fiscal_independence_pct_after_reform": 28.06,
+        "fiscal_autonomy_pct": 56.23,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "27110": {
+        "fiscal_independence_pct": 28.08,
+        "fiscal_independence_pct_after_reform": 25.84,
+        "fiscal_autonomy_pct": 44.06,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "27140": {
+        "fiscal_independence_pct": 17.21,
+        "fiscal_independence_pct_after_reform": 14.38,
+        "fiscal_autonomy_pct": 28.66,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "27170": {
+        "fiscal_independence_pct": 18.09,
+        "fiscal_independence_pct_after_reform": 12.52,
+        "fiscal_autonomy_pct": 33.6,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "27200": {
+        "fiscal_independence_pct": 17.06,
+        "fiscal_independence_pct_after_reform": 10.08,
+        "fiscal_autonomy_pct": 33.13,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "27230": {
+        "fiscal_independence_pct": 20.34,
+        "fiscal_independence_pct_after_reform": 15.96,
+        "fiscal_autonomy_pct": 32.21,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "27260": {
+        "fiscal_independence_pct": 27.08,
+        "fiscal_independence_pct_after_reform": 24.11,
+        "fiscal_autonomy_pct": 35.33,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "27290": {
+        "fiscal_independence_pct": 20.21,
+        "fiscal_independence_pct_after_reform": 18.12,
+        "fiscal_autonomy_pct": 29.8,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "27710": {
+        "fiscal_independence_pct": 35.85,
+        "fiscal_independence_pct_after_reform": 26.95,
+        "fiscal_autonomy_pct": 54.11,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "28110": {
+        "fiscal_independence_pct": 46.25,
+        "fiscal_independence_pct_after_reform": 42.07,
+        "fiscal_autonomy_pct": 52.2,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "28140": {
+        "fiscal_independence_pct": 28.92,
+        "fiscal_independence_pct_after_reform": 12.77,
+        "fiscal_autonomy_pct": 56.55,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "28185": {
+        "fiscal_independence_pct": 35.24,
+        "fiscal_independence_pct_after_reform": 29.9,
+        "fiscal_autonomy_pct": 43.05,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "28200": {
+        "fiscal_independence_pct": 22.67,
+        "fiscal_independence_pct_after_reform": 16.78,
+        "fiscal_autonomy_pct": 34.11,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "28237": {
+        "fiscal_independence_pct": 19.14,
+        "fiscal_independence_pct_after_reform": 15.65,
+        "fiscal_autonomy_pct": 32.11,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "28245": {
+        "fiscal_independence_pct": 19.46,
+        "fiscal_independence_pct_after_reform": 14.58,
+        "fiscal_autonomy_pct": 38.56,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "28260": {
+        "fiscal_independence_pct": 28.63,
+        "fiscal_independence_pct_after_reform": 27.53,
+        "fiscal_autonomy_pct": 35.33,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "28177": {
+        "fiscal_independence_pct": 15.43,
+        "fiscal_independence_pct_after_reform": 13.23,
+        "fiscal_autonomy_pct": 30.55,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "28710": {
+        "fiscal_independence_pct": 15.13,
+        "fiscal_independence_pct_after_reform": 11.96,
+        "fiscal_autonomy_pct": 56.83,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "28720": {
+        "fiscal_independence_pct": 15.49,
+        "fiscal_independence_pct_after_reform": 10.05,
+        "fiscal_autonomy_pct": 55.93,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "29110": {
+        "fiscal_independence_pct": 15.74,
+        "fiscal_independence_pct_after_reform": 14.16,
+        "fiscal_autonomy_pct": 33.87,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "29140": {
+        "fiscal_independence_pct": 21.25,
+        "fiscal_independence_pct_after_reform": 19.63,
+        "fiscal_autonomy_pct": 34.59,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "29155": {
+        "fiscal_independence_pct": 12.87,
+        "fiscal_independence_pct_after_reform": 12.77,
+        "fiscal_autonomy_pct": 29.05,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "29170": {
+        "fiscal_independence_pct": 13.54,
+        "fiscal_independence_pct_after_reform": 12.51,
+        "fiscal_autonomy_pct": 26.94,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "29200": {
+        "fiscal_independence_pct": 22.23,
+        "fiscal_independence_pct_after_reform": 18.54,
+        "fiscal_autonomy_pct": 33.35,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "30110": {
+        "fiscal_independence_pct": 12.6,
+        "fiscal_independence_pct_after_reform": 9.88,
+        "fiscal_autonomy_pct": 27.18,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "30140": {
+        "fiscal_independence_pct": 16.46,
+        "fiscal_independence_pct_after_reform": 12.02,
+        "fiscal_autonomy_pct": 31.3,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "30170": {
+        "fiscal_independence_pct": 19.29,
+        "fiscal_independence_pct_after_reform": 16.28,
+        "fiscal_autonomy_pct": 29.27,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "30200": {
+        "fiscal_independence_pct": 30.69,
+        "fiscal_independence_pct_after_reform": 25.73,
+        "fiscal_autonomy_pct": 36.45,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "30230": {
+        "fiscal_independence_pct": 17.06,
+        "fiscal_independence_pct_after_reform": 13.51,
+        "fiscal_autonomy_pct": 32.84,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "31110": {
+        "fiscal_independence_pct": 19.3,
+        "fiscal_independence_pct_after_reform": 14.59,
+        "fiscal_autonomy_pct": 37.79,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "31140": {
+        "fiscal_independence_pct": 32.14,
+        "fiscal_independence_pct_after_reform": 25.92,
+        "fiscal_autonomy_pct": 42.56,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "31170": {
+        "fiscal_independence_pct": 22.1,
+        "fiscal_independence_pct_after_reform": 16.25,
+        "fiscal_autonomy_pct": 41.14,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "31200": {
+        "fiscal_independence_pct": 26.63,
+        "fiscal_independence_pct_after_reform": 24.31,
+        "fiscal_autonomy_pct": 41.12,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "31710": {
+        "fiscal_independence_pct": 43.06,
+        "fiscal_independence_pct_after_reform": 31.75,
+        "fiscal_autonomy_pct": 65.17,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41110": {
+        "fiscal_independence_pct": 50.4,
+        "fiscal_independence_pct_after_reform": 42.86,
+        "fiscal_autonomy_pct": 60.3,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41130": {
+        "fiscal_independence_pct": 61.97,
+        "fiscal_independence_pct_after_reform": 53.69,
+        "fiscal_autonomy_pct": 68.96,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41150": {
+        "fiscal_independence_pct": 24.45,
+        "fiscal_independence_pct_after_reform": 22.11,
+        "fiscal_autonomy_pct": 48.3,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41170": {
+        "fiscal_independence_pct": 42.0,
+        "fiscal_independence_pct_after_reform": 35.85,
+        "fiscal_autonomy_pct": 57.53,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41190": {
+        "fiscal_independence_pct": 31.48,
+        "fiscal_independence_pct_after_reform": 28.12,
+        "fiscal_autonomy_pct": 51.33,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41210": {
+        "fiscal_independence_pct": 42.78,
+        "fiscal_independence_pct_after_reform": 35.86,
+        "fiscal_autonomy_pct": 64.41,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41220": {
+        "fiscal_independence_pct": 44.58,
+        "fiscal_independence_pct_after_reform": 41.62,
+        "fiscal_autonomy_pct": 58.29,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41250": {
+        "fiscal_independence_pct": 20.28,
+        "fiscal_independence_pct_after_reform": 12.57,
+        "fiscal_autonomy_pct": 56.96,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41270": {
+        "fiscal_independence_pct": 36.26,
+        "fiscal_independence_pct_after_reform": 34.24,
+        "fiscal_autonomy_pct": 58.69,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41280": {
+        "fiscal_independence_pct": 37.12,
+        "fiscal_independence_pct_after_reform": 32.27,
+        "fiscal_autonomy_pct": 55.91,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41290": {
+        "fiscal_independence_pct": 62.59,
+        "fiscal_independence_pct_after_reform": 41.64,
+        "fiscal_autonomy_pct": 80.09,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41310": {
+        "fiscal_independence_pct": 31.87,
+        "fiscal_independence_pct_after_reform": 27.14,
+        "fiscal_autonomy_pct": 61.39,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41360": {
+        "fiscal_independence_pct": 29.95,
+        "fiscal_independence_pct_after_reform": 28.01,
+        "fiscal_autonomy_pct": 53.96,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41370": {
+        "fiscal_independence_pct": 43.86,
+        "fiscal_independence_pct_after_reform": 34.85,
+        "fiscal_autonomy_pct": 64.17,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41390": {
+        "fiscal_independence_pct": 42.19,
+        "fiscal_independence_pct_after_reform": 34.07,
+        "fiscal_autonomy_pct": 57.88,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41410": {
+        "fiscal_independence_pct": 34.12,
+        "fiscal_independence_pct_after_reform": 28.59,
+        "fiscal_autonomy_pct": 58.57,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41430": {
+        "fiscal_independence_pct": 44.9,
+        "fiscal_independence_pct_after_reform": 37.8,
+        "fiscal_autonomy_pct": 64.48,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41450": {
+        "fiscal_independence_pct": 48.83,
+        "fiscal_independence_pct_after_reform": 43.21,
+        "fiscal_autonomy_pct": 59.16,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41460": {
+        "fiscal_independence_pct": 53.87,
+        "fiscal_independence_pct_after_reform": 47.87,
+        "fiscal_autonomy_pct": 63.2,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41480": {
+        "fiscal_independence_pct": 35.32,
+        "fiscal_independence_pct_after_reform": 28.51,
+        "fiscal_autonomy_pct": 57.87,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41500": {
+        "fiscal_independence_pct": 51.3,
+        "fiscal_independence_pct_after_reform": 45.42,
+        "fiscal_autonomy_pct": 63.05,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41550": {
+        "fiscal_independence_pct": 34.36,
+        "fiscal_independence_pct_after_reform": 28.53,
+        "fiscal_autonomy_pct": 63.94,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41570": {
+        "fiscal_independence_pct": 38.21,
+        "fiscal_independence_pct_after_reform": 33.41,
+        "fiscal_autonomy_pct": 57.78,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41590": {
+        "fiscal_independence_pct": 58.46,
+        "fiscal_independence_pct_after_reform": 52.02,
+        "fiscal_autonomy_pct": 65.83,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41610": {
+        "fiscal_independence_pct": 41.59,
+        "fiscal_independence_pct_after_reform": 31.68,
+        "fiscal_autonomy_pct": 61.77,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41630": {
+        "fiscal_independence_pct": 27.96,
+        "fiscal_independence_pct_after_reform": 26.49,
+        "fiscal_autonomy_pct": 55.46,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41650": {
+        "fiscal_independence_pct": 31.91,
+        "fiscal_independence_pct_after_reform": 19.6,
+        "fiscal_autonomy_pct": 65.09,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41670": {
+        "fiscal_independence_pct": 30.22,
+        "fiscal_independence_pct_after_reform": 21.11,
+        "fiscal_autonomy_pct": 67.45,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41800": {
+        "fiscal_independence_pct": 18.47,
+        "fiscal_independence_pct_after_reform": 15.29,
+        "fiscal_autonomy_pct": 68.2,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41820": {
+        "fiscal_independence_pct": 23.02,
+        "fiscal_independence_pct_after_reform": 17.11,
+        "fiscal_autonomy_pct": 63.59,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "41830": {
+        "fiscal_independence_pct": 20.68,
+        "fiscal_independence_pct_after_reform": 17.32,
+        "fiscal_autonomy_pct": 63.31,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51110": {
+        "fiscal_independence_pct": 19.8,
+        "fiscal_independence_pct_after_reform": 18.9,
+        "fiscal_autonomy_pct": 59.06,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51130": {
+        "fiscal_independence_pct": 19.61,
+        "fiscal_independence_pct_after_reform": 18.1,
+        "fiscal_autonomy_pct": 55.79,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51150": {
+        "fiscal_independence_pct": 19.46,
+        "fiscal_independence_pct_after_reform": 17.08,
+        "fiscal_autonomy_pct": 61.19,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51170": {
+        "fiscal_independence_pct": 22.06,
+        "fiscal_independence_pct_after_reform": 17.48,
+        "fiscal_autonomy_pct": 57.73,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51190": {
+        "fiscal_independence_pct": 22.76,
+        "fiscal_independence_pct_after_reform": 15.08,
+        "fiscal_autonomy_pct": 68.88,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51210": {
+        "fiscal_independence_pct": 19.37,
+        "fiscal_independence_pct_after_reform": 17.77,
+        "fiscal_autonomy_pct": 57.27,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51230": {
+        "fiscal_independence_pct": 13.01,
+        "fiscal_independence_pct_after_reform": 13.01,
+        "fiscal_autonomy_pct": 67.72,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51720": {
+        "fiscal_independence_pct": 12.2,
+        "fiscal_independence_pct_after_reform": 12.2,
+        "fiscal_autonomy_pct": 71.25,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51730": {
+        "fiscal_independence_pct": 15.65,
+        "fiscal_independence_pct_after_reform": 11.97,
+        "fiscal_autonomy_pct": 69.57,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51750": {
+        "fiscal_independence_pct": 19.53,
+        "fiscal_independence_pct_after_reform": 13.14,
+        "fiscal_autonomy_pct": 71.13,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51760": {
+        "fiscal_independence_pct": 14.0,
+        "fiscal_independence_pct_after_reform": 12.62,
+        "fiscal_autonomy_pct": 70.6,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51770": {
+        "fiscal_independence_pct": 19.23,
+        "fiscal_independence_pct_after_reform": 14.47,
+        "fiscal_autonomy_pct": 70.5,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51780": {
+        "fiscal_independence_pct": 13.88,
+        "fiscal_independence_pct_after_reform": 10.98,
+        "fiscal_autonomy_pct": 66.99,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51790": {
+        "fiscal_independence_pct": 22.55,
+        "fiscal_independence_pct_after_reform": 8.18,
+        "fiscal_autonomy_pct": 72.93,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51800": {
+        "fiscal_independence_pct": 16.0,
+        "fiscal_independence_pct_after_reform": 8.63,
+        "fiscal_autonomy_pct": 71.14,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51810": {
+        "fiscal_independence_pct": 12.32,
+        "fiscal_independence_pct_after_reform": 8.52,
+        "fiscal_autonomy_pct": 72.03,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51820": {
+        "fiscal_independence_pct": 12.79,
+        "fiscal_independence_pct_after_reform": 10.19,
+        "fiscal_autonomy_pct": 65.54,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "51830": {
+        "fiscal_independence_pct": 16.31,
+        "fiscal_independence_pct_after_reform": 13.72,
+        "fiscal_autonomy_pct": 67.37,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43130": {
+        "fiscal_independence_pct": 22.17,
+        "fiscal_independence_pct_after_reform": 17.32,
+        "fiscal_autonomy_pct": 60.54,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43150": {
+        "fiscal_independence_pct": 19.35,
+        "fiscal_independence_pct_after_reform": 14.05,
+        "fiscal_autonomy_pct": 64.89,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43110": {
+        "fiscal_independence_pct": 32.34,
+        "fiscal_independence_pct_after_reform": 29.08,
+        "fiscal_autonomy_pct": 55.79,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43720": {
+        "fiscal_independence_pct": 16.31,
+        "fiscal_independence_pct_after_reform": 9.87,
+        "fiscal_autonomy_pct": 66.49,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43730": {
+        "fiscal_independence_pct": 14.37,
+        "fiscal_independence_pct_after_reform": 11.16,
+        "fiscal_autonomy_pct": 63.87,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43740": {
+        "fiscal_independence_pct": 15.73,
+        "fiscal_independence_pct_after_reform": 11.8,
+        "fiscal_autonomy_pct": 63.43,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43750": {
+        "fiscal_independence_pct": 32.1,
+        "fiscal_independence_pct_after_reform": 28.64,
+        "fiscal_autonomy_pct": 66.39,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43760": {
+        "fiscal_independence_pct": 12.79,
+        "fiscal_independence_pct_after_reform": 10.65,
+        "fiscal_autonomy_pct": 58.9,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43770": {
+        "fiscal_independence_pct": 26.61,
+        "fiscal_independence_pct_after_reform": 22.11,
+        "fiscal_autonomy_pct": 59.33,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43800": {
+        "fiscal_independence_pct": 18.77,
+        "fiscal_independence_pct_after_reform": 12.29,
+        "fiscal_autonomy_pct": 69.41,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "43745": {
+        "fiscal_independence_pct": 21.43,
+        "fiscal_independence_pct_after_reform": 15.88,
+        "fiscal_autonomy_pct": 61.61,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44130": {
+        "fiscal_independence_pct": 37.95,
+        "fiscal_independence_pct_after_reform": 33.65,
+        "fiscal_autonomy_pct": 60.09,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44150": {
+        "fiscal_independence_pct": 17.46,
+        "fiscal_independence_pct_after_reform": 12.87,
+        "fiscal_autonomy_pct": 62.95,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44180": {
+        "fiscal_independence_pct": 14.8,
+        "fiscal_independence_pct_after_reform": 13.56,
+        "fiscal_autonomy_pct": 59.72,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44200": {
+        "fiscal_independence_pct": 39.69,
+        "fiscal_independence_pct_after_reform": 32.37,
+        "fiscal_autonomy_pct": 60.48,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44210": {
+        "fiscal_independence_pct": 22.63,
+        "fiscal_independence_pct_after_reform": 18.63,
+        "fiscal_autonomy_pct": 61.6,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44230": {
+        "fiscal_independence_pct": 16.73,
+        "fiscal_independence_pct_after_reform": 10.65,
+        "fiscal_autonomy_pct": 60.03,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44250": {
+        "fiscal_independence_pct": 25.93,
+        "fiscal_independence_pct_after_reform": 14.46,
+        "fiscal_autonomy_pct": 69.81,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44270": {
+        "fiscal_independence_pct": 25.28,
+        "fiscal_independence_pct_after_reform": 21.62,
+        "fiscal_autonomy_pct": 59.18,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44710": {
+        "fiscal_independence_pct": 15.29,
+        "fiscal_independence_pct_after_reform": 9.27,
+        "fiscal_autonomy_pct": 56.77,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44760": {
+        "fiscal_independence_pct": 15.49,
+        "fiscal_independence_pct_after_reform": 10.01,
+        "fiscal_autonomy_pct": 58.22,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44770": {
+        "fiscal_independence_pct": 13.22,
+        "fiscal_independence_pct_after_reform": 8.92,
+        "fiscal_autonomy_pct": 53.42,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44790": {
+        "fiscal_independence_pct": 21.55,
+        "fiscal_independence_pct_after_reform": 9.32,
+        "fiscal_autonomy_pct": 62.65,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44800": {
+        "fiscal_independence_pct": 18.46,
+        "fiscal_independence_pct_after_reform": 13.74,
+        "fiscal_autonomy_pct": 58.47,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44810": {
+        "fiscal_independence_pct": 13.73,
+        "fiscal_independence_pct_after_reform": 13.69,
+        "fiscal_autonomy_pct": 53.21,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "44825": {
+        "fiscal_independence_pct": 16.17,
+        "fiscal_independence_pct_after_reform": 12.46,
+        "fiscal_autonomy_pct": 62.54,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52110": {
+        "fiscal_independence_pct": 21.97,
+        "fiscal_independence_pct_after_reform": 21.96,
+        "fiscal_autonomy_pct": 45.89,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52130": {
+        "fiscal_independence_pct": 22.14,
+        "fiscal_independence_pct_after_reform": 17.32,
+        "fiscal_autonomy_pct": 55.04,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52140": {
+        "fiscal_independence_pct": 14.39,
+        "fiscal_independence_pct_after_reform": 14.15,
+        "fiscal_autonomy_pct": 48.22,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52180": {
+        "fiscal_independence_pct": 14.62,
+        "fiscal_independence_pct_after_reform": 9.94,
+        "fiscal_autonomy_pct": 61.03,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52190": {
+        "fiscal_independence_pct": 10.17,
+        "fiscal_independence_pct_after_reform": 8.98,
+        "fiscal_autonomy_pct": 61.57,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52210": {
+        "fiscal_independence_pct": 12.11,
+        "fiscal_independence_pct_after_reform": 9.77,
+        "fiscal_autonomy_pct": 55.94,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52710": {
+        "fiscal_independence_pct": 17.65,
+        "fiscal_independence_pct_after_reform": 16.12,
+        "fiscal_autonomy_pct": 53.03,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52720": {
+        "fiscal_independence_pct": 10.44,
+        "fiscal_independence_pct_after_reform": 6.68,
+        "fiscal_autonomy_pct": 64.48,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52730": {
+        "fiscal_independence_pct": 9.36,
+        "fiscal_independence_pct_after_reform": 8.65,
+        "fiscal_autonomy_pct": 61.98,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52740": {
+        "fiscal_independence_pct": 12.05,
+        "fiscal_independence_pct_after_reform": 7.57,
+        "fiscal_autonomy_pct": 65.5,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52750": {
+        "fiscal_independence_pct": 9.24,
+        "fiscal_independence_pct_after_reform": 8.69,
+        "fiscal_autonomy_pct": 62.31,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52770": {
+        "fiscal_independence_pct": 15.03,
+        "fiscal_independence_pct_after_reform": 8.26,
+        "fiscal_autonomy_pct": 62.1,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52790": {
+        "fiscal_independence_pct": 13.23,
+        "fiscal_independence_pct_after_reform": 9.54,
+        "fiscal_autonomy_pct": 55.51,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "52800": {
+        "fiscal_independence_pct": 17.39,
+        "fiscal_independence_pct_after_reform": 9.61,
+        "fiscal_autonomy_pct": 59.04,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46110": {
+        "fiscal_independence_pct": 20.55,
+        "fiscal_independence_pct_after_reform": 17.37,
+        "fiscal_autonomy_pct": 51.11,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46130": {
+        "fiscal_independence_pct": 28.73,
+        "fiscal_independence_pct_after_reform": 23.78,
+        "fiscal_autonomy_pct": 60.21,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46150": {
+        "fiscal_independence_pct": 22.48,
+        "fiscal_independence_pct_after_reform": 19.48,
+        "fiscal_autonomy_pct": 60.74,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46170": {
+        "fiscal_independence_pct": 16.21,
+        "fiscal_independence_pct_after_reform": 16.21,
+        "fiscal_autonomy_pct": 57.02,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46230": {
+        "fiscal_independence_pct": 28.23,
+        "fiscal_independence_pct_after_reform": 20.9,
+        "fiscal_autonomy_pct": 61.24,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46710": {
+        "fiscal_independence_pct": 14.12,
+        "fiscal_independence_pct_after_reform": 11.3,
+        "fiscal_autonomy_pct": 56.02,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46720": {
+        "fiscal_independence_pct": 13.9,
+        "fiscal_independence_pct_after_reform": 8.89,
+        "fiscal_autonomy_pct": 66.82,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46730": {
+        "fiscal_independence_pct": 9.01,
+        "fiscal_independence_pct_after_reform": 7.66,
+        "fiscal_autonomy_pct": 59.05,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46770": {
+        "fiscal_independence_pct": 11.63,
+        "fiscal_independence_pct_after_reform": 6.36,
+        "fiscal_autonomy_pct": 57.23,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46780": {
+        "fiscal_independence_pct": 14.12,
+        "fiscal_independence_pct_after_reform": 7.37,
+        "fiscal_autonomy_pct": 61.72,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46790": {
+        "fiscal_independence_pct": 13.47,
+        "fiscal_independence_pct_after_reform": 13.47,
+        "fiscal_autonomy_pct": 60.11,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46800": {
+        "fiscal_independence_pct": 10.43,
+        "fiscal_independence_pct_after_reform": 8.51,
+        "fiscal_autonomy_pct": 56.51,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46810": {
+        "fiscal_independence_pct": 10.17,
+        "fiscal_independence_pct_after_reform": 8.47,
+        "fiscal_autonomy_pct": 60.82,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46820": {
+        "fiscal_independence_pct": 12.88,
+        "fiscal_independence_pct_after_reform": 7.82,
+        "fiscal_autonomy_pct": 59.86,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46830": {
+        "fiscal_independence_pct": 15.98,
+        "fiscal_independence_pct_after_reform": 12.08,
+        "fiscal_autonomy_pct": 62.77,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46840": {
+        "fiscal_independence_pct": 14.27,
+        "fiscal_independence_pct_after_reform": 14.27,
+        "fiscal_autonomy_pct": 59.81,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46860": {
+        "fiscal_independence_pct": 12.88,
+        "fiscal_independence_pct_after_reform": 8.54,
+        "fiscal_autonomy_pct": 57.49,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46870": {
+        "fiscal_independence_pct": 12.45,
+        "fiscal_independence_pct_after_reform": 11.93,
+        "fiscal_autonomy_pct": 59.57,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46880": {
+        "fiscal_independence_pct": 21.61,
+        "fiscal_independence_pct_after_reform": 17.63,
+        "fiscal_autonomy_pct": 65.32,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46890": {
+        "fiscal_independence_pct": 7.21,
+        "fiscal_independence_pct_after_reform": 7.21,
+        "fiscal_autonomy_pct": 60.54,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46900": {
+        "fiscal_independence_pct": 21.43,
+        "fiscal_independence_pct_after_reform": 8.68,
+        "fiscal_autonomy_pct": 70.84,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "46910": {
+        "fiscal_independence_pct": 8.17,
+        "fiscal_independence_pct_after_reform": 6.74,
+        "fiscal_autonomy_pct": 64.51,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47110": {
+        "fiscal_independence_pct": 26.0,
+        "fiscal_independence_pct_after_reform": 20.99,
+        "fiscal_autonomy_pct": 55.09,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47130": {
+        "fiscal_independence_pct": 23.83,
+        "fiscal_independence_pct_after_reform": 19.07,
+        "fiscal_autonomy_pct": 59.55,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47150": {
+        "fiscal_independence_pct": 19.28,
+        "fiscal_independence_pct_after_reform": 11.22,
+        "fiscal_autonomy_pct": 64.59,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47170": {
+        "fiscal_independence_pct": 17.42,
+        "fiscal_independence_pct_after_reform": 9.84,
+        "fiscal_autonomy_pct": 64.05,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47190": {
+        "fiscal_independence_pct": 34.1,
+        "fiscal_independence_pct_after_reform": 26.21,
+        "fiscal_autonomy_pct": 62.84,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47210": {
+        "fiscal_independence_pct": 20.62,
+        "fiscal_independence_pct_after_reform": 10.25,
+        "fiscal_autonomy_pct": 66.57,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47230": {
+        "fiscal_independence_pct": 15.35,
+        "fiscal_independence_pct_after_reform": 12.3,
+        "fiscal_autonomy_pct": 63.2,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47250": {
+        "fiscal_independence_pct": 13.9,
+        "fiscal_independence_pct_after_reform": 8.37,
+        "fiscal_autonomy_pct": 64.9,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47280": {
+        "fiscal_independence_pct": 25.74,
+        "fiscal_independence_pct_after_reform": 10.08,
+        "fiscal_autonomy_pct": 73.16,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47290": {
+        "fiscal_independence_pct": 24.54,
+        "fiscal_independence_pct_after_reform": 19.78,
+        "fiscal_autonomy_pct": 57.32,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47730": {
+        "fiscal_independence_pct": 15.98,
+        "fiscal_independence_pct_after_reform": 8.5,
+        "fiscal_autonomy_pct": 62.66,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47750": {
+        "fiscal_independence_pct": 13.3,
+        "fiscal_independence_pct_after_reform": 7.91,
+        "fiscal_autonomy_pct": 70.15,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47760": {
+        "fiscal_independence_pct": 15.44,
+        "fiscal_independence_pct_after_reform": 6.08,
+        "fiscal_autonomy_pct": 72.64,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47770": {
+        "fiscal_independence_pct": 15.93,
+        "fiscal_independence_pct_after_reform": 7.72,
+        "fiscal_autonomy_pct": 63.5,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47820": {
+        "fiscal_independence_pct": 14.72,
+        "fiscal_independence_pct_after_reform": 9.3,
+        "fiscal_autonomy_pct": 64.61,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47830": {
+        "fiscal_independence_pct": 18.07,
+        "fiscal_independence_pct_after_reform": 11.42,
+        "fiscal_autonomy_pct": 60.1,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47840": {
+        "fiscal_independence_pct": 17.19,
+        "fiscal_independence_pct_after_reform": 11.57,
+        "fiscal_autonomy_pct": 62.02,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47850": {
+        "fiscal_independence_pct": 31.04,
+        "fiscal_independence_pct_after_reform": 17.68,
+        "fiscal_autonomy_pct": 64.08,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47900": {
+        "fiscal_independence_pct": 15.35,
+        "fiscal_independence_pct_after_reform": 9.53,
+        "fiscal_autonomy_pct": 61.33,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47920": {
+        "fiscal_independence_pct": 10.89,
+        "fiscal_independence_pct_after_reform": 7.28,
+        "fiscal_autonomy_pct": 71.14,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47930": {
+        "fiscal_independence_pct": 24.52,
+        "fiscal_independence_pct_after_reform": 12.25,
+        "fiscal_autonomy_pct": 66.43,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "47940": {
+        "fiscal_independence_pct": 17.93,
+        "fiscal_independence_pct_after_reform": 14.23,
+        "fiscal_autonomy_pct": 69.68,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48170": {
+        "fiscal_independence_pct": 25.02,
+        "fiscal_independence_pct_after_reform": 19.67,
+        "fiscal_autonomy_pct": 59.44,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48220": {
+        "fiscal_independence_pct": 16.05,
+        "fiscal_independence_pct_after_reform": 13.06,
+        "fiscal_autonomy_pct": 54.32,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48240": {
+        "fiscal_independence_pct": 19.46,
+        "fiscal_independence_pct_after_reform": 15.48,
+        "fiscal_autonomy_pct": 57.19,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48250": {
+        "fiscal_independence_pct": 28.91,
+        "fiscal_independence_pct_after_reform": 27.35,
+        "fiscal_autonomy_pct": 56.82,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48270": {
+        "fiscal_independence_pct": 19.82,
+        "fiscal_independence_pct_after_reform": 12.99,
+        "fiscal_autonomy_pct": 65.47,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48310": {
+        "fiscal_independence_pct": 23.58,
+        "fiscal_independence_pct_after_reform": 16.51,
+        "fiscal_autonomy_pct": 61.02,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48330": {
+        "fiscal_independence_pct": 32.19,
+        "fiscal_independence_pct_after_reform": 28.21,
+        "fiscal_autonomy_pct": 56.9,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48120": {
+        "fiscal_independence_pct": 32.95,
+        "fiscal_independence_pct_after_reform": 31.42,
+        "fiscal_autonomy_pct": 56.83,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48720": {
+        "fiscal_independence_pct": 19.86,
+        "fiscal_independence_pct_after_reform": 8.42,
+        "fiscal_autonomy_pct": 66.32,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48730": {
+        "fiscal_independence_pct": 26.68,
+        "fiscal_independence_pct_after_reform": 16.12,
+        "fiscal_autonomy_pct": 64.75,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48740": {
+        "fiscal_independence_pct": 23.5,
+        "fiscal_independence_pct_after_reform": 13.07,
+        "fiscal_autonomy_pct": 61.84,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48820": {
+        "fiscal_independence_pct": 16.16,
+        "fiscal_independence_pct_after_reform": 10.3,
+        "fiscal_autonomy_pct": 57.51,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48840": {
+        "fiscal_independence_pct": 17.62,
+        "fiscal_independence_pct_after_reform": 10.04,
+        "fiscal_autonomy_pct": 61.46,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48850": {
+        "fiscal_independence_pct": 16.1,
+        "fiscal_independence_pct_after_reform": 9.79,
+        "fiscal_autonomy_pct": 67.46,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48860": {
+        "fiscal_independence_pct": 21.44,
+        "fiscal_independence_pct_after_reform": 10.48,
+        "fiscal_autonomy_pct": 67.68,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48870": {
+        "fiscal_independence_pct": 19.62,
+        "fiscal_independence_pct_after_reform": 10.39,
+        "fiscal_autonomy_pct": 64.79,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48880": {
+        "fiscal_independence_pct": 22.87,
+        "fiscal_independence_pct_after_reform": 8.97,
+        "fiscal_autonomy_pct": 68.68,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "48890": {
+        "fiscal_independence_pct": 11.58,
+        "fiscal_independence_pct_after_reform": 8.06,
+        "fiscal_autonomy_pct": 60.98,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "27720": {
+        "fiscal_independence_pct": 12.22,
+        "fiscal_independence_pct_after_reform": 9.72,
+        "fiscal_autonomy_pct": 68.09,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시군구",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "36110": {
+        "fiscal_independence_pct": 62.65,
+        "fiscal_independence_pct_after_reform": 54.3,
+        "fiscal_autonomy_pct": 70.68,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시도단위대체",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "50110": {
+        "fiscal_independence_pct": 39.51,
+        "fiscal_independence_pct_after_reform": 33.07,
+        "fiscal_autonomy_pct": 70.82,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시도단위대체",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      },
+      "50130": {
+        "fiscal_independence_pct": 39.51,
+        "fiscal_independence_pct_after_reform": 33.07,
+        "fiscal_autonomy_pct": 70.82,
+        "fiscal_year": 2025,
+        "budget_total_krw": null,
+        "fund_exec_pct": null,
+        "level": "시도단위대체",
+        "src": "https://kosis.kr/openapi/Param/statisticsParameterData.do"
+      }
+    },
+    "coverage": {
+      "fiscal_independence_codes": 229,
+      "budget_total_codes": 0,
+      "fiscal_year_latest": 2025,
+      "fiscal_year_range": [
+        2022,
+        2025
+      ],
+      "sido_level_substitutes": [
+        "36110",
+        "50110",
+        "50130"
+      ]
+    },
+    "notes": "재정자립도·재정자주도는 KOSIS e-지방지표(orgId=101, DT_1YL20921/DT_1YL20891)에서 전 시군구를 수집해 atlas 이름매칭으로 매핑했습니다. fiscal_independence_pct 는 세입과목개편전(T10) 기준이며 개편후(T20)는 별도 필드로 병기했습니다. 세종·제주시·서귀포시는 자치구 단위 지표가 없어 해당 시도 단위 값으로 대체(level=시도단위대체)했습니다. 지자체 예산규모(총계)는 전 시군구를 제공하는 공개 API 표가 없어 budget_total_krw 는 미공표(null)입니다. 지방소멸대응기금 개별 시군 집행률도 공개 API 부재로 by_code 는 null이며, 전국 합계 집행률만 fund_exec_national 에 배분연도·기준일을 병기해 등재했습니다. 기금은 229개 전 시군에 배분되지 않으며(광역계정+인구감소·관심지역 대상), 광역이 기초로 재이전하거나 위탁·출자 시 실집행과 무관하게 집행률이 100%로 잡히는 착시가 있습니다."
+  }
 }
