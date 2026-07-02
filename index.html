@@ -15,6 +15,8 @@ header{border-bottom:3px solid var(--ink);padding:40px 0 20px;background:var(--c
 .masthead{font-size:13px;font-weight:800;letter-spacing:.18em;color:var(--red);margin-bottom:6px}
 h1{font-size:clamp(22px,4.2vw,34px);font-weight:800;line-height:1.32;letter-spacing:-.03em;word-break:keep-all}
 h1 .a{color:var(--red)}
+.h1sub{margin-top:10px;font-size:14.5px;color:var(--soft);word-break:keep-all;line-height:1.65}
+.h1sub b{color:var(--ink)}.h1sub b.rd{color:var(--red)}.h1sub b.se{color:var(--sea)}
 /* 지역 선택 바 */
 .regbar{background:var(--card);border-bottom:1.5px solid var(--ink);padding:10px 0}
 .regbar .wrap{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
@@ -94,6 +96,15 @@ footer li{padding:2px 0}
 .rk ol{margin-left:0}
 .rk li{list-style:none;display:flex;justify-content:space-between;gap:8px;padding:5px 2px;border-bottom:1px dashed var(--line);cursor:pointer;font-size:13px}
 .rk li:hover{background:#F4F6F5}
+.brief{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--sea);border-radius:10px;padding:16px 18px 12px;margin:16px 0}
+.brief h3{font-size:14px;font-weight:800;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.brief h3 .bd{font-size:10.5px;font-weight:700;color:var(--soft);letter-spacing:.08em}
+.brief p{font-size:13.5px;margin-bottom:8px}
+.brief ul{margin:2px 0 10px;padding:0}
+.brief li{list-style:none;font-size:13px;padding:4px 0 4px 15px;position:relative;word-break:keep-all;line-height:1.6}
+.brief li::before{content:'';position:absolute;left:0;top:12px;width:6px;height:6px;background:var(--sea);border-radius:1px}
+.brief .bh{font-size:12px;font-weight:800;color:var(--soft);letter-spacing:.06em;margin-bottom:2px}
+.brief .dis{font-size:11.5px;color:var(--soft);border-top:1px dashed var(--line);padding-top:8px;margin-top:4px;margin-bottom:2px}
 .pyrlink{display:inline-block;border:1.5px solid var(--ink);border-radius:8px;padding:5px 12px;font-size:12.5px;font-weight:700;color:var(--ink);text-decoration:none;background:#fff;white-space:nowrap}
 .pyrlink:hover{background:var(--ink);color:#fff}
 #boot{padding:80px 22px;text-align:center;color:var(--soft);font-size:14px}
@@ -110,6 +121,7 @@ footer li{padding:2px 0}
     <a class="pyrlink" id="pyrTop" href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer">🔗 인구피라미드 탐색기 →</a>
   </div>
   <h1 id="h1"></h1>
+  <p class="h1sub num" id="h1sub"></p>
 </div></header>
 
 <div class="regbar"><div class="wrap" id="regbar"></div></div>
@@ -117,8 +129,8 @@ footer li{padding:2px 0}
 <div class="keyline"><div class="wrap">
   <div class="kpi"><small id="k1t"></small><strong class="num" id="k1v"></strong><span id="k1s"></span></div>
   <div class="kpi"><small>2031 전망 (중심)</small><strong class="num" id="k2v"></strong><span id="k2s"></span></div>
-  <div class="kpi"><small id="k3t">소멸위험 지역</small><strong class="num" id="k3v"></strong><span>위험지수 0.5 미만</span></div>
-  <div class="kpi"><small>고령비중 최고</small><strong class="num" id="k4v"></strong><span id="k4s"></span></div>
+  <div class="kpi"><small id="k3t"></small><strong class="num" id="k3v"></strong><span id="k3s"></span></div>
+  <div class="kpi"><small id="k4t"></small><strong class="num" id="k4v"></strong><span id="k4s"></span></div>
 </div></div>
 
 <main class="wrap">
@@ -136,6 +148,7 @@ footer li{padding:2px 0}
       <div class="src" id="fanSrc"></div>
       <div class="cbox"><div id="fan" style="width:100%;height:100%"></div></div>
       <div id="fanlegend" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:12px;color:var(--soft);margin-top:8px"></div></div>
+    <div class="brief" id="regBrief"></div>
     <p class="note" id="note1"></p>
   </section>
 
@@ -281,20 +294,29 @@ function initRegion(){
  SIM=D.sim;YRS=SIM.years;yi=SIM.actualN-1;
  simTot0=0;rowsAll.forEach(r=>simTot0+=SIM.byCode[r.code][0]);
  const M=A.meta,lastY=M.last,startY=M.start;
- const decl=rowsAll.filter(r=>r.chg<0).length;
- const risk=rowsAll.filter(r=>r.risk_idx!=null&&r.risk_idx<0.5).length;
- const oldTop=[...rowsAll].filter(r=>r.old_pct!=null).sort((a,b)=>b.old_pct-a.old_pct)[0];
- const nm=D.isNat?'전국 17개 시도':`${D.fullName||D.name} ${rowsAll.length}개 시·군·구`;
- $('h1').innerHTML=`${nm} 중 <span class="a num">${decl}곳</span>이<br>2031년까지 인구 감소 — ${unit()}별 정밀 전망`;
+ /* 헤드라인·KPI는 항상 시군구 단위로 집계 (전국 뷰 = 전 시도 시군구 합산) */
+ let sgg;
+ if(D.isNat){sgg=[];A.sido.forEach(s=>s.rows.forEach(r=>sgg.push({...r,chg:(r.p2031_B-r.pop_last)/r.pop_last*100})));}
+ else sgg=rowsAll;
+ const sggTot=sgg.length,sggDecl=sgg.filter(r=>r.chg<0).length,sggRisk=sgg.filter(r=>r.risk_idx!=null&&r.risk_idx<0.5).length;
+ const hNm=D.isNat?'대한민국':(D.fullName||D.name);
+ const totChg=(D.fan.endB/D.fan.actual[SIM.actualN-1]-1)*100;
+ $('h1').innerHTML=sggDecl>0
+  ?`${hNm} ${sggTot}개 시군구 중 <span class="a num">${sggDecl}곳</span>,<br>2031년까지 인구가 줄어듭니다`
+  :`${hNm} ${sggTot}개 시군구,<br>2031년까지 인구가 유지·증가할 전망입니다`;
+ $('h1sub').innerHTML=`소멸위험(지수 0.5 미만) <b class="rd">${sggRisk}곳</b> · 2031년 ${D.name} <b>${f(D.fan.endB)}만 명</b>(<b class="${totChg<0?'rd':'se'}">${totChg>=0?'+':''}${totChg.toFixed(1)}%</b>) — 중심 시나리오 기준`;
  $('mGen').textContent='생성 '+M.generated;
- $('k1t').textContent=`${D.name} 합계 (${lastY} 실적)`;
+ $('k1t').textContent=`${D.name} 인구 (${lastY} 실적)`;
  $('k1v').textContent=D.fan.actual[SIM.actualN-1].toLocaleString('ko-KR')+'만 명';
- $('k1s').textContent=D.isNat?'시군구 합산, 주민등록 기준':'시군구 합산, 주민등록 기준';
+ $('k1s').textContent='시군구 합산, 주민등록 기준';
  $('k2v').textContent=D.fan.endB.toLocaleString('ko-KR')+'만 명';
  $('k2s').textContent=`범위 ${D.fan.endA.toLocaleString('ko-KR')}~${D.fan.endC.toLocaleString('ko-KR')}만`;
- $('k3v').textContent=`${risk} / ${rowsAll.length}곳`;
- $('k4v').textContent=oldTop?oldTop.old_pct+'%':'자료 없음';
- $('k4s').textContent=oldTop?oldTop.name:'';
+ $('k3t').textContent='감소 시군구';
+ $('k3v').textContent=`${sggDecl} / ${sggTot}곳`;
+ $('k3s').textContent='2031년까지 인구 감소 (중심)';
+ $('k4t').textContent='소멸위험 시군구';
+ $('k4v').textContent=`${sggRisk}곳`;
+ $('k4s').textContent='위험지수 0.5 미만';
  $('h01').textContent=`${D.name} 전체 궤적 — 실적과 2031 시나리오`;
  $('fanTitle').textContent=`${D.name}(시군구 합산) 주민등록인구: 실적 ${startY}~${lastY} + 전망`;
  $('fanSrc').textContent=`단위: 만 명 · 실적 = KOSIS 주민등록인구 · 전망 = ${unit()}별 시나리오 합산 (A 최근3년 페이스 / B 최근5년 페이스 / C 완화) · 그래프에 마우스를 올리면 연도별 값이 보입니다`;
@@ -323,6 +345,7 @@ function initRegion(){
  const yrEl=$('yr');yrEl.max=YRS.length-1;yrEl.value=yi;
  const pk=$('pick');
  pk.innerHTML=`<option value="">${unit()} 바로가기…</option>`+[...rowsAll].sort((a,b)=>a.name.localeCompare(b.name,'ko')).map(r=>`<option value="${r.code}">${r.name}</option>`).join('');
+ buildRegionBrief();
  buildHighlights();
  redraw();
  window.scrollTo({top:0});
@@ -461,6 +484,75 @@ $('play').addEventListener('click',()=>{const b=$('play');
  playing=setInterval(()=>{yi++;update();if(yi>=YRS.length-1){clearInterval(playing);playing=null;b.textContent='▶ 재생';}},620);});
 $('pick').addEventListener('change',()=>{const v=$('pick').value;if(v)pinDetail(v)});
 
+/* ── 담당자 해석·정책 제안 (모든 문장을 해당 지역 실측 지표에서 규칙 기반 생성 · 근거 수치 괄호 병기) ── */
+const DISC='공표 통계 기반 자동 생성 참고자료로, 개별 정책 결정의 단독 근거로 사용할 수 없습니다.';
+const fmtPop=v=>v>=100000?(v/10000).toFixed(1)+'만 명':f(v)+'명';
+const fmtChg=v=>(v>=0?'+':'')+v.toFixed(1)+'%';
+function briefFor(r){
+ const cagr=r.cagr5*100,chg=r.chg,cagrS=(cagr>=0?'+':'')+cagr.toFixed(2)+'%';
+ const oldS=r.old_pct!=null?r.old_pct+'%':null,riskS=r.risk_idx!=null?r.risk_idx.toFixed(2):null;
+ /* 진단 1~2문장 */
+ const trend=cagr<-0.05?`연평균 ${cagrS}로 감소 중이며`:cagr>0.05?`연평균 ${cagrS}로 증가 중이며`:`연평균 ${cagrS}로 정체 상태이며`;
+ let diag=`${trend} 2031년 ${fmtPop(r.p2031_B)} 전망(${fmtChg(chg)})입니다.`;
+ if(oldS&&riskS){
+  const ph=r.risk_idx<0.2?'구조적 축소 국면':r.risk_idx<0.5?'소멸위험 진입 구간':r.risk_idx<1?'축소 압력이 있는 주의 구간':'비교적 안정적인 연령 구조';
+  diag+=` 고령비중 ${oldS}·소멸위험지수 ${riskS}로 ${ph}입니다.`;
+ }else diag+=' 연령 구조 지표는 자료가 없어 진단에서 제외했습니다.';
+ /* 정책 제안: 프로필 규칙 */
+ const bl=[],isCity=/시$/.test(r.name);
+ if(r.risk_idx!=null&&r.risk_idx<0.2){
+  bl.push(`축소 적응 전략 — 생활서비스 거점화와 빈집·유휴시설 활용 재배치 (소멸위험지수 ${riskS}, 고위험 구간)`);
+  bl.push(`관계인구·생활인구 유치 프로그램 상설화 (2031년 ${fmtPop(r.p2031_B)} 전망, ${fmtChg(chg)})`);
+  bl.push(`광역 연계를 통한 의료·교통 접근성 보전 (고령비중 ${oldS||'자료 없음'})`);
+ }else if(r.risk_idx!=null&&r.risk_idx<0.5&&chg<0){
+  bl.push(`20~39세 여성 정착 패키지 — 일자리 다변화+주거+보육 결합 (소멸위험지수 ${riskS}, 연평균 ${cagrS})`);
+  bl.push(`청년 귀향·귀촌 정착 지원 확대 (2031년 전망 ${fmtChg(chg)})`);
+ }
+ if(isCity&&chg<-5){
+  bl.push(`원도심 압축·거점화 — 행정·상업 기능 재집중 (2031년 전망 ${fmtChg(chg)})`);
+  bl.push(`산업단지 고용의 정주 전환 — 통근 유입을 거주 전입으로 (${A.meta.last}년 인구 ${fmtPop(r.pop_last)})`);
+  bl.push(`대학·병원 등 앵커기관 연계 정주 여건 강화 (연평균 ${cagrS})`);
+ }
+ if(chg>=-1){
+  bl.push(`유입 수요 관리와 기반시설 선제 투자 (2031년 전망 ${fmtChg(chg)})`);
+  bl.push(oldS?`고령화 대비 전환 설계 — 주택·복지 인프라 재배치 (고령비중 ${oldS})`
+   :`고령화 대비 전환 설계 — 주택·복지 인프라 재배치 (2031년 ${fmtPop(r.p2031_B)} 전망)`);
+ }
+ /* 공통 조건부 */
+ if(r.old_pct!=null&&r.old_pct>35)bl.push(`수요응답형 교통·통합돌봄 도입 (고령비중 ${oldS})`);
+ if(r.young_pct!=null&&r.young_pct<8)bl.push(`소규모학교 공동교육과정 운영 (유소년비중 ${r.young_pct}%)`);
+ /* 최소 3개 보장 (모두 실측 수치 인용) */
+ const fb=[
+  `연 단위 인구 모니터링과 전망 재산정 정례화 (연평균 ${cagrS}, 2031년 ${fmtPop(r.p2031_B)} 전망)`,
+  `생활인구·통근 유입 기반 서비스 수요 재산정 (2031년 전망 ${fmtChg(chg)})`,
+  `주거·일자리 연계 정착 지원 정비 (${A.meta.last}년 인구 ${fmtPop(r.pop_last)})`];
+ while(bl.length<3&&fb.length)bl.push(fb.shift());
+ return{diag,bullets:bl.slice(0,4)};
+}
+function briefHTML(r){const b=briefFor(r);
+ return`<div class="brief" style="margin:14px 0 0"><h3>담당자 해석 · 정책 제안 <span class="bd">지표 규칙 기반 자동 생성</span></h3>
+ <p class="num">${b.diag}</p><div class="bh">정책 제안</div><ul class="num">${b.bullets.map(x=>`<li>${x}</li>`).join('')}</ul>
+ <p class="dis">${DISC}</p></div>`;}
+function buildRegionBrief(){
+ const u=unit(),total=rowsAll.length;
+ const decl=rowsAll.filter(r=>r.chg<0).length;
+ const risk=rowsAll.filter(r=>r.risk_idx!=null&&r.risk_idx<0.5).length;
+ const so=[...rowsAll].sort((a,b)=>a.chg-b.chg),worst=so[0],best=so[so.length-1];
+ const nm=D.isNat?'전국':(D.fullName||D.name);
+ let s=`${nm} 기준 ${u} ${total}곳 중 ${decl}곳이 2031년까지 감소 전망이며, 소멸위험(지수 0.5 미만) ${u}는 ${risk}곳입니다.`;
+ if(total>1){s+=` 감소율이 가장 큰 곳은 ${worst.name}(${fmtChg(worst.chg)}), 가장 완만한 곳은 ${best.name}(${fmtChg(best.chg)})로 격차가 ${(best.chg-worst.chg).toFixed(1)}%p입니다.`;
+  s+=decl/total>=0.8?' 권역 전반이 축소 국면이므로 총량 성장보다 기능 재배치·거점화가 우선입니다.'
+   :decl>0?' 감소·유지 지역이 혼재해 선택과 집중형 투자가 필요합니다.'
+   :' 전 지역이 유지·증가 국면으로 수요 관리형 대응이 필요합니다.';}
+ else s+=` 단일 ${u} 권역으로, ${worst.name}의 2031년 전망은 ${fmtChg(worst.chg)}입니다.`;
+ const bl=[`거점–네트워크 공간 구조 정비 — 중심지 기능 집약과 연결 교통 확충 (감소 전망 ${decl}/${total}곳)`];
+ if(total>1)bl.push(`${u} 간 기능 분담 — 의료·교육·문화 시설의 중복 투자 방지 (${worst.name} ${fmtChg(worst.chg)} ~ ${best.name} ${fmtChg(best.chg)})`);
+ if(risk>0)bl.push(`소멸위험 ${u} 우선 투자 — 생활서비스 최소기준 보장 (위험지수 0.5 미만 ${risk}곳)`);
+ $('regBrief').innerHTML=`<h3>담당자 해석 · 정책 제안 — ${nm} <span class="bd">지표 규칙 기반 자동 생성</span></h3>
+ <p class="num">${s}</p><div class="bh">${D.isNat?'전국·광역 차원 제안':'도(광역) 차원 제안'}</div>
+ <ul class="num">${bl.map(x=>`<li>${x}</li>`).join('')}</ul><p class="dis">${DISC}</p>`;
+}
+
 /* ── 상세 카드: 스파크라인 + 성·연령 피라미드 + 유사 지역 ── */
 const vec=c=>{const p=D.pyr[c];const t=p.m.reduce((a,b)=>a+b,0)+p.f.reduce((a,b)=>a+b,0);return p.m.concat(p.f).map(v=>v/t)};
 const cos=(a,b)=>{let s=0,na=0,nb=0;for(let i=0;i<a.length;i++){s+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i];}return s/Math.sqrt(na*nb)};
@@ -510,6 +602,7 @@ function pinDetail(code){pinned=code;const r=byCode[code];const dEl=$('detail');
  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="maps2">
   <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">인구 흐름 ${A.meta.start}→2031 · 점 = 시뮬레이션 연도</div><div id="spark"></div></div>
   <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">성·연령 피라미드 (막대 = ${r.name} · 검은 선 = ${D.name} 전체, ${A.meta.pyrYear}년) <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700;text-decoration:none">읍면동까지 →</a></div><div id="pyr"></div></div></div>
+ ${briefHTML(r)}
  <div style="font-size:12.5px;margin-top:10px" id="simlist"></div>
  <div style="font-size:12px;margin-top:8px;color:${soft}">읍면동 단위 피라미드·전국 비교는 → <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700">인구피라미드 탐색기</a></div></div>`;
  $('dx').onclick=()=>{pinned=null;sparkFn=null;dEl.innerHTML='';};
