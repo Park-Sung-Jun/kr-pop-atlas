@@ -1,0 +1,23 @@
+{
+  "version": "20251231",
+  "source": "admdongkor",
+  "sourceUrl": "https://raw.githubusercontent.com/vuski/admdongkor/master/parquet/simplified",
+  "files": {
+    "sido": {
+      "filename": "sido_20251231_light.geojson",
+      "featureCount": 17,
+      "sourceParquet": "sido_20251231_light.parquet"
+    },
+    "sgg": {
+      "filename": "sgg_20251231_light.geojson",
+      "featureCount": 252,
+      "sourceParquet": "sgg_20251231_light.parquet"
+    },
+    "emd": {
+      "filename": "emd_20251231_light.geojson",
+      "featureCount": 3557,
+      "sourceParquet": "emd_20251231_light.parquet"
+    }
+  },
+  "note": "Local administrative boundary GeoJSON files used by pyramid.html before falling back to the CDN."
+}

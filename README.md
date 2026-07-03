@@ -37,6 +37,7 @@ python build_data.py --key 발급키 --end 2025
 
 - `data/atlas.json` — `{meta, national, sido:[...]}` 단일 컴팩트 JSON (~1.2MB)
 - `data/atlas.js` — 동일 데이터의 `window.ATLAS` 래퍼 (file:// 폴백용)
+- `data/boundaries/*.geojson` — `pyramid.html` 지도용 로컬 행정구역 경계 JSON
 
 ### 데이터 출처·산출 방법
 
@@ -49,6 +50,8 @@ python build_data.py --key 발급키 --end 2025
 - 행정구역 개편은 코드 승계로 시계열을 연결(강원 42→51, 전북 45→52, 군위군 47720→27720,
   인천 미추홀구 28170→28177). 시 산하 일반구·출장소는 모(母)시로 통합. 값이 없으면 "자료 없음"으로 표기.
 - 경계: 전국 시군구 GeoJSON(좌표 4자리 반올림, 시도별 분할 수록)
+- 피라미드 지도 경계: `data/boundaries/sido_20251231_light.geojson`, `sgg_20251231_light.geojson`,
+  `emd_20251231_light.geojson`을 먼저 사용합니다. `emd` 파일이 법정동/읍면동 단위 경계 JSON입니다.
 
 ## GitHub Pages 배포
 
@@ -66,5 +69,6 @@ git push -u origin main
 - `index.html`: 대한민국 인구전망 아틀라스
 - `pyramid.html`: 전국 시도·시군구·읍면동 인구피라미드 탐색기와 전체 제공 연도별 장기 추세 표
 - `robots.txt`, `noai` 메타, 사람 확인 게이트, 복사·우클릭 억제 스크립트를 포함합니다.
+- `pyramid.html` 지도는 로컬 `data/boundaries` 경계 JSON을 우선 사용하고, 실패 시 외부 `admdongkor` 경계 데이터로 폴백합니다.
 - CAPTCHA를 쓰려면 배포 환경에 `CAPTCHA_PROVIDER=turnstile|recaptcha`, `CAPTCHA_SITE_KEY`, 필요 시 `CAPTCHA_VERIFY_ENDPOINT`를 설정합니다.
 - 장기 인구 추세는 `api/kosis-trend.js`가 `KOSIS_API_KEY`, `KOSIS_TREND_USER_STATS_ID`를 이용해 KOSIS OpenAPI를 우선 호출하고, 실패하면 로컬 CSV로 표시합니다.

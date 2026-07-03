@@ -4,7 +4,7 @@
 
 - 저장소: `Park-Sung-Jun/kr-pop-atlas`
 - 브랜치: `codex/pop-pyramid-version`
-- 최신 커밋: `822aa75 feat: show full-year trend table`
+- 최신 커밋: 작업 폴더에서 `git log --oneline -1`로 확인
 - PR: https://github.com/Park-Sung-Jun/kr-pop-atlas/pull/1
 - 새 버전 링크: https://krpopatlas-pop-pyramid.vercel.app
 
@@ -17,6 +17,7 @@
 - 장기 인구 추세 패널 추가
 - 장기 추세 아래에 1925~2070 전체 연도 표 추가
 - KOSIS 공식 API 우선 호출용 Vercel 함수 `api/kosis-trend.js` 추가
+- 지도용 행정구역 경계 JSON 로컬 포함(`data/boundaries`)
 
 ## 공유 폴더 구성
 
@@ -75,6 +76,10 @@ git checkout codex/pop-pyramid-version
 - `data/atlas.json`: 아틀라스용 시도/시군구 전망 데이터
 - `data/atlas.js`: `file://` 폴백 데이터
 - `data/pop_202512.json`: 피라미드 탐색기용 시도/시군구/읍면동 성·연령 데이터
+- `data/boundaries/sido_20251231_light.geojson`: 시도 경계 JSON
+- `data/boundaries/sgg_20251231_light.geojson`: 시군구 경계 JSON
+- `data/boundaries/emd_20251231_light.geojson`: 법정동/읍면동 단위 경계 JSON
+- `data/boundaries/manifest.json`: 경계 기준일·출처·개수 요약
 - `인구1925-2070.csv`: 장기 인구 추세 로컬 폴백 데이터
 
 ## KOSIS API 설정

@@ -1679,7 +1679,7 @@ function afterMultiSelectionChange() {
     } else {
       buildAggregateRegion();
       renderAll();
-      if (adk) renderMap();
+      if (map) renderMap();
     }
   }
 }
@@ -1729,7 +1729,7 @@ function toggleMultiView() {
     const restore = _prevSelectedBeforeMulti || '00';
     _prevSelectedBeforeMulti = null;
     selectRegion(restore);
-    if (adk) renderMap();
+    if (map) renderMap();
   } else {
     if (S.selection.size === 0) return;
     buildAggregateRegion();
@@ -1738,7 +1738,7 @@ function toggleMultiView() {
     btn.classList.add('active');
     btn.textContent = '단일 뷰로 복귀';
     selectRegion(MULTI_CODE);
-    if (adk) renderMap();
+    if (map) renderMap();
   }
 }
 
@@ -1959,7 +1959,7 @@ function navigateToRegion(code) {
   else if (len === 2) { mapLevel = 'sgg'; mapParent = code; }
   else if (len === 5) { mapLevel = 'emd'; mapParent = code; }
   else if (len === 10) { mapLevel = 'emd'; mapParent = code.slice(0, 5); }
-  if (adk) renderMap();
+  if (map) renderMap();
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -2053,6 +2053,44 @@ let mapTileLayer = null;
 let mapPalette = 'gray-red';
 let mapClassify = 'quantile';
 
+const LOCAL_BOUNDARY_VERSION = '20251231';
+const LOCAL_BOUNDARY_BASE = 'data/boundaries';
+const LOCAL_BOUNDARY_FILES = {
+  sido: 'sido_20251231_light.geojson',
+  sgg: 'sgg_20251231_light.geojson',
+  emd: 'emd_20251231_light.geojson'
+};
+
+async function loadAdkFallback() {
+  if (adk) return;
+  try {
+    const ADK_URL = 'https://esm.sh/admdongkor@0.2.0';
+    const timeout = (ms) => new Promise((_, rej) => setTimeout(() => rej(new Error('admdongkor 로드 시간 초과')), ms));
+    adk = await Promise.race([import(ADK_URL), timeout(7000)]);
+  } catch (e) {
+    console.warn('admdongkor fallback unavailable:', e);
+  }
+}
+
+async function fetchLocalBoundary(level) {
+  const file = LOCAL_BOUNDARY_FILES[level];
+  if (!file) throw new Error(`지원하지 않는 경계 레벨: ${level}`);
+  const res = await fetch(`${LOCAL_BOUNDARY_BASE}/${file}`, { cache: 'force-cache' });
+  if (!res.ok) throw new Error(`로컬 경계 데이터 로드 실패: ${file} (${res.status})`);
+  return res.json();
+}
+
+async function getBoundaryGeoJson(level) {
+  try {
+    return await fetchLocalBoundary(level);
+  } catch (localError) {
+    console.warn('local boundary unavailable, trying admdongkor:', localError);
+    await loadAdkFallback();
+    if (adk) return adk.get(adkVersion, level);
+    throw localError;
+  }
+}
+
 const PALETTES = {
   'gray-red':    ['#e8e8e8','#e0c8c0','#d8a098','#d07868','#c85040','#b82818','#900000'],
   'gray-orange': ['#e8e8e8','#e0d0b8','#d8b888','#d09850','#c87820','#e08800','#ff9e00'],
@@ -2137,19 +2175,15 @@ async function initMap() {
     maxZoom: 18, attribution: '&copy; OSM &copy; CARTO'
   }).addTo(map);
 
+  adkVersion = LOCAL_BOUNDARY_VERSION;
   try {
-    // Pinned version + timeout so a slow/unreachable CDN fails fast instead of hanging the map indefinitely.
-    const ADK_URL = 'https://esm.sh/admdongkor@0.2.0';
-    const timeout = (ms) => new Promise((_, rej) => setTimeout(() => rej(new Error('admdongkor 로드 시간 초과')), ms));
-    adk = await Promise.race([import(ADK_URL), timeout(15000)]);
-    const vers = adk.versions(2025);
-    adkVersion = vers[vers.length - 1] || '20250401';
     await renderMap();
   } catch (e) {
-    console.error('admdongkor load failed:', e);
+    console.error('boundary data load failed:', e);
     const sub = document.getElementById('map-subtitle');
-    if (sub) sub.textContent = '지도 데이터 로드 실패 — 네트워크를 확인하거나 새로고침 해보세요';
+    if (sub) sub.textContent = '지도 경계 데이터 로드 실패 — data/boundaries 파일을 확인해 주세요';
   }
+  loadAdkFallback();
 
   let _expandTimer = null;
   map.on('moveend', () => {
@@ -2166,7 +2200,7 @@ async function expandEmdToView() {
   if (!fc) return;
   const sggCacheKey = `${adkVersion}_sgg`;
   let sggFc = mapGeoCache[sggCacheKey];
-  if (!sggFc) { sggFc = await adk.get(adkVersion, 'sgg'); mapGeoCache[sggCacheKey] = sggFc; }
+  if (!sggFc) { sggFc = await getBoundaryGeoJson('sgg'); mapGeoCache[sggCacheKey] = sggFc; }
   _ensureSggBBoxes(sggFc);
 
   const b = map.getBounds();
@@ -2273,7 +2307,7 @@ function computeFeatureStyle(f, scale) {
 
 let _renderMapToken = 0;
 async function renderMap() {
-  if (!adk || !map) return;
+  if (!adkVersion || !map) return;
   const token = ++_renderMapToken;
   const aborted = () => token !== _renderMapToken;
 
@@ -2284,9 +2318,14 @@ async function renderMap() {
   } else {
     setMapLoading(true);
     try {
-      fc = await adk.get(adkVersion, mapLevel);
+      fc = await getBoundaryGeoJson(mapLevel);
       if (aborted()) return;
       mapGeoCache[cacheKey] = fc;
+    } catch (e) {
+      console.error('boundary data load failed:', e);
+      const sub = document.getElementById('map-subtitle');
+      if (sub) sub.textContent = '지도 경계 데이터 로드 실패 — data/boundaries 파일을 확인해 주세요';
+      return;
     } finally {
       setMapLoading(false);
     }
@@ -2302,7 +2341,7 @@ async function renderMap() {
       if (!_sggNeighborCache[mapParent]) {
         const sggCacheKey = `${adkVersion}_sgg`;
         let sggFc = mapGeoCache[sggCacheKey];
-        if (!sggFc) { sggFc = await adk.get(adkVersion, 'sgg'); if (aborted()) return; mapGeoCache[sggCacheKey] = sggFc; }
+        if (!sggFc) { sggFc = await getBoundaryGeoJson('sgg'); if (aborted()) return; mapGeoCache[sggCacheKey] = sggFc; }
         _ensureSggBBoxes(sggFc);
       }
       const allowed = _computeNeighborsFor(mapParent);
@@ -2391,7 +2430,7 @@ async function renderMap() {
   if (mapLevel === 'emd' && mapParent) {
     const sggCacheKey = `${adkVersion}_sgg`;
     let sggFc = mapGeoCache[sggCacheKey];
-    if (!sggFc) { sggFc = await adk.get(adkVersion, 'sgg'); if (aborted()) return; mapGeoCache[sggCacheKey] = sggFc; }
+    if (!sggFc) { sggFc = await getBoundaryGeoJson('sgg'); if (aborted()) return; mapGeoCache[sggCacheKey] = sggFc; }
     window._sggBorderLayer = L.geoJSON({ type: 'FeatureCollection', features: sggFc.features }, {
       interactive: false,
       style(f) {
@@ -2409,7 +2448,7 @@ async function renderMap() {
   } else if (mapLevel === 'sgg' && mapParent) {
     const sidoCacheKey = `${adkVersion}_sido`;
     let sidoFc = mapGeoCache[sidoCacheKey];
-    if (!sidoFc) { sidoFc = await adk.get(adkVersion, 'sido'); if (aborted()) return; mapGeoCache[sidoCacheKey] = sidoFc; }
+    if (!sidoFc) { sidoFc = await getBoundaryGeoJson('sido'); if (aborted()) return; mapGeoCache[sidoCacheKey] = sidoFc; }
     window._sggBorderLayer = L.geoJSON({ type: 'FeatureCollection', features: sidoFc.features }, {
       interactive: false,
       style(f) {
