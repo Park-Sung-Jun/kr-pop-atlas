@@ -157,6 +157,7 @@ footer li{padding:2px 0}
     <button class="tbtn" data-t="t3" type="button">③ 비교</button>
     <button class="tbtn" data-t="t2" type="button">④ 전망표</button>
     <button class="tbtn" data-t="t5" type="button">⑤ 하이라이트</button>
+    <button class="tbtn" data-t="t6" type="button">⑥ 예산·재정</button>
   </nav>
 
   <section class="pane active" id="t1">
@@ -238,6 +239,29 @@ footer li{padding:2px 0}
     <div class="hlgrid" id="hlgrid"></div>
     <div class="ranks" id="ranks"></div>
   </section>
+
+  <section class="pane" id="t6">
+    <div class="ch" style="margin-top:28px"><em>06</em><h2 id="h06"></h2></div>
+    <p id="budGuide"></p>
+    <div class="hlgrid" id="budKpi"></div>
+    <div class="card"><h3>재정자립도 × 주민 1인당 세출</h3>
+      <div class="src" id="budScatSrc"></div>
+      <div class="cbox" id="budScatBox"><div id="budScat" style="width:100%;height:100%"></div></div>
+      <div class="leg" id="budLeg" style="gap:14px"></div></div>
+    <div class="sortbar"><span>빠른 정렬</span>
+      <button class="sbtn on" data-us="fi:asc" type="button">자립도 낮은 순</button>
+      <button class="sbtn" data-us="fi:desc" type="button">자립도 높은 순</button>
+      <button class="sbtn" data-us="pc:desc" type="button">1인당 세출 높은 순</button>
+      <button class="sbtn" data-us="bud:desc" type="button">예산 큰 순</button>
+      <button class="sbtn" data-us="name:asc" type="button">가나다</button>
+      <span style="margin-left:6px">행을 클릭하면 해당 지역 상세로 이동합니다</span>
+    </div>
+    <div class="tbl-scroll"><table class="num">
+      <thead><tr><th>지역</th><th>시도</th><th>재정자립도</th><th>재정자주도</th><th>예산현액</th><th>결산세출</th><th>1인당 세출</th><th>인구감소지역</th></tr></thead>
+      <tbody id="budTb"></tbody></table></div>
+    <div class="brief" id="budFund" style="display:none"></div>
+    <p class="note" id="budNote"></p>
+  </section>
 </main>
 <div id="tip"></div>
 
@@ -251,7 +275,7 @@ footer li{padding:2px 0}
   </ul>
   <p class="note" style="margin-top:12px" id="ftNote"></p>
   <p class="note" id="declSrc" style="margin-top:8px;display:none"></p>
-  <p class="note" style="margin-top:8px">대한민국 인구전망 아틀라스 v1.1.0</p>
+  <p class="note" style="margin-top:8px">대한민국 인구전망 아틀라스 v1.2.0</p>
 </div></footer>
 </div>
 
@@ -384,6 +408,7 @@ function initRegion(){
  pk.innerHTML=`<option value="">${unit()} 바로가기…</option>`+[...rowsAll].sort((a,b)=>a.name.localeCompare(b.name,'ko')).map(r=>`<option value="${r.code}">${r.name}</option>`).join('');
  buildRegionBrief();
  buildHighlights();
+ buildBudget();
  redraw();
  window.scrollTo({top:0});
 }
@@ -883,6 +908,97 @@ function initCompare(){
  drawCompare();
 }
 
+/* ── 06 예산·재정 페이지 (decline.json budget 결합, 지역 컨텍스트 연동) ── */
+let budRows=[],budSort='fi:asc';
+const W100=v=>v==null?'-':(v>=10000?(v/10000).toFixed(v>=100000?0:1).replace(/\.0$/,'')+'조원':v.toLocaleString('ko-KR')+'억원');
+function budgetRows(){
+ if(!DECLINE||!DECLINE.budget||!A||!D)return [];
+ const bc=DECLINE.budget.by_code||{},out=[];
+ const push=(r,sd,sc)=>{const b=bc[r.code];if(!b)return;
+  out.push({code:r.code,name:r.name,sido:sd,sidoCode:sc,pop:r.pop_last,risk:r.risk_idx,
+   fi:b.fiscal_independence_pct,fa:b.fiscal_autonomy_pct,bud:b.budget_final_100m,
+   exp:b.expenditure_settled_100m,pc:b.expenditure_per_capita_manwon,
+   fy:b.fiscal_year,sy:b.settle_year,lvl:b.level,desig:decCode(r.code)});};
+ if(D.isNat)A.sido.forEach(s=>s.rows.forEach(r=>push(r,s.short,s.code)));
+ else{const s=A.sido.find(x=>x.code===D.key);rowsAll.forEach(r=>push(r,D.name,s?s.code:D.key));}
+ return out;}
+const budSorters={
+ 'fi:asc':(a,b)=>(a.fi??1e18)-(b.fi??1e18),'fi:desc':(a,b)=>(b.fi??-1e18)-(a.fi??-1e18),
+ 'pc:desc':(a,b)=>(b.pc??-1e18)-(a.pc??-1e18),'bud:desc':(a,b)=>(b.bud??-1e18)-(a.bud??-1e18),
+ 'name:asc':(a,b)=>a.name.localeCompare(b.name,'ko')};
+function budGoto(row){if(D.isNat)selectRegion(row.sidoCode);goTab('t4');pinDetail(row.code);}
+function budTable(){
+ const rs=[...budRows].sort(budSorters[budSort]||budSorters['fi:asc']);
+ $('budTb').innerHTML=rs.map((r,i)=>`<tr data-bi="${i}" style="cursor:pointer">
+  <td><b>${r.name}</b></td><td>${r.sido}</td>
+  <td>${r.fi==null?'-':r.fi+'%'}</td><td>${r.fa==null?'-':r.fa+'%'}</td>
+  <td>${W100(r.bud)}</td><td>${W100(r.exp)}</td>
+  <td>${r.pc==null?'-':`<b style="color:${red}">${r.pc.toLocaleString('ko-KR')}</b>만원`}</td>
+  <td>${desigTag(r.desig)}</td></tr>`).join('');
+ $('budTb').querySelectorAll('tr').forEach(tr=>tr.onclick=()=>budGoto(rs[+tr.dataset.bi]));}
+function budScatter(host){
+ const rs=budRows.filter(r=>r.fi!=null&&r.pc!=null);if(!rs.length){host.innerHTML='';return;}
+ const W=host.clientWidth||900,H=host.clientHeight||340,m={t:28,r:16,b:36,l:64};
+ const iw=W-m.l-m.r,ih=H-m.t-m.b;
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:'100%',preserveAspectRatio:'xMidYMid meet'});
+ const xmax=Math.max(...rs.map(r=>r.fi))*1.08,ymax=Math.max(...rs.map(r=>r.pc))*1.08;
+ const X=v=>m.l+v/xmax*iw,Y=v=>m.t+ih-v/ymax*ih;
+ for(let t=0;t<=4;t++){const yv=ymax*t/4,y=Y(yv);
+  svg.appendChild(el('line',{x1:m.l,y1:y,x2:m.l+iw,y2:y,stroke:line,'stroke-width':1}));
+  svg.appendChild(el('text',{x:m.l-7,y:y+4,'text-anchor':'end','font-size':11,fill:soft},Math.round(yv).toLocaleString('ko-KR')));}
+ for(let t=0;t<=5;t++){const xv=xmax*t/5,x=X(xv);
+  svg.appendChild(el('text',{x,y:H-16,'text-anchor':'middle','font-size':11,fill:soft},Math.round(xv)+'%'));}
+ svg.appendChild(el('text',{x:m.l+iw/2,y:H-2,'text-anchor':'middle','font-size':11,fill:soft},'재정자립도 (%)'));
+ svg.appendChild(el('text',{x:m.l-7,y:m.t-10,'text-anchor':'end','font-size':10,fill:soft},'만원/인'));
+ const maxPop=Math.max(...rs.map(r=>r.pop)),rk=Math.min(iw,ih)*0.045/Math.sqrt(maxPop);
+ [...rs].sort((a,b)=>b.pop-a.pop).forEach(r=>{
+  const col=r.desig&&r.desig.designated?red:r.desig?'#C98A2B':sea;
+  const c=el('circle',{cx:X(r.fi),cy:Y(r.pc),r:Math.max(3,rk*Math.sqrt(r.pop)),fill:col,opacity:.55,stroke:'#fff','stroke-width':.8,cursor:'pointer'});
+  c.dataset.s0='#fff';c.dataset.w0='.8';reg(r.code,c);
+  c.addEventListener('mousemove',ev=>{showTip(`<b>${r.sido} ${r.name}</b><br>재정자립도 <b>${r.fi}%</b> · 1인당 세출 <b>${r.pc.toLocaleString('ko-KR')}만원</b><br>예산현액 ${W100(r.bud)} · 인구 ${f(r.pop)}명<br><span class="tt">클릭하면 상세로 이동</span>`,ev.clientX,ev.clientY);hl(r.code,true);});
+  c.addEventListener('mouseleave',()=>{hideTip();hl(r.code,false)});
+  c.addEventListener('click',()=>{hideTip();budGoto(r)});
+  svg.appendChild(c);});
+ host.appendChild(svg);}
+function buildBudget(){
+ if(!$('budTb'))return;
+ if(!DECLINE||!DECLINE.budget){$('budGuide').textContent='재정 데이터를 불러오는 중입니다…';return;}
+ budRows=budgetRows();
+ const B=DECLINE.budget,rs=budRows;
+ const nm=D.isNat?'전국':(D.fullName||D.name);
+ $('h06').textContent=`${nm} 시군구 예산·재정`;
+ const fyS=[...new Set(rs.map(r=>r.fy).filter(Boolean))].join('·'),syS=[...new Set(rs.map(r=>r.sy).filter(Boolean))].join('·');
+ $('budGuide').innerHTML=`${nm} ${rs.length}개 시군구의 <b>재정자립도(${fyS}년)</b>와 <b>예산현액·결산세출·주민 1인당 세출(${syS}년 결산)</b>을 한 화면에서 봅니다. 재정자립도가 낮고 1인당 세출이 큰 지역일수록 자체 세입보다 이전재원 의존이 큰 구조입니다.`;
+ $('budScatSrc').textContent='x = 재정자립도(%, 세입과목개편전) · y = 주민 1인당 세출(만원) · 원 면적 = 주민등록 인구 · 색 = 인구감소지역 지정 여부 · 점을 클릭하면 해당 지역 상세로 이동';
+ $('budLeg').innerHTML=`<span style="display:inline-flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:50%;background:${red};opacity:.7;display:inline-block"></span>인구감소지역</span>
+  <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:50%;background:#C98A2B;opacity:.7;display:inline-block"></span>관심지역</span>
+  <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:50%;background:${sea};opacity:.7;display:inline-block"></span>미지정</span>`;
+ /* KPI 카드 */
+ const has=k=>rs.filter(r=>r[k]!=null);
+ const loFi=[...has('fi')].sort((a,b)=>a.fi-b.fi)[0],hiFi=[...has('fi')].sort((a,b)=>b.fi-a.fi)[0];
+ const hiPc=[...has('pc')].sort((a,b)=>b.pc-a.pc)[0];
+ const totBud=rs.reduce((s,r)=>s+(r.bud||0),0);
+ const kpi=[
+  loFi&&['재정자립도 최저',`${loFi.sido} ${loFi.name}`,loFi.fi+'%',loFi],
+  hiFi&&['재정자립도 최고',`${hiFi.sido} ${hiFi.name}`,hiFi.fi+'%',hiFi],
+  hiPc&&['1인당 세출 최고',`${hiPc.sido} ${hiPc.name}`,hiPc.pc.toLocaleString('ko-KR')+'만원',hiPc],
+  totBud>0&&['예산현액 합계',`${nm} ${rs.filter(r=>r.bud!=null).length}곳`,W100(totBud),null],
+ ].filter(Boolean);
+ $('budKpi').innerHTML=kpi.map(([t,n,v,r],i)=>`<div class="hlcard" ${r?`data-bk="${i}"`:''} style="${r?'':'cursor:default'}"><small>${t}</small><b>${n}</b><div class="v num">${v}</div></div>`).join('');
+ $('budKpi').querySelectorAll('[data-bk]').forEach(d=>d.onclick=()=>{const k=kpi[+d.dataset.bk][3];if(k)budGoto(k);});
+ /* 기금 집행률 요약 */
+ const fe=(B.fund_exec_national||[]).map(x=>`<li>${x.alloc_year}년 배분분 집행률 <b>${x.rate_pct}%</b> (기준 ${x.asof})${x.source_url?` <a href="${x.source_url}" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700;text-decoration:none">[출처]</a>`:''}</li>`).join('');
+ const bf=$('budFund');bf.style.display='block';
+ bf.innerHTML=`<h3>지방소멸대응기금 집행률 (전국 합계) <span class="bd">개별 시군 집행률·사용처는 미공표</span></h3>
+  <ul class="num">${fe||'<li>자료 없음</li>'}</ul>
+  <p class="dis">개별 지자체 배분액·성과등급·사용처는 <a href="https://lofin365.go.kr" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700">지방재정365</a>에서 확인. ${DISC}</p>`;
+ const bs=B.sources||[];
+ $('budNote').innerHTML=`자치구 3곳은 자치구 단위 결산 지표 부재로 소속 시도 값을 대체 표기하며, 값이 없는 항목은 '-'로 표시합니다. 예산현액과 결산세출은 이월·추경 등 기준이 달라 단순 집행률로 비교하지 않습니다. 출처: ${bs.map(s=>`<a href="${s.url}" target="_blank" rel="noreferrer" style="color:${sea}">${s.name}</a>(${s.org}, ${s.year})`).join(' · ')}`;
+ budSort='fi:asc';document.querySelectorAll('[data-us]').forEach((x,i)=>x.classList.toggle('on',i===0));
+ budTable();}
+document.querySelectorAll('[data-us]').forEach(b=>b.onclick=()=>{budSort=b.dataset.us;
+ document.querySelectorAll('[data-us]').forEach(x=>x.classList.toggle('on',x===b));budTable();});
+
 /* ── 렌더 오케스트레이션 ── */
 function redraw(){if(!D)return;hideTip();for(const k in REF)delete REF[k];
  const F=$('fan');if(F.clientWidth){F.innerHTML='';fanChart(F);
@@ -890,7 +1006,8 @@ function redraw(){if(!D)return;hideTip();for(const k in REF)delete REF[k];
    .map(([t,c,d])=>`<span style="display:inline-flex;align-items:center;gap:6px"><span style="display:inline-block;width:22px;border-top:${d?'2px dashed':'3px solid'} ${c}"></span>${t}</span>`).join('');}
  const B=$('bars');if(B.clientWidth){B.innerHTML='';barChart(B);}
  if(D.geo){const M=$('map');
-  if(M.clientWidth){drawMap(M);drawCarto($('carto'));update();}}}
+  if(M.clientWidth){drawMap(M);drawCarto($('carto'));update();}}
+ const SC=$('budScat');if(SC&&SC.clientWidth&&budRows.length){SC.innerHTML='';budScatter(SC);}}
 window.addEventListener('resize',()=>{clearTimeout(window._rt);window._rt=setTimeout(redraw,160);});
 
 /* ── 부트스트랩 ── */
@@ -911,7 +1028,7 @@ fetch('data/decline.json')
  .then(r=>r.ok?r.json():null)
  .then(j=>{if(!j||!j.designation)return;DECLINE=j;renderDeclineSources();
   if(D){buildRegionBrief();if(pinned)pinDetail(pinned);}
-  if(A)try{drawCompare()}catch(e){}})
+  if(A)try{drawCompare();buildBudget();redraw();}catch(e){}})
  .catch(()=>{});
 fetch('data/atlas.json')
  .then(r=>{if(!r.ok)throw new Error();return r.json()})
