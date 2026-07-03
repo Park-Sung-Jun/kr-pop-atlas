@@ -115,6 +115,14 @@ footer li{padding:2px 0}
 .brief .dis{font-size:11.5px;color:var(--soft);border-top:1px dashed var(--line);padding-top:8px;margin-top:4px;margin-bottom:2px}
 .pyrlink{display:inline-block;border:1.5px solid var(--ink);border-radius:8px;padding:5px 12px;font-size:12.5px;font-weight:700;color:var(--ink);text-decoration:none;background:#fff;white-space:nowrap}
 .pyrlink:hover{background:var(--ink);color:#fff}
+.srchwrap{position:relative;margin-top:8px}
+#srch{width:100%;max-width:340px;border:1.5px solid var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-size:13.5px;background:#fff}
+#srch::placeholder{color:var(--soft)}
+.srchdrop{position:absolute;z-index:60;top:calc(100% + 4px);left:22px;width:calc(100% - 44px);max-width:340px;background:#fff;border:1.5px solid var(--ink);border-radius:8px;max-height:320px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.14);display:none}
+.srchdrop .it{padding:8px 12px;font-size:13px;cursor:pointer;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.srchdrop .it:hover,.srchdrop .it.sel{background:#EDF0EF}
+.srchdrop .it small{color:var(--soft);font-size:11px;white-space:nowrap}
+.cmpsel{border:1px solid var(--line);border-radius:8px;padding:6px 9px;font:inherit;font-size:13px;background:#fff;max-width:44%}
 #boot{padding:80px 22px;text-align:center;color:var(--soft);font-size:14px}
 #app{display:none}
 </style></head><body>
@@ -132,7 +140,8 @@ footer li{padding:2px 0}
   <p class="h1sub num" id="h1sub"></p>
 </div></header>
 
-<div class="regbar"><div class="wrap" id="regbar"></div></div>
+<div class="regbar"><div class="wrap" id="regbar"></div>
+<div class="wrap srchwrap"><input id="srch" type="search" placeholder="🔍 시군구 검색 — 예: 안동, 경북 안동시" autocomplete="off" aria-label="전국 시도·시군구 검색"><div class="srchdrop" id="srchDrop"></div></div></div>
 
 <div class="keyline"><div class="wrap">
   <div class="kpi"><small id="k1t"></small><strong class="num" id="k1v"></strong><span id="k1s"></span></div>
@@ -191,6 +200,16 @@ footer li{padding:2px 0}
       <span style="margin-left:6px" id="barHint">막대에 올리면 상세, 클릭하면 지도 탭에 고정</span>
     </div>
     <div class="card"><div class="cbox tall" id="barsBox"><div id="bars" style="width:100%;height:100%"></div></div></div>
+    <div class="ch" style="margin-top:40px"><em>03·2</em><h2>두 지역 나란히 비교</h2></div>
+    <p>전국 어느 시도·시군구든 두 곳을 골라 인구 추이·2031 전망·연령구조·재정 지표를 나란히 비교합니다.</p>
+    <div class="card">
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:4px">
+        <select id="cmpA" class="cmpsel" aria-label="비교 지역 A"></select>
+        <button id="cmpSwap" type="button" title="좌우 바꾸기" style="border:1px solid var(--line);background:#fff;border-radius:8px;padding:5px 10px;font:inherit;font-size:13px;cursor:pointer">⇄</button>
+        <select id="cmpB" class="cmpsel" aria-label="비교 지역 B"></select>
+      </div>
+      <div id="cmpOut"></div>
+    </div>
   </section>
 
   <section class="pane" id="t4">
@@ -232,7 +251,7 @@ footer li{padding:2px 0}
   </ul>
   <p class="note" style="margin-top:12px" id="ftNote"></p>
   <p class="note" id="declSrc" style="margin-top:8px;display:none"></p>
-  <p class="note" style="margin-top:8px">대한민국 인구전망 아틀라스 v1.0.0</p>
+  <p class="note" style="margin-top:8px">대한민국 인구전망 아틀라스 v1.1.0</p>
 </div></footer>
 </div>
 
@@ -763,6 +782,107 @@ function buildHighlights(){const rs=rowsAll;
 }
 $('t5').addEventListener('click',e=>{const c=e.target.closest('[data-c]');if(c){goTab('t4');pinDetail(c.dataset.c);}});
 
+/* ── 시군구 통합 검색 (전 지역 자동완성) ── */
+let SIDX=[];
+function buildSearch(){
+ SIDX=[{code:'KR',name:'전국',sub:'',type:'nat'}];
+ A.sido.forEach(s=>{SIDX.push({code:s.code,name:s.name,short:s.short,sub:'시도',type:'sido'});
+  s.rows.forEach(r=>SIDX.push({code:r.code,name:r.name,sub:s.short,type:'sgg',sidoCode:s.code}));});
+ const inp=$('srch'),drop=$('srchDrop');let sel=-1,cur=[];
+ const close=()=>{drop.style.display='none';sel=-1;};
+ const go=it=>{close();inp.value='';inp.blur();
+  if(it.type==='sgg'){selectRegion(it.sidoCode);goTab('t4');pinDetail(it.code);}
+  else selectRegion(it.code);};
+ const render=()=>{drop.innerHTML=cur.map((it,i)=>`<div class="it${i===sel?' sel':''}" data-i="${i}"><span><b>${it.name}</b></span><small>${it.sub}</small></div>`).join('');
+  drop.style.display=cur.length?'block':'none';};
+ inp.addEventListener('input',()=>{const q=inp.value.trim().replace(/\s+/g,'');
+  if(!q){close();return;}
+  cur=SIDX.filter(it=>it.name.replace(/\s+/g,'').includes(q)||((it.sub||'')+it.name).replace(/\s+/g,'').includes(q)||(it.short&&it.short.includes(q))).slice(0,12);
+  sel=cur.length?0:-1;render();});
+ inp.addEventListener('keydown',e=>{
+  if(drop.style.display!=='block')return;
+  if(e.key==='ArrowDown'){sel=Math.min(cur.length-1,sel+1);render();e.preventDefault();}
+  else if(e.key==='ArrowUp'){sel=Math.max(0,sel-1);render();e.preventDefault();}
+  else if(e.key==='Enter'){if(sel>=0)go(cur[sel]);e.preventDefault();}
+  else if(e.key==='Escape')close();});
+ drop.addEventListener('mousedown',e=>{const d=e.target.closest('.it');if(d){e.preventDefault();go(cur[+d.dataset.i]);}});
+ inp.addEventListener('blur',()=>setTimeout(close,150));
+}
+
+/* ── 두 지역 나란히 비교 ── */
+function cmpFind(code){
+ if(!code||code==='KR')return null;
+ for(const s of A.sido){
+  if(s.code===code){const r=A.national.rows.find(x=>x.code===code);
+   return r?{r,label:s.name,sim:A.national.sim,pyr:A.national.pyr[code]}:null;}
+  const r=s.rows.find(x=>x.code===code);
+  if(r)return{r,label:`${s.short} ${r.name}`,sim:s.sim,pyr:s.pyr[code]};}
+ return null;}
+function cmpSpark(host,sim,code){const s=sim.byCode[code];if(!s){host.innerHTML='';return;}
+ const W=host.clientWidth||420,H=110,m={t:14,b:14,l:6,r:6};
+ const lo=Math.min(...s),hi=Math.max(...s);
+ const X=i=>m.l+i*(W-m.l-m.r)/(s.length-1),Y=v=>m.t+(H-m.t-m.b)*(1-(v-lo)/((hi-lo)||1));
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H});
+ let d1='',d2='';s.forEach((v,i)=>{const seg=X(i)+' '+Y(v);if(i<sim.actualN)d1+=(d1?'L':'M')+seg;if(i>=sim.actualN-1)d2+=(d2?'L':'M')+seg;});
+ svg.appendChild(el('path',{d:d1,fill:'none',stroke:ink,'stroke-width':2}));
+ svg.appendChild(el('path',{d:d2,fill:'none',stroke:red,'stroke-width':2,'stroke-dasharray':'4 3'}));
+ svg.appendChild(el('text',{x:X(0),y:H-2,'font-size':9,fill:soft},sim.years[0]));
+ svg.appendChild(el('text',{x:X(s.length-1),y:H-2,'text-anchor':'end','font-size':9,fill:soft},'2031'));
+ host.innerHTML='';host.appendChild(svg);}
+function cmpPyr(host,p){if(!p){host.innerHTML=`<div style="color:${soft};font-size:12px">연령 자료 없음</div>`;return;}
+ const W=host.clientWidth||420,H=180,m={t:6,b:16,l:30,r:6},n=p.ages.length,ih=H-m.t-m.b,bh=ih/n;
+ const tt=p.m.reduce((x,y)=>x+y,0)+p.f.reduce((x,y)=>x+y,0);
+ const sh=i=>[p.m[i]/tt*100,p.f[i]/tt*100];
+ let mx=0;for(let i=0;i<n;i++)sh(i).forEach(v=>mx=Math.max(mx,v));
+ const cx=m.l+(W-m.l-m.r)/2,half=(W-m.l-m.r)/2-4,S=v=>v/mx*half;
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H});
+ for(let i=0;i<n;i++){const y=m.t+ih-(i+1)*bh,[sm,sf]=sh(i);
+  svg.appendChild(el('rect',{x:cx-S(sm),y:y+1,width:S(sm),height:Math.max(bh-2,1),fill:sea,opacity:.85}));
+  svg.appendChild(el('rect',{x:cx,y:y+1,width:S(sf),height:Math.max(bh-2,1),fill:red,opacity:.8}));
+  if(p.ages[i]%20==0)svg.appendChild(el('text',{x:m.l-4,y:y+bh,'text-anchor':'end','font-size':9,fill:soft},p.ages[i]));}
+ svg.appendChild(el('text',{x:cx-half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:sea},'남'));
+ svg.appendChild(el('text',{x:cx+half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:red},'여'));
+ host.innerHTML='';host.appendChild(svg);}
+function drawCompare(){
+ const out=$('cmpOut');if(!out||!A)return;
+ const a=cmpFind($('cmpA').value),b=cmpFind($('cmpB').value);
+ if(!a||!b){out.innerHTML=`<p class="note" style="margin:10px 0 6px">두 지역을 선택하면 지표·인구 추이·피라미드가 나란히 표시됩니다.</p>`;return;}
+ const M=A.meta;
+ const cg=r=>(r.p2031_B-r.pop_last)/r.pop_last*100;
+ const cA=cg(a.r),cB=cg(b.r);
+ const w100=v=>v==null?'-':(v>=10000?(v/10000).toFixed(v>=100000?0:1).replace(/\.0$/,'')+'조원':v.toLocaleString('ko-KR')+'억원');
+ const isSgg=c=>String(c).length>=5;
+ const row=(t,va,vb)=>`<tr><td>${t}</td><td>${va}</td><td>${vb}</td></tr>`;
+ const chgTd=v=>`<b style="color:${v<0?red:sea}">${fmtChg(v)}</b>`;
+ let rowsH=
+  row(`${M.last}년 인구`,`<b>${f(a.r.pop_last)}</b>명`,`<b>${f(b.r.pop_last)}</b>명`)+
+  row('2031 전망(중심)',`<b>${f(a.r.p2031_B)}</b>명`,`<b>${f(b.r.p2031_B)}</b>명`)+
+  row(`${M.last}→2031 증감`,chgTd(cA),chgTd(cB))+
+  row('연평균 증감률(최근 5년)',(a.r.cagr5*100).toFixed(2)+'%',(b.r.cagr5*100).toFixed(2)+'%')+
+  row('고령비중(65세 이상)',a.r.old_pct==null?'-':a.r.old_pct+'%',b.r.old_pct==null?'-':b.r.old_pct+'%')+
+  row('소멸위험지수',(a.r.risk_idx==null?'-':a.r.risk_idx.toFixed(2))+' '+G(a.r.risk_idx),(b.r.risk_idx==null?'-':b.r.risk_idx.toFixed(2))+' '+G(b.r.risk_idx));
+ if(DECLINE)rowsH+=row('인구감소지역',isSgg(a.r.code)?desigTag(decCode(a.r.code)):'—',isSgg(b.r.code)?desigTag(decCode(b.r.code)):'—');
+ if(DECLINE&&DECLINE.budget){const BC=DECLINE.budget.by_code||{};const ba=BC[a.r.code],bb=BC[b.r.code];
+  rowsH+=row('재정자립도',ba&&ba.fiscal_independence_pct!=null?`${ba.fiscal_independence_pct}%`:'-',bb&&bb.fiscal_independence_pct!=null?`${bb.fiscal_independence_pct}%`:'-')
+   +row('예산 규모(예산현액)',w100(ba&&ba.budget_final_100m),w100(bb&&bb.budget_final_100m))
+   +row('주민 1인당 세출',ba&&ba.expenditure_per_capita_manwon!=null?ba.expenditure_per_capita_manwon.toLocaleString('ko-KR')+'만원':'-',bb&&bb.expenditure_per_capita_manwon!=null?bb.expenditure_per_capita_manwon.toLocaleString('ko-KR')+'만원':'-');}
+ out.innerHTML=`<div class="tbl-scroll"><table class="num" style="margin-top:10px"><thead><tr><th style="cursor:default">지표</th><th style="cursor:default">${a.label}</th><th style="cursor:default">${b.label}</th></tr></thead><tbody>${rowsH}</tbody></table></div>
+ <div class="maps2" style="margin-top:6px">
+  <div><h4>${a.label}</h4><div style="font-size:11px;color:${soft}">인구 흐름 ${M.start}→2031 (점선 = 전망)</div><div id="cmpSpA"></div><div style="font-size:11px;color:${soft};margin-top:4px">성·연령 피라미드 (${M.pyrYear}년)</div><div id="cmpPyA"></div></div>
+  <div><h4>${b.label}</h4><div style="font-size:11px;color:${soft}">인구 흐름 ${M.start}→2031 (점선 = 전망)</div><div id="cmpSpB"></div><div style="font-size:11px;color:${soft};margin-top:4px">성·연령 피라미드 (${M.pyrYear}년)</div><div id="cmpPyB"></div></div>
+ </div>
+ <p class="note" style="margin:12px 0 4px">피라미드는 각 지역 인구 대비 비중으로 그려 연령 구조를 비교합니다. 주민 1인당 세출은 실제 지출(결산세출)을 인구로 나눈 값으로 인구가 적을수록 커집니다. 값이 없는 항목은 '-'로 표기합니다.</p>`;
+ cmpSpark($('cmpSpA'),a.sim,a.r.code);cmpSpark($('cmpSpB'),b.sim,b.r.code);
+ cmpPyr($('cmpPyA'),a.pyr);cmpPyr($('cmpPyB'),b.pyr);
+}
+function initCompare(){
+ const opts=`<option value="">지역 선택…</option>`+A.sido.map(s=>`<optgroup label="${s.short}"><option value="${s.code}">${s.short} 전체</option>`+s.rows.map(r=>`<option value="${r.code}">${r.name}</option>`).join('')+`</optgroup>`).join('');
+ $('cmpA').innerHTML=opts;$('cmpB').innerHTML=opts;
+ $('cmpA').onchange=drawCompare;$('cmpB').onchange=drawCompare;
+ $('cmpSwap').onclick=()=>{const t=$('cmpA').value;$('cmpA').value=$('cmpB').value;$('cmpB').value=t;drawCompare();};
+ drawCompare();
+}
+
 /* ── 렌더 오케스트레이션 ── */
 function redraw(){if(!D)return;hideTip();for(const k in REF)delete REF[k];
  const F=$('fan');if(F.clientWidth){F.innerHTML='';fanChart(F);
@@ -780,6 +900,7 @@ function boot(atlas){
  bar.innerHTML=`<button class="rbtn nat" data-r="KR" type="button">전국</button>`+
   A.sido.map(s=>`<button class="rbtn" data-r="${s.code}" type="button">${s.short}</button>`).join('');
  bar.addEventListener('click',e=>{const b=e.target.closest('.rbtn');if(b)selectRegion(b.dataset.r);});
+ buildSearch();initCompare();
  $('boot').style.display='none';$('app').style.display='block';
  const h=(location.hash||'').replace('#','');
  selectRegion(h==='KR'||A.sido.some(s=>s.code===h)?h:'KR');
@@ -789,7 +910,8 @@ function fail(){$('boot').innerHTML='데이터 파일을 불러오지 못했습�
 fetch('data/decline.json')
  .then(r=>r.ok?r.json():null)
  .then(j=>{if(!j||!j.designation)return;DECLINE=j;renderDeclineSources();
-  if(D){buildRegionBrief();if(pinned)pinDetail(pinned);}})
+  if(D){buildRegionBrief();if(pinned)pinDetail(pinned);}
+  if(A)try{drawCompare()}catch(e){}})
  .catch(()=>{});
 fetch('data/atlas.json')
  .then(r=>{if(!r.ok)throw new Error();return r.json()})
