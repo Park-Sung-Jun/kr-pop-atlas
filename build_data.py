@@ -253,24 +253,22 @@ def project(series):
 # ──────────────────────────────────────────────
 # [B] 성/연령(5세)별 — 시도별 objL1 배치
 # ──────────────────────────────────────────────
-def fetch_pyramids_for(key, end_year, codes, label):
-    """codes(시군구 목록)의 5세 남/여 피라미드. 반환 {code:{ages,m,f}}, 사용연도."""
+def fetch_pyramids_range(key, start_year, end_year, codes, label):
+    """codes(시군구 목록)의 5세 남/여 피라미드를 연도 범위로 1회 호출.
+    반환 {연도:{code:{ages,m,f}}} — 해당 연도에 자료가 있는 코드만 포함."""
     codeset = set(codes)
     obj1 = "+".join(sorted(codeset))
-    rows, used = None, None
-    for yr in range(end_year, end_year - 3, -1):        # 최신연도 자동 탐색
-        try:
-            rows = get_stat(key, "101", "DT_1B04005N", "Y", str(yr), str(yr), obj1=obj1)
-            used = yr
-            break
-        except KosisError as e:
-            print(f"    {label} {yr}년 조회 실패({e.code}) → 이전 연도 시도")
-    if not rows:
-        raise RuntimeError(f"{label}: 연령별 데이터 조회 실패")
-    acc = defaultdict(lambda: defaultdict(float))       # {코드: {(sex, age): 합}}
+    try:
+        rows = get_stat(key, "101", "DT_1B04005N", "Y", str(start_year), str(end_year), obj1=obj1)
+    except KosisError as e:
+        raise RuntimeError(f"{label}: 연령별 데이터 조회 실패({e.code})") from e
+    acc = defaultdict(lambda: defaultdict(lambda: defaultdict(float)))  # {연도:{코드:{(sex,age):합}}}
     for r in rows:
         c1 = canon(str(r.get("C1", "")))
         if c1 not in codeset:
+            continue
+        yr = r.get("PRD_DE")
+        if not yr:
             continue
         age_label = next((r.get(k) for k in ("C2_NM", "C3_NM", "C4_NM")
                           if age_lo(r.get(k)) is not None), None)
@@ -280,15 +278,18 @@ def fetch_pyramids_for(key, end_year, codes, label):
         v = num(r.get("DT"))
         if v is None:
             continue
-        acc[c1][(sex_of(r.get("ITM_NM")), a)] += v
-    pyr = {}
-    for code, d in acc.items():
-        ages = sorted({a for (s, a) in d if s in ("M", "F")})
-        if ages:
-            pyr[code] = {"ages": ages,
-                         "m": [int(d.get(("M", a), 0)) for a in ages],
-                         "f": [int(d.get(("F", a), 0)) for a in ages]}
-    return pyr, used
+        acc[int(yr)][c1][(sex_of(r.get("ITM_NM")), a)] += v
+    out = {}
+    for yr, byc in acc.items():
+        pyr = {}
+        for code, d in byc.items():
+            ages = sorted({a for (s, a) in d if s in ("M", "F")})
+            if ages:
+                pyr[code] = {"ages": ages,
+                             "m": [int(d.get(("M", a), 0)) for a in ages],
+                             "f": [int(d.get(("F", a), 0)) for a in ages]}
+        out[yr] = pyr
+    return out
 
 
 def sum_pyramids(pyrs):
@@ -306,6 +307,96 @@ def sum_pyramids(pyrs):
             out.append(s)
         return out
     return {"ages": ages, "m": tot("m"), "f": tot("f")}
+
+
+# ──────────────────────────────────────────────
+# 연도별 피라미드 시계열: 실측(2015~최신) + 전망(모델 추정, 최신+1~목표연도)
+# 전망은 (1) 목표연도 도착점을 코호트 이동+총인구 시나리오 재조정으로 추정하고
+# (2) 그 사이 연도는 실측 마지막 해 ↔ 도착점 사이를 선형보간한다(내부 일관성: 매 연도 합계가
+#     이미 공개 중인 sim_path 총인구와 정확히 일치하도록 재조정).
+# ──────────────────────────────────────────────
+def _densify(p, ages):
+    idx = {a: i for i, a in enumerate(p["ages"])}
+    return ([p["m"][idx[a]] if a in idx else 0 for a in ages],
+            [p["f"][idx[a]] if a in idx else 0 for a in ages])
+
+
+def _forecast_anchor(base_m, base_f, last_y, target_year, target_tot):
+    """목표연도 도착점 추정: 코호트를 5세 구간 단위로 밀어 올리고(신생아 구간은 인구 성장률로
+    보정) 시나리오 총인구에 맞춰 전체를 재조정. 100세+ 구간은 이미 열린 구간이라 상한을 넘는
+    코호트를 흡수한다."""
+    bins = len(base_m)
+    shift = max(0, round((target_year - last_y) / 5))
+    sm, sf = [0.0] * bins, [0.0] * bins
+    for src in range(bins):
+        tgt = min(src + shift, bins - 1)
+        sm[tgt] += base_m[src]
+        sf[tgt] += base_f[src]
+    base_tot = sum(base_m) + sum(base_f)
+    if shift > 0:
+        growth = (target_tot / base_tot) if base_tot else 1.0
+        for i in range(min(shift, bins)):
+            sm[i] = base_m[0] * growth
+            sf[i] = base_f[0] * growth
+    cur = sum(sm) + sum(sf)
+    if cur > 0:
+        scale = target_tot / cur
+        sm = [v * scale for v in sm]
+        sf = [v * scale for v in sf]
+    return sm, sf
+
+
+def build_pyr_series(code, pyr_by_year, ages, years, actual_n, sim_seq):
+    """코드 하나의 연도별 {m,f} 배열 리스트(years 순서). 실측 구간은 조회값(결측 연도는
+    해당 코드의 가장 가까운 실측 연도로 대체 · 신규 관측 자체가 없는 코드는 None), 전망 구간은
+    모델 추정."""
+    dense = {}
+    for y in years[:actual_n]:
+        p = pyr_by_year.get(y, {}).get(code)
+        if p:
+            dense[y] = _densify(p, ages)
+    if not dense:
+        return None
+    m_list, f_list = [], []
+    fallback_y = sorted(dense)[0]   # 앞쪽 결측은 가장 이른 실측 연도로 채움
+    for y in years[:actual_n]:
+        if y in dense:
+            fallback_y = y
+        m_list.append(dense[fallback_y][0]); f_list.append(dense[fallback_y][1])
+    base_y = fallback_y   # 코드별 가장 최근 실측 연도(전 구간 결측이면 last_y와 다를 수 있음)
+    base_m, base_f = dense[base_y]
+    target_year = years[-1]
+    target_tot = sim_seq[-1]
+    end_m, end_f = _forecast_anchor(base_m, base_f, base_y, target_year, target_tot)
+    n_f = len(years) - actual_n
+    for k in range(1, n_f + 1):
+        w = k / n_f
+        bins = len(ages)
+        im = [(1 - w) * base_m[i] + w * end_m[i] for i in range(bins)]
+        iff = [(1 - w) * base_f[i] + w * end_f[i] for i in range(bins)]
+        tgt_tot = sim_seq[actual_n - 1 + k]
+        cur = sum(im) + sum(iff)
+        if cur > 0:
+            scale = tgt_tot / cur
+            im = [v * scale for v in im]
+            iff = [v * scale for v in iff]
+        m_list.append(im); f_list.append(iff)
+    return {"m": [[round(v) for v in row] for row in m_list],
+            "f": [[round(v) for v in row] for row in f_list]}
+
+
+def sum_pyr_series(series_list, n_years, bins):
+    series_list = [s for s in series_list if s]
+    if not series_list:
+        return None
+    m_sum = [[0] * bins for _ in range(n_years)]
+    f_sum = [[0] * bins for _ in range(n_years)]
+    for s in series_list:
+        for yi in range(n_years):
+            for bi in range(bins):
+                m_sum[yi][bi] += s["m"][yi][bi]
+                f_sum[yi][bi] += s["f"][yi][bi]
+    return {"m": m_sum, "f": f_sum}
 
 
 def age_metrics(p):
@@ -483,15 +574,17 @@ def main():
     print(f"    → 시도 {len(sd_codes)}개 그룹: " +
           ", ".join(f"{SIDO_SHORT[s]}({len(children[s])})" for s in sd_codes))
 
-    # [B] 시도별 피라미드 (17회 배치 호출)
-    print(f"[B] 성/연령(5세)별 조회 (DT_1B04005N, 시도별 objL1 배치 {len(sd_codes)}회)")
-    pyr_all = {}
-    pyr_year = None
+    # [B] 시도별 피라미드 — 연도 범위(실적 전체) 1회 호출씩 (17회 배치 호출)
+    print(f"[B] 성/연령(5세)별 조회 (DT_1B04005N, {yrs_hist[0]}~{last_y}, 시도별 objL1 배치 {len(sd_codes)}회)")
+    pyr_by_year = defaultdict(dict)   # {연도:{code:{ages,m,f}}}
     for sd in sd_codes:
-        p, used = fetch_pyramids_for(key, last_y, children[sd], SIDO_SHORT[sd])
-        pyr_all.update(p)
-        pyr_year = used if pyr_year is None else min(pyr_year, used)
-        print(f"    {SIDO_SHORT[sd]}: {len(p)}/{len(children[sd])}개 · {used}년")
+        yrmap = fetch_pyramids_range(key, yrs_hist[0], last_y, children[sd], SIDO_SHORT[sd])
+        for yr, p in yrmap.items():
+            pyr_by_year[yr].update(p)
+        print(f"    {SIDO_SHORT[sd]}: {len(children[sd])}개 지역 · {len(yrmap)}개 연도")
+    pyr_year = max(pyr_by_year) if pyr_by_year else None
+    pyr_all = pyr_by_year.get(pyr_year, {})
+    AGES = sorted({a for byc in pyr_by_year.values() for p in byc.values() for a in p["ages"]})
 
     # [C] 경계
     geo_by_sido = load_geometry(set(proj.keys()), names)
@@ -502,6 +595,7 @@ def main():
     nat_tot = defaultdict(int)
     excluded_note = ("행정구역 개편 지역은 코드 승계로 시계열을 이었으며(강원·전북 도명 변경, "
                      "군위군 대구 편입, 인천 미추홀구), 승계가 불가능한 옛 코드는 제외했습니다.")
+    nat_pyr_series = {}
     for sd in sd_codes:
         codes = sorted(children[sd])
         rows, sim_by = [], {}
@@ -519,6 +613,9 @@ def main():
         fan = build_fan(tot, yrs_hist, last_y, sumA, sumB, sumC)
         g = geo_by_sido.get(sd, {"geo": None, "cent": {}})
         sd_pyr = sum_pyramids([pyr_all[c] for c in codes if c in pyr_all])
+        pyr_series_c = {c: build_pyr_series(c, pyr_by_year, AGES, fan["years"], len(yrs_hist), sim_by[c])
+                        for c in codes}
+        sd_pyr_series = sum_pyr_series([pyr_series_c[c] for c in codes], len(fan["years"]), len(AGES))
         sido_out.append({
             "code": sd, "name": sido_names.get(sd, SIDO_SHORT[sd]),
             "short": SIDO_SHORT[sd],
@@ -527,6 +624,7 @@ def main():
             "geo": g["geo"], "cent": g["cent"],
             "pyr": {c: pyr_all[c] for c in codes if c in pyr_all},
             "pyrAll": sd_pyr,
+            "pyrSeries": {c: s for c, s in pyr_series_c.items() if s},
         })
         # 전국 뷰용 시도 대표값
         sd_series = dict(tot)
@@ -541,6 +639,8 @@ def main():
                             round(sum(v[1] for v in g["cent"].values()) / len(g["cent"]), 4)]
         if sd_pyr:
             nat_pyr[sd] = sd_pyr
+        if sd_pyr_series:
+            nat_pyr_series[sd] = sd_pyr_series
         for y in yrs_hist:
             nat_tot[y] += tot[y]
 
@@ -553,13 +653,17 @@ def main():
         "name": "전국", "rows": nat_rows, "fan": nat_fan,
         "sim": {"years": nat_fan["years"], "actualN": len(yrs_hist), "byCode": nat_sim},
         "cent": nat_cent, "pyr": nat_pyr, "pyrAll": sum_pyramids(list(nat_pyr.values())),
+        "pyrSeries": nat_pyr_series,
     }
 
     atlas = {
         "meta": {
             "generated": date.today().isoformat(),
             "start": yrs_hist[0], "last": last_y, "target": TARGET_YEAR,
-            "pyrYear": pyr_year,
+            "pyrYear": pyr_year, "pyrAges": AGES,
+            "pyrModel": (f"성·연령 피라미드: {yrs_hist[0]}~{last_y}년은 KOSIS 실측(DT_1B04005N), "
+                         f"{last_y + 1}~{TARGET_YEAR}년은 실측 코호트를 5세 구간 단위로 이동시키고 "
+                         "중심 시나리오 총인구에 맞춰 재조정한 모델 추정치이며 중간 연도는 선형보간."),
             "nSido": len(sido_out),
             "nSgg": sum(len(s["rows"]) for s in sido_out),
             "note": excluded_note,

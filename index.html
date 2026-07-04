@@ -65,11 +65,7 @@ footer li{padding:2px 0}
 .yraxis .tk.maj{height:7px;background:var(--soft)}
 .yraxis .lb{position:absolute;top:8px;transform:translateX(-50%);font-size:10px;color:var(--soft);white-space:nowrap}
 .yraxis .split{position:absolute;top:-1px;height:8px;border-left:1.5px dashed var(--red)}
-.yraxis .zone{position:absolute;top:19px;font-size:9.5px;font-weight:700}
-.yraxis .zone.a{color:var(--sea)}.yraxis .zone.f{color:var(--red)}
 .simbar .ylab{font-size:20px;font-weight:800;min-width:56px;text-align:center}
-.simbar .ytag{font-size:11px;font-weight:700;border-radius:20px;padding:2px 9px}
-.simbar .ytag.actual{background:#E7F1EF;color:#0E6E6B}.simbar .ytag.fore{background:#F6E3E2;color:#8C2F2D}
 .simkpi{font-size:12.5px;color:var(--soft);margin-left:auto}
 .maps2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:760px){.maps2{grid-template-columns:1fr}}
@@ -78,10 +74,13 @@ footer li{padding:2px 0}
 .mapbox svg{display:block}
 .map-sgg{stroke:#fff;stroke-width:.8;cursor:pointer;transition:fill .35s}
 .map-sgg:hover{stroke:var(--ink);stroke-width:1.4}
-.carto-c{stroke:#fff;stroke-width:1;cursor:pointer;transition:fill .35s}
+.carto-c{stroke:#fff;stroke-width:1;cursor:pointer;transition:fill .35s,cx .5s ease,cy .5s ease,r .5s ease}
 .carto-c:hover{stroke:var(--ink);stroke-width:1.5}
+.carto-ring{fill:none;stroke:#4A90D9;stroke-width:2.5;pointer-events:none;display:none;transition:cx .5s ease,cy .5s ease,r .5s ease}
+.carto-bg{fill:#EDEDEA;fill-opacity:.35;stroke:#fff;stroke-width:.8;pointer-events:none}
 .leg{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--soft);margin-top:10px;flex-wrap:wrap}
-.leg .bar{width:150px;height:10px;border-radius:5px;background:linear-gradient(90deg,#A03A38,#F2EFEA,#0E6E6B)}
+.leg .bar{width:150px;height:10px;border-radius:5px;background:linear-gradient(90deg,#A03A38,#F2EFEA,#0E6E6B);position:relative}
+.leg .bar i{position:absolute;top:-3px;width:2px;height:16px;background:#4A90D9;border-radius:1px;transform:translateX(-1px);display:none;pointer-events:none}
 .tabs{display:flex;gap:6px;flex-wrap:wrap;margin:26px 0 0;border-bottom:2px solid var(--ink)}
 .tbtn{border:1.5px solid var(--ink);border-bottom:none;background:#fff;color:var(--ink);font:inherit;font-size:13.5px;font-weight:700;padding:8px 16px;border-radius:10px 10px 0 0;cursor:pointer}
 .tbtn.active{background:var(--ink);color:#fff}
@@ -131,7 +130,7 @@ footer li{padding:2px 0}
 
 <div id="app">
 <header><div class="wrap">
-  <div class="meta"><span>KOSIS 국가통계포털 · 주민등록인구 기반 자동 산출</span><span id="mGen"></span></div>
+  <div class="meta"><span>KOSIS 국가통계포털 · 주민등록인구 기반</span><span id="mGen"></span></div>
   <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px">
     <div class="masthead" style="margin-bottom:0">대한민국 인구전망 아틀라스</div>
     <a class="pyrlink" id="pyrTop" href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer">🔗 인구피라미드 탐색기 →</a>
@@ -220,7 +219,7 @@ footer li{padding:2px 0}
       <div class="simbar">
         <button id="play" type="button">▶ 재생</button>
         <div class="yrwrap"><input id="yr" type="range" min="0" max="0" value="0" step="1" aria-label="연도 선택(끌어서 이동)"><div class="yraxis" id="yraxis"></div></div>
-        <span class="ylab num" id="ylab"></span><span class="ytag" id="ytag"></span>
+        <span class="ylab num" id="ylab"></span>
         <select id="pick" aria-label="지역 선택" style="border:1px solid var(--line);border-radius:8px;padding:5px 8px;font:inherit;font-size:12.5px"></select>
         <span class="simkpi num" id="simkpi"></span>
       </div>
@@ -237,7 +236,7 @@ footer li{padding:2px 0}
         <div><h4>행정 경계 지도 <span style="color:var(--soft);font-weight:400" id="mapSub"></span></h4><div class="mapbox" id="map"></div></div>
         <div><h4>카토그램 <span style="color:var(--soft);font-weight:400">· 원 면적 = 그 해 인구</span></h4><div class="mapbox" id="carto"></div></div>
       </div>
-      <div class="leg"><span id="legLab"></span><span class="num" id="legMin">−25%</span><span class="bar" id="legBar"></span><span class="num" id="legMax">+10%</span></div>
+      <div class="leg"><span id="legLab"></span><span class="num" id="legMin">−25%</span><span class="bar" id="legBar"><i id="legMark"></i></span><span class="num" id="legMax">+10%</span></div>
       <div id="detail"></div>
     </div>
   </section>
@@ -300,6 +299,11 @@ footer li{padding:2px 0}
 <script>
 'use strict';
 const ink='#1E2A32',soft='#4D5D66',line='#D4DBD9',sea='#0E6E6B',red='#A03A38';
+const pyrM='#4A90D9',pyrF='#E8597C',pyrC='#2c3e50'; // 인구피라미드 탐색기(pop-pyramid)와 동일 배색
+const femPattern=(svg,pid)=>{const defs=el('defs',{});const pat=el('pattern',{id:pid,width:4,height:4,patternTransform:'rotate(45)',patternUnits:'userSpaceOnUse'});
+ pat.appendChild(el('rect',{width:4,height:4,fill:pyrF}));
+ pat.appendChild(el('line',{x1:0,y1:0,x2:0,y2:4,stroke:'rgba(255,255,255,.28)','stroke-width':1}));
+ defs.appendChild(pat);svg.appendChild(defs);};
 const SVGNS='http://www.w3.org/2000/svg';
 const el=(t,a,x)=>{const e=document.createElementNS(SVGNS,t);for(const k in a)e.setAttribute(k,a[k]);if(x!=null)e.textContent=x;return e;};
 const $=id=>document.getElementById(id);
@@ -308,7 +312,7 @@ const G=k=>k==null?'-':k<0.2?'<span class="tag g0">소멸 고위험</span>':k<0.
 
 /* ── 전역 상태 (지역 전환 시 initRegion에서 재구성) ── */
 let A=null,D=null;
-let rowsAll=[],byCode={},SIM=null,YRS=[],yi=0,playing=null,pinned=null,cartoNodes=null,sparkFn=null,simTot0=0;
+let rowsAll=[],byCode={},SIM=null,YRS=[],yi=0,playing=null,pinned=null,cartoNodes=null,sparkFn=null,simTot0=0,hovered=null;
 let rows=[],barSort='asc',mapEls={},cartoEls={};
 const REF={};const reg=(c,e)=>{(REF[c]||(REF[c]=[])).push(e)};
 const hl=(c,on)=>{(REF[c]||[]).forEach(e=>{e.setAttribute('stroke',on?'#111':(e.dataset.s0||'#fff'));e.setAttribute('stroke-width',on?2.4:(e.dataset.w0||1))})};
@@ -342,11 +346,11 @@ function natView(){
   const b=s.geo.bbox;bb=[Math.min(bb[0],b[0]),Math.min(bb[1],b[1]),Math.max(bb[2],b[2]),Math.max(bb[3],b[3])];});
  return {key:'KR',isNat:true,name:'전국',rows:A.national.rows,fan:A.national.fan,
   sim:A.national.sim,geo:{features:feats,bbox:bb},cent:A.national.cent,
-  pyr:A.national.pyr,pyrAll:A.national.pyrAll};
+  pyr:A.national.pyr,pyrAll:A.national.pyrAll,pyrSeries:A.national.pyrSeries||{}};
 }
 function sidoView(code){const s=A.sido.find(x=>x.code===code);
  return {key:s.code,isNat:false,name:s.short,fullName:s.name,rows:s.rows,fan:s.fan,
-  sim:s.sim,geo:s.geo,cent:s.cent,pyr:s.pyr,pyrAll:s.pyrAll};
+  sim:s.sim,geo:s.geo,cent:s.cent,pyr:s.pyr,pyrAll:s.pyrAll,pyrSeries:s.pyrSeries||{}};
 }
 function enterSido(code){selectRegion(code);}
 function selectRegion(key){
@@ -375,7 +379,7 @@ function initRegion(){
  $('h1').innerHTML=sggDecl>0
   ?`${hNm} ${sggTot}개 시군구 중 <span class="a num">${sggDecl}곳</span>,<br>2031년까지 인구가 줄어듭니다`
   :`${hNm} ${sggTot}개 시군구,<br>2031년까지 인구가 유지·증가할 전망입니다`;
- $('h1sub').innerHTML=`소멸위험(지수 0.5 미만) <b class="rd">${sggRisk}곳</b> · 2031년 ${D.name} <b>${f(D.fan.endB)}만 명</b>(<b class="${totChg<0?'rd':'se'}">${totChg>=0?'+':''}${totChg.toFixed(1)}%</b>) — 중심 시나리오 기준`;
+ $('h1sub').innerHTML=`소멸위험(지수 0.5 미만) <b class="rd">${sggRisk}곳</b> · 2031년 ${D.name} <b>${f(D.fan.endB)}만 명</b>(<b class="${totChg<0?'rd':'se'}">${totChg>=0?'+':''}${totChg.toFixed(1)}%</b>)`;
  $('mGen').textContent='생성 '+M.generated;
  $('k1t').textContent=`${D.name} 인구 (${lastY} 실적)`;
  $('k1v').textContent=D.fan.actual[SIM.actualN-1].toLocaleString('ko-KR')+'만 명';
@@ -399,8 +403,7 @@ function initRegion(){
  $('h03').textContent=`${unit()}별 증감률 비교 (${lastY}→2031, 중심 시나리오)`;
  $('barHint').textContent=D.isNat?'막대에 올리면 상세, 클릭하면 그 시도의 시군구 지도로 이동':'막대에 올리면 상세, 클릭하면 지도 탭에 고정';
  $('h04').textContent=`${unit()} 지도 · 카토그램 — 연도별 시뮬레이션`;
- $('mapGuide').innerHTML=`▶ 재생을 누르면 ${startY}→2031년이 흐르며 지도 색(${startY} 대비 증감)과 카토그램 원 크기(그 해 인구)가 함께 움직입니다. 지도·카토그램 어디에 올려도 <b>같은 지역이 동시에 강조</b>됩니다. `+
-  (D.isNat?`지도·카토그램을 <b>클릭하면 그 시도의 시군구 뷰로 들어갑니다.`:`클릭하면 아래에 상세 카드가 고정됩니다.`);
+ $('mapGuide').innerHTML=D.isNat?'클릭하면 그 시도의 시군구 뷰로 이동합니다.':'클릭하면 아래에 상세 카드가 고정됩니다.';
  $('mapSub').textContent=`· 색 = ${startY} 대비 증감`;
  $('legLab').textContent=`${startY}년 대비`;
  $('ftSrc').textContent=M.source;
@@ -420,7 +423,6 @@ function initRegion(){
    h+=`<span class="tk${maj?' maj':''}" style="left:${pos(i)}%"></span>`;
    if(lab)h+=`<span class="lb" style="left:${pos(i)}%">${yr}</span>`;});
   h+=`<span class="split" style="left:${pos(bi)}%"></span>`;
-  h+=`<span class="zone a" style="left:0">◀ 실적</span><span class="zone f" style="left:calc(${pos(bi)}% + 5px)">전망 ▶</span>`;
   ax.innerHTML=h;})();
  const pk=$('pick');
  pk.innerHTML=`<option value="">${unit()} 바로가기…</option>`+[...rowsAll].sort((a,b)=>a.name.localeCompare(b.name,'ko')).map(r=>`<option value="${r.code}">${r.name}</option>`).join('');
@@ -529,14 +531,21 @@ function mapLegend(lo,hi){
   $('legBar').style.background='linear-gradient(90deg,#F2EFEA,#0E6E6B)';
   $('mapSub').textContent=`· 색 = ${YRS[yi]}년 인구 (${mapScale==='log'?'로그':'선형'})`;
  }}
+function legMark(code){
+ const mk=$('legMark');if(!mk)return;
+ if(!code||!byCode[code]){mk.style.display='none';return;}
+ let t;
+ if(mapMetric==='pop'){const[lo,hi]=popDomain();t=popT(SIM.byCode[code][yi],lo,hi);}
+ else{const g=+pct(code);t=g<=0?.5*(1-Math.min(1,-g/25)):.5+.5*Math.min(1,g/10);}
+ mk.style.left=(t*150)+'px';mk.style.display='block';}
 function makeP(w,h,pad){const[b0,b1,b2,b3]=D.geo.bbox,kx=Math.cos((b1+b3)/2*Math.PI/180);
  const s=Math.min((w-2*pad)/((b2-b0)*kx),(h-2*pad)/(b3-b1));
  const ox=(w-(b2-b0)*kx*s)/2,oy=(h-(b3-b1)*s)/2;
  return p=>[ox+(p[0]-b0)*kx*s,oy+(b3-p[1])*s];}
 function attach(e,code){
  e.addEventListener('mousemove',ev=>{const r=byCode[code];
-  showTip(`<b>${r.name}</b> · ${YRS[yi]}년${yi>=SIM.actualN?' (전망)':''}<br>인구 <b>${f(SIM.byCode[code][yi])}</b>명 · ${A.meta.start} 대비 <b>${pct(code)}%</b><br>고령 ${r.old_pct==null?'-':r.old_pct+'%'} · 위험지수 ${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}<br><span class="tt">${D.isNat?'클릭하면 시군구 뷰로 이동':'클릭하면 상세 카드 고정'}</span>`,ev.clientX,ev.clientY);hl(code,true);});
- e.addEventListener('mouseleave',()=>{hideTip();hl(code,false)});
+  showTip(`<b>${r.name}</b> · ${YRS[yi]}년${yi>=SIM.actualN?' (전망)':''}<br>인구 <b>${f(SIM.byCode[code][yi])}</b>명 · ${A.meta.start} 대비 <b>${pct(code)}%</b><br>고령 ${r.old_pct==null?'-':r.old_pct+'%'} · 위험지수 ${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}<br><span class="tt">${D.isNat?'클릭하면 시군구 뷰로 이동':'클릭하면 상세 카드 고정'}</span>`,ev.clientX,ev.clientY);hl(code,true);hovered=code;legMark(code);});
+ e.addEventListener('mouseleave',()=>{hideTip();hl(code,false);hovered=null;legMark(pinned);});
  e.addEventListener('click',()=>{if(D.isNat){hideTip();enterSido(code);}else pinDetail(code);});}
 function drawMap(host){host.innerHTML='';const W=host.clientWidth||460,H=host.clientHeight||430;
  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:'100%'});const P=makeP(W,H,10);mapEls={};
@@ -551,13 +560,16 @@ function drawCarto(host){host.innerHTML='';const W=host.clientWidth||460,H=host.
  const maxP=Math.max(...rowsAll.map(r=>Math.max(...SIM.byCode[r.code])));
  window._ck=Math.min(W,H)*0.125/Math.sqrt(maxP);window._cwh=[W,H];
  const cb=D.geo.bbox,fallback=[(cb[0]+cb[2])/2,(cb[1]+cb[3])/2];
+ D.geo.features.forEach(ft=>{const d=ft.rings.map(rg=>'M'+rg.map(pt=>{const q=P(pt);return q[0].toFixed(1)+' '+q[1].toFixed(1)}).join('L')+'Z').join('');
+  svg.appendChild(el('path',{d,class:'carto-bg'}));});
  cartoNodes=rowsAll.map(r=>{const q=P(D.cent[r.code]||fallback);return{code:r.code,x:q[0],y:q[1]}});
  cartoEls={};
- cartoNodes.forEach(nd=>{const c=el('circle',{class:'carto-c',r:5,fill:'#ccc'});c.dataset.s0='#fff';c.dataset.w0='1';
+ cartoNodes.forEach(nd=>{const ring=el('circle',{class:'carto-ring',r:5});
+  const c=el('circle',{class:'carto-c',r:5,fill:'#ccc'});c.dataset.s0='#fff';c.dataset.w0='1';
   attach(c,nd.code);reg(nd.code,c);
   const t1=el('text',{'text-anchor':'middle','font-size':10,'font-weight':700,fill:'#fff','pointer-events':'none'});
   const t2=el('text',{'text-anchor':'middle','font-size':9,fill:'rgba(255,255,255,.85)','pointer-events':'none'});
-  cartoEls[nd.code]={c,t1,t2};svg.appendChild(c);svg.appendChild(t1);svg.appendChild(t2);});
+  cartoEls[nd.code]={c,t1,t2,ring};svg.appendChild(ring);svg.appendChild(c);svg.appendChild(t1);svg.appendChild(t2);});
  host.appendChild(svg);}
 function relax(){const k=window._ck,[W,H]=window._cwh,R={};
  cartoNodes.forEach(nd=>R[nd.code]=k*Math.sqrt(SIM.byCode[nd.code][yi]));
@@ -569,8 +581,6 @@ function relax(){const k=window._ck,[W,H]=window._cwh,R={};
 function update(){
  $('yr').value=yi;
  $('ylab').textContent=YRS[yi];
- const tg=$('ytag'),fore=yi>=SIM.actualN;
- tg.textContent=fore?'전망':'실적';tg.className='ytag '+(fore?'fore':'actual');
  let tot=0;rowsAll.forEach(r=>tot+=SIM.byCode[r.code][yi]);
  $('simkpi').textContent=`${D.name} 합계 ${(tot/10000).toFixed(1)}만 명 (${A.meta.start} 대비 ${((tot/simTot0-1)*100).toFixed(1)}%)`;
  const[plo,phi]=popDomain();
@@ -583,8 +593,12 @@ function update(){
   const dk=mapMetric!=='pop'||popT(SIM.byCode[nd.code][yi],plo,phi)>=.5;
   e.t1.setAttribute('fill',dk?'#fff':ink);e.t2.setAttribute('fill',dk?'rgba(255,255,255,.85)':soft);
   e.t1.setAttribute('x',nd.x);e.t1.setAttribute('y',nd.y+(r>=16?0:3));e.t1.textContent=r>=9?nm:'';
-  e.t2.setAttribute('x',nd.x);e.t2.setAttribute('y',nd.y+12);e.t2.textContent=r>=16?(SIM.byCode[nd.code][yi]/10000).toFixed(1)+'만':'';});}
- if(pinned&&sparkFn)sparkFn();}
+  e.t2.setAttribute('x',nd.x);e.t2.setAttribute('y',nd.y+12);e.t2.textContent=r>=16?(SIM.byCode[nd.code][yi]/10000).toFixed(1)+'만':'';
+  if(nd.code===pinned){e.ring.setAttribute('cx',nd.x);e.ring.setAttribute('cy',nd.y);e.ring.setAttribute('r',r+3);e.ring.style.display='block';}
+  else e.ring.style.display='none';});}
+ legMark(hovered||pinned);
+ if(pinned&&sparkFn)sparkFn();
+ if(pinned&&$('pyr'))pyramid($('pyr'),pinned);}
 $('yr').addEventListener('input',e=>{yi=+e.target.value;update()});
 $('play').addEventListener('click',()=>{const b=$('play');
  if(playing){clearInterval(playing);playing=null;b.textContent='▶ 재생';return;}
@@ -782,7 +796,11 @@ function buildRegionBrief(){
 const vec=c=>{const p=D.pyr[c];const t=p.m.reduce((a,b)=>a+b,0)+p.f.reduce((a,b)=>a+b,0);return p.m.concat(p.f).map(v=>v/t)};
 const cos=(a,b)=>{let s=0,na=0,nb=0;for(let i=0;i<a.length;i++){s+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i];}return s/Math.sqrt(na*nb)};
 const simTop=(c,n=3)=>{const me=vec(c);return rowsAll.filter(r=>r.code!=c&&D.pyr[r.code]&&D.pyr[r.code].ages.length===D.pyr[c].ages.length).map(r=>({r,s:cos(me,vec(r.code))})).sort((a,b)=>b.s-a.s).slice(0,n)};
-function pyramid(host,code){const p=D.pyr[code],g=D.pyrAll;
+function pyramid(host,code){
+ const ser=D.pyrSeries&&D.pyrSeries[code];
+ const yr=ser?YRS[yi]:A.meta.pyrYear,fore=!!ser&&yi>=SIM.actualN;
+ const p=ser?{ages:A.meta.pyrAges,m:ser.m[yi],f:ser.f[yi]}:D.pyr[code];
+ const g=D.pyrAll;
  if(!p){host.innerHTML=`<div style="color:${soft};font-size:12px">자료 없음</div>`;return;}
  const W=host.clientWidth||420,H=210,m={t:6,b:16,l:30,r:6},n=p.ages.length,ih=H-m.t-m.b,bh=ih/n;
  const tt=p.m.reduce((a,b)=>a+b,0)+p.f.reduce((a,b)=>a+b,0),gt=g.m.reduce((a,b)=>a+b,0)+g.f.reduce((a,b)=>a+b,0);
@@ -791,14 +809,16 @@ function pyramid(host,code){const p=D.pyr[code],g=D.pyrAll;
  let mx=0;for(let i=0;i<n;i++)sh(i).forEach(v=>mx=Math.max(mx,v));
  const cx=m.l+(W-m.l-m.r)/2,half=(W-m.l-m.r)/2-4,S=v=>v/mx*half;
  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H});
+ const pid='femStripe-'+(host.id||'p');femPattern(svg,pid);
  for(let i=0;i<n;i++){const y=m.t+ih-(i+1)*bh,[sm,sf,gm,gf]=sh(i);
-  svg.appendChild(el('rect',{x:cx-S(sm),y:y+1,width:S(sm),height:Math.max(bh-2,1),fill:sea,opacity:.85}));
-  svg.appendChild(el('rect',{x:cx,y:y+1,width:S(sf),height:Math.max(bh-2,1),fill:red,opacity:.8}));
-  svg.appendChild(el('line',{x1:cx-S(gm),y1:y,x2:cx-S(gm),y2:y+bh-1,stroke:ink,'stroke-width':1}));
-  svg.appendChild(el('line',{x1:cx+S(gf),y1:y,x2:cx+S(gf),y2:y+bh-1,stroke:ink,'stroke-width':1}));
+  svg.appendChild(el('rect',{x:cx-S(sm),y:y+1,width:S(sm),height:Math.max(bh-2,1),fill:pyrM}));
+  svg.appendChild(el('rect',{x:cx,y:y+1,width:S(sf),height:Math.max(bh-2,1),fill:`url(#${pid})`}));
+  svg.appendChild(el('rect',{x:cx-S(gm),y:y+1,width:S(gm),height:Math.max(bh-2,1),fill:'none',stroke:pyrC,'stroke-width':1.5}));
+  svg.appendChild(el('rect',{x:cx,y:y+1,width:S(gf),height:Math.max(bh-2,1),fill:'none',stroke:pyrC,'stroke-width':1.5}));
   if(p.ages[i]%20==0)svg.appendChild(el('text',{x:m.l-4,y:y+bh,'text-anchor':'end','font-size':9,fill:soft},p.ages[i]));}
- svg.appendChild(el('text',{x:cx-half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:sea},'남'));
- svg.appendChild(el('text',{x:cx+half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:red},'여'));
+ svg.appendChild(el('text',{x:cx-half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:pyrM},'남'));
+ svg.appendChild(el('text',{x:cx+half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:pyrF},'여'));
+ svg.appendChild(el('text',{x:W-m.r,y:m.t+9,'text-anchor':'end','font-size':10,'font-weight':700,fill:fore?red:ink},yr+'년'+(fore?' · 모델 추정':'')));
  host.innerHTML='';host.appendChild(svg);}
 function drawSpark(host,code){const s=SIM.byCode[code],W=host.clientWidth||420,H=110,m={t:14,b:14,l:6,r:6};
  const lo=Math.min(...s),hi=Math.max(...s);
@@ -826,16 +846,17 @@ function pinDetail(code){pinned=code;const r=byCode[code];const dEl=$('detail');
   <span>위험지수 <b>${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}</b> ${G(r.risk_idx)}</span></div>
  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="maps2">
   <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">인구 흐름 ${A.meta.start}→2031 · 점 = 시뮬레이션 연도</div><div id="spark"></div></div>
-  <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">성·연령 피라미드 (막대 = ${r.name} · 검은 선 = ${D.name} 전체, ${A.meta.pyrYear}년) <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700;text-decoration:none">읍면동까지 →</a></div><div id="pyr"></div></div></div>
+  <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">성·연령 피라미드 (막대 = ${r.name}, 연도 슬라이더 연동 · 테두리 상자 = ${D.name} 전체 ${A.meta.pyrYear}년 고정) <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700;text-decoration:none">읍면동까지 →</a></div><div id="pyr"></div></div></div>
  ${declineHTML(r)}
  ${budgetHTML(r)}
  ${briefHTML(r)}
  <div style="font-size:12.5px;margin-top:10px" id="simlist"></div>
  <div style="font-size:12px;margin-top:8px;color:${soft}">읍면동 단위 피라미드·전국 비교는 → <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700">인구피라미드 탐색기</a></div></div>`;
- $('dx').onclick=()=>{pinned=null;sparkFn=null;dEl.innerHTML='';};
+ $('dx').onclick=()=>{pinned=null;sparkFn=null;dEl.innerHTML='';update();};
  if(D.isNat)$('drill').onclick=()=>enterSido(code);
  drawSpark($('spark'),code);
  pyramid($('pyr'),code);
+ update();
  const sl=$('simlist');
  if(D.pyr[code]){const t=simTop(code);
   sl.innerHTML=t.length?`연령구조가 가장 비슷한 ${unit()}: `+t.map(x=>`<a href="#" data-sim="${x.r.code}" style="color:${ink};font-weight:700">${x.r.name}</a> <span style="color:${soft};font-size:11px">(유사도 ${(x.s*100).toFixed(1)})</span>`).join(' · ')
@@ -916,12 +937,13 @@ function cmpPyr(host,p){if(!p){host.innerHTML=`<div style="color:${soft};font-si
  let mx=0;for(let i=0;i<n;i++)sh(i).forEach(v=>mx=Math.max(mx,v));
  const cx=m.l+(W-m.l-m.r)/2,half=(W-m.l-m.r)/2-4,S=v=>v/mx*half;
  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:H});
+ const pid='femStripe-'+(host.id||'p');femPattern(svg,pid);
  for(let i=0;i<n;i++){const y=m.t+ih-(i+1)*bh,[sm,sf]=sh(i);
-  svg.appendChild(el('rect',{x:cx-S(sm),y:y+1,width:S(sm),height:Math.max(bh-2,1),fill:sea,opacity:.85}));
-  svg.appendChild(el('rect',{x:cx,y:y+1,width:S(sf),height:Math.max(bh-2,1),fill:red,opacity:.8}));
+  svg.appendChild(el('rect',{x:cx-S(sm),y:y+1,width:S(sm),height:Math.max(bh-2,1),fill:pyrM}));
+  svg.appendChild(el('rect',{x:cx,y:y+1,width:S(sf),height:Math.max(bh-2,1),fill:`url(#${pid})`}));
   if(p.ages[i]%20==0)svg.appendChild(el('text',{x:m.l-4,y:y+bh,'text-anchor':'end','font-size':9,fill:soft},p.ages[i]));}
- svg.appendChild(el('text',{x:cx-half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:sea},'남'));
- svg.appendChild(el('text',{x:cx+half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:red},'여'));
+ svg.appendChild(el('text',{x:cx-half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:pyrM},'남'));
+ svg.appendChild(el('text',{x:cx+half/2,y:H-4,'text-anchor':'middle','font-size':10,fill:pyrF},'여'));
  host.innerHTML='';host.appendChild(svg);}
 function drawCompare(){
  const out=$('cmpOut');if(!out||!A)return;
