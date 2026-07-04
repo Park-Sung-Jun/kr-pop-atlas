@@ -224,11 +224,20 @@ footer li{padding:2px 0}
         <select id="pick" aria-label="지역 선택" style="border:1px solid var(--line);border-radius:8px;padding:5px 8px;font:inherit;font-size:12.5px"></select>
         <span class="simkpi num" id="simkpi"></span>
       </div>
+      <div class="sortbar" style="margin:8px 0 6px">
+        <span>지도 색 기준</span>
+        <button class="sbtn on" data-mm="chg" type="button">증감률</button>
+        <button class="sbtn" data-mm="pop" type="button">인구수</button>
+        <span data-msx style="display:none;margin-left:8px">스케일</span>
+        <button class="sbtn" data-ms="lin" type="button" style="display:none">선형</button>
+        <button class="sbtn on" data-ms="log" type="button" style="display:none">로그</button>
+        <span id="mmHint" style="margin-left:6px">색 = 시작연도 대비 증감률</span>
+      </div>
       <div class="maps2">
         <div><h4>행정 경계 지도 <span style="color:var(--soft);font-weight:400" id="mapSub"></span></h4><div class="mapbox" id="map"></div></div>
         <div><h4>카토그램 <span style="color:var(--soft);font-weight:400">· 원 면적 = 그 해 인구</span></h4><div class="mapbox" id="carto"></div></div>
       </div>
-      <div class="leg"><span id="legLab"></span><span class="num">−25%</span><span class="bar"></span><span class="num">+10%</span></div>
+      <div class="leg"><span id="legLab"></span><span class="num" id="legMin">−25%</span><span class="bar" id="legBar"></span><span class="num" id="legMax">+10%</span></div>
       <div id="detail"></div>
     </div>
   </section>
@@ -284,7 +293,7 @@ footer li{padding:2px 0}
   </ul>
   <p class="note" style="margin-top:12px" id="ftNote"></p>
   <p class="note" id="declSrc" style="margin-top:8px;display:none"></p>
-  <p class="note" style="margin-top:8px">대한민국 인구전망 아틀라스 v1.3.0</p>
+  <p class="note" style="margin-top:8px">대한민국 인구전망 아틀라스 v1.4.0</p>
 </div></footer>
 </div>
 
@@ -498,6 +507,28 @@ function colFor(g){const R=[160,58,56],P=[242,239,234],S=[14,110,107];let c;
  else{const t=Math.min(1,g/10);c=[lerp(P[0],S[0],t),lerp(P[1],S[1],t),lerp(P[2],S[2],t)];}
  return`rgb(${c.map(Math.round).join(',')})`;}
 const pct=c=>{const s=SIM.byCode[c];return((s[yi]/s[0]-1)*100).toFixed(1)};
+/* 지도 색 기준: chg=증감률(발산) / pop=인구수(순차, 선형·로그 스케일 선택) */
+let mapMetric='chg',mapScale='log';
+function popDomain(){let lo=Infinity,hi=0;
+ rowsAll.forEach(r=>{const v=SIM.byCode[r.code][yi];if(v>0){if(v<lo)lo=v;if(v>hi)hi=v;}});
+ return hi>0?[lo,hi]:[1,1];}
+function popT(v,lo,hi){
+ if(mapScale==='log'){const l0=Math.log(lo),l1=Math.log(hi);return l1>l0?(Math.log(Math.max(v,lo))-l0)/(l1-l0):0;}
+ return hi>lo?(v-lo)/(hi-lo):0;}
+function popCol(v,lo,hi){const t=popT(v,lo,hi),P=[242,239,234],S=[14,110,107];
+ return`rgb(${[0,1,2].map(i=>Math.round(lerp(P[i],S[i],t))).join(',')})`;}
+function mapLegend(lo,hi){
+ if(mapMetric==='chg'){
+  $('legLab').textContent=`${A.meta.start}년 대비`;
+  $('legMin').textContent='−25%';$('legMax').textContent='+10%';
+  $('legBar').style.background='linear-gradient(90deg,#A03A38,#F2EFEA,#0E6E6B)';
+  $('mapSub').textContent=`· 색 = ${A.meta.start} 대비 증감`;
+ }else{
+  $('legLab').textContent=`${YRS[yi]}년 인구 · ${mapScale==='log'?'로그':'선형'} 스케일`;
+  $('legMin').textContent=f(lo)+'명';$('legMax').textContent=f(hi)+'명';
+  $('legBar').style.background='linear-gradient(90deg,#F2EFEA,#0E6E6B)';
+  $('mapSub').textContent=`· 색 = ${YRS[yi]}년 인구 (${mapScale==='log'?'로그':'선형'})`;
+ }}
 function makeP(w,h,pad){const[b0,b1,b2,b3]=D.geo.bbox,kx=Math.cos((b1+b3)/2*Math.PI/180);
  const s=Math.min((w-2*pad)/((b2-b0)*kx),(h-2*pad)/(b3-b1));
  const ox=(w-(b2-b0)*kx*s)/2,oy=(h-(b3-b1)*s)/2;
@@ -542,10 +573,15 @@ function update(){
  tg.textContent=fore?'전망':'실적';tg.className='ytag '+(fore?'fore':'actual');
  let tot=0;rowsAll.forEach(r=>tot+=SIM.byCode[r.code][yi]);
  $('simkpi').textContent=`${D.name} 합계 ${(tot/10000).toFixed(1)}만 명 (${A.meta.start} 대비 ${((tot/simTot0-1)*100).toFixed(1)}%)`;
- rowsAll.forEach(r=>{const col=colFor(+pct(r.code));(mapEls[r.code]||[]).forEach(p=>p.setAttribute('fill',col));});
+ const[plo,phi]=popDomain();
+ const colOf=c=>mapMetric==='pop'?popCol(SIM.byCode[c][yi],plo,phi):colFor(+pct(c));
+ mapLegend(plo,phi);
+ rowsAll.forEach(r=>{const col=colOf(r.code);(mapEls[r.code]||[]).forEach(p=>p.setAttribute('fill',col));});
  if(cartoNodes){const R=relax();cartoNodes.forEach(nd=>{const e=cartoEls[nd.code];if(!e)return;const r=R[nd.code];
-  e.c.setAttribute('cx',nd.x);e.c.setAttribute('cy',nd.y);e.c.setAttribute('r',r);e.c.setAttribute('fill',colFor(+pct(nd.code)));
+  e.c.setAttribute('cx',nd.x);e.c.setAttribute('cy',nd.y);e.c.setAttribute('r',r);e.c.setAttribute('fill',colOf(nd.code));
   const nm=shortNm(byCode[nd.code].name);
+  const dk=mapMetric!=='pop'||popT(SIM.byCode[nd.code][yi],plo,phi)>=.5;
+  e.t1.setAttribute('fill',dk?'#fff':ink);e.t2.setAttribute('fill',dk?'rgba(255,255,255,.85)':soft);
   e.t1.setAttribute('x',nd.x);e.t1.setAttribute('y',nd.y+(r>=16?0:3));e.t1.textContent=r>=9?nm:'';
   e.t2.setAttribute('x',nd.x);e.t2.setAttribute('y',nd.y+12);e.t2.textContent=r>=16?(SIM.byCode[nd.code][yi]/10000).toFixed(1)+'만':'';});}
  if(pinned&&sparkFn)sparkFn();}
@@ -555,6 +591,15 @@ $('play').addEventListener('click',()=>{const b=$('play');
  if(yi>=YRS.length-1)yi=0;b.textContent='⏸ 정지';update();
  playing=setInterval(()=>{yi++;update();if(yi>=YRS.length-1){clearInterval(playing);playing=null;b.textContent='▶ 재생';}},620);});
 $('pick').addEventListener('change',()=>{const v=$('pick').value;if(v)pinDetail(v)});
+document.querySelectorAll('[data-mm]').forEach(b=>b.onclick=()=>{mapMetric=b.dataset.mm;
+ document.querySelectorAll('[data-mm]').forEach(x=>x.classList.toggle('on',x===b));
+ const pop=mapMetric==='pop';
+ document.querySelectorAll('[data-ms],[data-msx]').forEach(x=>x.style.display=pop?'':'none');
+ $('mmHint').textContent=pop?'색 = 그 해 인구수 (스케일 전환 가능 · 로그는 작은 지역 간 차이가 잘 보입니다)':'색 = 시작연도 대비 증감률';
+ update();});
+document.querySelectorAll('[data-ms]').forEach(b=>b.onclick=()=>{mapScale=b.dataset.ms==='log'?'log':'lin';
+ document.querySelectorAll('[data-ms]').forEach(x=>x.classList.toggle('on',x===b));
+ update();});
 
 /* ── 담당자 해석·정책 제안 (모든 문장을 해당 지역 실측 지표에서 규칙 기반 생성 · 근거 수치 괄호 병기) ── */
 const DISC='공표 통계 기반 자동 생성 참고자료로, 개별 정책 결정의 단독 근거로 사용할 수 없습니다.';
