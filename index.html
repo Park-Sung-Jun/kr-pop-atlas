@@ -254,6 +254,10 @@ footer li{padding:2px 0}
     <div class="hlgrid" id="budKpi"></div>
     <div class="card"><h3>재정자립도 × 주민 1인당 세출</h3>
       <div class="src" id="budScatSrc"></div>
+      <div class="sortbar" style="margin:2px 0 6px"><span>1인당 세출(y축) 스케일</span>
+        <button class="sbtn on" data-bss="lin" type="button">선형</button>
+        <button class="sbtn" data-bss="log" type="button">로그</button>
+      </div>
       <div class="cbox" id="budScatBox"><div id="budScat" style="width:100%;height:100%"></div></div>
       <div class="leg" id="budLeg" style="gap:14px"></div></div>
     <div class="sortbar"><span>빠른 정렬</span>
@@ -614,6 +618,9 @@ document.querySelectorAll('[data-mm]').forEach(b=>b.onclick=()=>{mapMetric=b.dat
 document.querySelectorAll('[data-ms]').forEach(b=>b.onclick=()=>{mapScale=b.dataset.ms==='log'?'log':'lin';
  document.querySelectorAll('[data-ms]').forEach(x=>x.classList.toggle('on',x===b));
  update();});
+document.querySelectorAll('[data-bss]').forEach(b=>b.onclick=()=>{budScale=b.dataset.bss==='log'?'log':'lin';
+ document.querySelectorAll('[data-bss]').forEach(x=>x.classList.toggle('on',x===b));
+ const SC=$('budScat');if(SC){SC.innerHTML='';budScatter(SC);}});
 
 /* ── 담당자 해석·정책 제안 (모든 문장을 해당 지역 실측 지표에서 규칙 기반 생성 · 근거 수치 괄호 병기) ── */
 const DISC='공표 통계 기반 자동 생성 참고자료로, 개별 정책 결정의 단독 근거로 사용할 수 없습니다.';
@@ -986,7 +993,7 @@ function initCompare(){
 }
 
 /* ── 06 예산·재정 페이지 (decline.json budget 결합, 지역 컨텍스트 연동) ── */
-let budRows=[],budSort='fi:asc';
+let budRows=[],budSort='fi:asc',budScale='lin';
 const W100=v=>v==null?'-':(v>=10000?(v/10000).toFixed(v>=100000?0:1).replace(/\.0$/,'')+'조원':v.toLocaleString('ko-KR')+'억원');
 function budgetRows(){
  if(!DECLINE||!DECLINE.budget||!A||!D)return [];
@@ -1018,15 +1025,20 @@ function budScatter(host){
  const W=host.clientWidth||900,H=host.clientHeight||340,m={t:28,r:16,b:36,l:64};
  const iw=W-m.l-m.r,ih=H-m.t-m.b;
  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:'100%',preserveAspectRatio:'xMidYMid meet'});
- const xmax=Math.max(...rs.map(r=>r.fi))*1.08,ymax=Math.max(...rs.map(r=>r.pc))*1.08;
- const X=v=>m.l+v/xmax*iw,Y=v=>m.t+ih-v/ymax*ih;
- for(let t=0;t<=4;t++){const yv=ymax*t/4,y=Y(yv);
+ const xmax=Math.max(...rs.map(r=>r.fi))*1.08;
+ const pcVals=rs.map(r=>r.pc),ymaxLin=Math.max(...pcVals)*1.08;
+ const yLo=Math.max(1,Math.min(...pcVals))/1.15,yHi=Math.max(...pcVals)*1.15;
+ const isLog=budScale==='log',l0=Math.log(yLo),l1=Math.log(yHi);
+ const X=v=>m.l+v/xmax*iw;
+ const Y=v=>isLog?m.t+ih-(Math.log(Math.max(v,yLo))-l0)/(l1-l0)*ih:m.t+ih-v/ymaxLin*ih;
+ const yTicks=isLog?[0,1,2,3,4].map(t=>Math.exp(l0+(l1-l0)*t/4)):[0,1,2,3,4].map(t=>ymaxLin*t/4);
+ yTicks.forEach(yv=>{const y=Y(yv);
   svg.appendChild(el('line',{x1:m.l,y1:y,x2:m.l+iw,y2:y,stroke:line,'stroke-width':1}));
-  svg.appendChild(el('text',{x:m.l-7,y:y+4,'text-anchor':'end','font-size':11,fill:soft},Math.round(yv).toLocaleString('ko-KR')));}
+  svg.appendChild(el('text',{x:m.l-7,y:y+4,'text-anchor':'end','font-size':11,fill:soft},Math.round(yv).toLocaleString('ko-KR')));});
  for(let t=0;t<=5;t++){const xv=xmax*t/5,x=X(xv);
   svg.appendChild(el('text',{x,y:H-16,'text-anchor':'middle','font-size':11,fill:soft},Math.round(xv)+'%'));}
  svg.appendChild(el('text',{x:m.l+iw/2,y:H-2,'text-anchor':'middle','font-size':11,fill:soft},'재정자립도 (%)'));
- svg.appendChild(el('text',{x:m.l-7,y:m.t-10,'text-anchor':'end','font-size':10,fill:soft},'만원/인'));
+ svg.appendChild(el('text',{x:m.l-7,y:m.t-10,'text-anchor':'end','font-size':10,fill:soft},`만원/인${isLog?' · 로그':''}`));
  const maxPop=Math.max(...rs.map(r=>r.pop)),rk=Math.min(iw,ih)*0.045/Math.sqrt(maxPop);
  [...rs].sort((a,b)=>b.pop-a.pop).forEach(r=>{
   const col=r.desig&&r.desig.designated?red:r.desig?'#C98A2B':sea;
