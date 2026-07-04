@@ -260,6 +260,15 @@ footer li{padding:2px 0}
       <thead><tr><th>지역</th><th>시도</th><th>재정자립도</th><th>재정자주도</th><th>예산현액</th><th>결산세출</th><th>1인당 세출</th><th>인구감소지역</th></tr></thead>
       <tbody id="budTb"></tbody></table></div>
     <div class="brief" id="budFund" style="display:none"></div>
+    <div class="card" id="finCard" style="display:none;margin-top:16px"><h3 id="finT"></h3>
+      <div class="src" id="finSrc"></div>
+      <div style="margin:2px 0 12px"><select id="finSel" class="cmpsel" style="max-width:300px" aria-label="심층 재정 지역 선택"></select></div>
+      <div class="maps2">
+        <div><h4 id="finFldT"></h4><div id="finFld"></div></div>
+        <div><h4 id="finFiT"></h4><div id="finFi"></div><h4 id="finIncT" style="margin-top:16px"></h4><div id="finInc"></div></div>
+      </div>
+      <p class="note" id="finNote" style="margin-top:10px"></p>
+    </div>
     <p class="note" id="budNote"></p>
   </section>
 </main>
@@ -275,7 +284,7 @@ footer li{padding:2px 0}
   </ul>
   <p class="note" style="margin-top:12px" id="ftNote"></p>
   <p class="note" id="declSrc" style="margin-top:8px;display:none"></p>
-  <p class="note" style="margin-top:8px">대한민국 인구전망 아틀라스 v1.2.0</p>
+  <p class="note" style="margin-top:8px">대한민국 인구전망 아틀라스 v1.3.0</p>
 </div></footer>
 </div>
 
@@ -409,6 +418,7 @@ function initRegion(){
  buildRegionBrief();
  buildHighlights();
  buildBudget();
+ try{buildFinance();}catch(e){}
  redraw();
  window.scrollTo({top:0});
 }
@@ -999,6 +1009,86 @@ function buildBudget(){
 document.querySelectorAll('[data-us]').forEach(b=>b.onclick=()=>{budSort=b.dataset.us;
  document.querySelectorAll('[data-us]').forEach(x=>x.classList.toggle('on',x===b));budTable();});
 
+/* ── 06b 시군구 재정 심층 (finance.json: 분야별 세출·자립도 추이·교부세 인센티브) ── */
+let FIN=null,finCode=null;
+const WON=v=>v>=1e12?(v/1e12).toFixed(2).replace(/\.?0+$/,'')+'조원'
+ :v>=1e8?Math.round(v/1e8).toLocaleString('ko-KR')+'억원'
+ :v>0?Math.round(v/1e4).toLocaleString('ko-KR')+'만원':'0원';
+function finRegions(){
+ if(!FIN||!A||!D)return[];
+ const out=[],push=(r,sd)=>{if(FIN.by_code[r.code])out.push({code:r.code,name:r.name,sido:sd})};
+ if(D.isNat)A.sido.forEach(s=>s.rows.forEach(r=>push(r,s.short)));
+ else{const s=A.sido.find(x=>x.code===D.key);if(s)s.rows.forEach(r=>push(r,s.short));}
+ return out;}
+function finFldChart(host,fld,year){
+ const items=Object.entries(fld||{}).map(([k,v])=>[k,(v.b||0)+(v.o||0)]).filter(x=>x[1]>0).sort((a,b)=>b[1]-a[1]);
+ const tot=items.reduce((s,x)=>s+x[1],0);
+ $('finFldT').textContent=`분야별 세출예산 — ${year}년, 합계 ${WON(tot)}`;
+ host.innerHTML=items.map(([k,v])=>{const p=v/tot*100;
+  return `<div style="margin:6px 0"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px"><span>${k}</span><span class="num" style="color:${soft}">${WON(v)} · ${p.toFixed(1)}%</span></div>
+   <div style="height:8px;background:#E7ECEA;border-radius:2px"><div style="width:${Math.max(p,.5)}%;height:100%;background:${sea};border-radius:2px"></div></div></div>`;}).join('')
+  ||'<p class="note">자료 없음</p>';}
+function finFiChart(host,fi){
+ host.innerHTML='';
+ if(!fi||!fi.years||!fi.years.length){host.innerHTML='<p class="note">자료 없음</p>';return;}
+ $('finFiT').textContent=`재정자립도 추이 — ${fi.years[0]}~${fi.years[fi.years.length-1]}년`;
+ const W=440,H=180,m={t:14,r:46,b:22,l:36},iw=W-m.l-m.r,ih=H-m.t-m.b;
+ const vals=[...fi.pre,...fi.post].filter(v=>v!=null);
+ const ymax=Math.max(...vals)*1.15||1,n=fi.years.length;
+ const X=i=>m.l+(n>1?i/(n-1):0)*iw,Y=v=>m.t+ih-v/ymax*ih;
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',preserveAspectRatio:'xMidYMid meet'});
+ for(let t=0;t<=3;t++){const yv=ymax*t/3,y=Y(yv);
+  svg.appendChild(el('line',{x1:m.l,y1:y,x2:m.l+iw,y2:y,stroke:line,'stroke-width':1}));
+  svg.appendChild(el('text',{x:m.l-6,y:y+4,'text-anchor':'end','font-size':10,fill:soft},Math.round(yv)+'%'));}
+ [0,Math.floor((n-1)/2),n-1].forEach(i=>svg.appendChild(el('text',{x:X(i),y:H-6,'text-anchor':'middle','font-size':10,fill:soft},fi.years[i])));
+ const draw=(arr,c,dash)=>{let d='';arr.forEach((v,i)=>{if(v==null)return;d+=(d?'L':'M')+X(i).toFixed(1)+' '+Y(v).toFixed(1);});
+  if(!d)return;svg.appendChild(el('path',{d,fill:'none',stroke:c,'stroke-width':2,...(dash?{'stroke-dasharray':'4 3'}:{})}));
+  for(let i=arr.length-1;i>=0;i--)if(arr[i]!=null){svg.appendChild(el('text',{x:X(i)+5,y:Y(arr[i])+4,'font-size':10,'font-weight':700,fill:c},arr[i]+'%'));break;}};
+ draw(fi.pre,ink,false);draw(fi.post,sea,true);
+ host.appendChild(svg);
+ const lg=document.createElement('div');lg.style.cssText='font-size:11px;color:'+soft+';margin-top:2px';
+ lg.innerHTML=`<span style="display:inline-block;width:18px;border-top:2px solid ${ink};vertical-align:middle;margin-right:4px"></span>세입과목 개편 전&nbsp;&nbsp;<span style="display:inline-block;width:18px;border-top:2px dashed ${sea};vertical-align:middle;margin-right:4px"></span>개편 후`;
+ host.appendChild(lg);}
+function finIncBox(host,inc){
+ host.innerHTML='';
+ if(!inc||!inc.years||!inc.years.length){$('finIncT').textContent='지방교부세 인센티브';host.innerHTML='<p class="note">자료 없음</p>';return;}
+ $('finIncT').textContent=`지방교부세 인센티브 산정액 — ${inc.years[0]}~${inc.years[inc.years.length-1]}년`;
+ const W=440,H=110,m={t:12,r:8,b:20,l:8},iw=W-m.l-m.r,ih=H-m.t-m.b,n=inc.years.length;
+ const vmax=Math.max(...inc.total.map(v=>v||0))||1,bw=iw/n*0.62;
+ const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',preserveAspectRatio:'xMidYMid meet'});
+ svg.appendChild(el('line',{x1:m.l,y1:m.t+ih,x2:m.l+iw,y2:m.t+ih,stroke:line,'stroke-width':1}));
+ inc.years.forEach((y,i)=>{const v=inc.total[i]||0,x=m.l+iw/n*(i+0.5),h=v/vmax*ih;
+  if(v>0)svg.appendChild(el('rect',{x:x-bw/2,y:m.t+ih-h,width:bw,height:Math.max(h,1.5),fill:sea,opacity:.85}));
+  if(i===0||i===n-1||v===vmax)svg.appendChild(el('text',{x,y:H-6,'text-anchor':'middle','font-size':10,fill:soft},y));
+  if(v===vmax&&v>0)svg.appendChild(el('text',{x,y:m.t+ih-h-4,'text-anchor':'middle','font-size':10,'font-weight':700,fill:ink},WON(v)));});
+ host.appendChild(svg);
+ const names=FIN.meta.inc_item_names||[],its=(inc.items||[]).map((v,i)=>[names[i],v]).filter(x=>x[1]>0);
+ const d=document.createElement('div');d.style.cssText='font-size:12px;margin-top:4px';
+ d.innerHTML=its.length
+  ?`<b>${inc.items_year}년 산정 항목</b> — `+its.map(([k,v])=>`${k} <b class="num">${WON(v)}</b>`).join(' · ')
+  :`<span style="color:${soft}">${inc.items_year}년 항목별 산정액 없음 (인센티브는 재정 운영 성과가 있는 지자체에만 연도별로 산정됩니다)</span>`;
+ host.appendChild(d);}
+function drawFin(){
+ const b=FIN&&FIN.by_code[finCode];if(!b)return;
+ const cur=finRegions().find(r=>r.code===finCode)||{};
+ $('finT').textContent=`시군구 재정 심층 — ${cur.sido||''} ${cur.name||''}`.trim();
+ $('finSrc').textContent='분야별 세출은 일반·특별회계의 사업예산과 행정운영경비 합계, 재정자립도는 세입과목 개편 전·후 병기, 인센티브는 지방교부세 산정 시 반영된 재정 운영 성과 금액입니다.';
+ finFldChart($('finFld'),b.fld,FIN.meta.aidfa_year);
+ finFiChart($('finFi'),b.fi);
+ finIncBox($('finInc'),b.inc);
+ const fs=FIN.meta.sources||[];
+ $('finNote').innerHTML=`세종시와 제주시·서귀포시는 단층제·행정시 특성상 시군구 단위 자료가 없어 제외됩니다. ${DISC} 출처: ${fs.map(s=>`<a href="${s.url}" target="_blank" rel="noreferrer" style="color:${sea}">${s.name}</a>(${s.org}, ${s.year})`).join(' · ')}`;}
+function buildFinance(){
+ const card=$('finCard');if(!card)return;
+ const rs=finRegions();
+ if(!rs.length){card.style.display='none';return;}
+ card.style.display='block';
+ $('finSel').innerHTML=rs.map(r=>`<option value="${r.code}">${r.sido} ${r.name}</option>`).join('');
+ if(!finCode||!rs.some(r=>r.code===finCode))finCode=(pinned&&rs.some(r=>r.code===pinned))?pinned:rs[0].code;
+ $('finSel').value=finCode;
+ $('finSel').onchange=()=>{finCode=$('finSel').value;drawFin();};
+ drawFin();}
+
 /* ── 렌더 오케스트레이션 ── */
 function redraw(){if(!D)return;hideTip();for(const k in REF)delete REF[k];
  const F=$('fan');if(F.clientWidth){F.innerHTML='';fanChart(F);
@@ -1029,6 +1119,11 @@ fetch('data/decline.json')
  .then(j=>{if(!j||!j.designation)return;DECLINE=j;renderDeclineSources();
   if(D){buildRegionBrief();if(pinned)pinDetail(pinned);}
   if(A)try{drawCompare();buildBudget();redraw();}catch(e){}})
+ .catch(()=>{});
+fetch('data/finance.json')
+ .then(r=>r.ok?r.json():null)
+ .then(j=>{if(!j||!j.by_code||j.meta&&j.meta.mode!=='full')return;FIN=j;
+  if(A&&D)try{buildFinance();}catch(e){}})
  .catch(()=>{});
 fetch('data/atlas.json')
  .then(r=>{if(!r.ok)throw new Error();return r.json()})

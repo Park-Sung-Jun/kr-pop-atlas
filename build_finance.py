@@ -30,7 +30,10 @@ except Exception:
 HERE = os.path.dirname(os.path.abspath(__file__))
 ATLAS = os.path.join(HERE, "data", "atlas.json")
 OUT = os.path.join(HERE, "data", "finance.json")
-ENV_PATH = r"C:\Users\user\Downloads\claude\isochrone_map\.env"
+ENV_PATHS = [
+    r"C:\Users\user\.claude\.env",                        # 전역 공용 키
+    r"C:\Users\user\Downloads\claude\isochrone_map\.env",
+]
 BASE = "https://www.lofin365.go.kr/lf/hub/"
 
 FI_YEARS = list(range(2010, 2026))          # JFIED
@@ -55,14 +58,15 @@ def load_key(cli_key):
         return cli_key
     if os.environ.get("LOFIN365_API_KEY"):
         return os.environ["LOFIN365_API_KEY"]
-    try:
-        with open(ENV_PATH, encoding="utf-8") as f:
-            for line in f:
-                s = line.strip()
-                if s.startswith("LOFIN365_API_KEY") and "=" in s:
-                    return s.split("=", 1)[1].strip().strip('"').strip("'")
-    except OSError:
-        pass
+    for path in ENV_PATHS:
+        try:
+            with open(path, encoding="utf-8") as f:
+                for line in f:
+                    s = line.strip()
+                    if s.startswith("LOFIN365_API_KEY") and "=" in s:
+                        return s.split("=", 1)[1].strip().strip('"').strip("'")
+        except OSError:
+            pass
     return None  # 샘플 모드
 
 
@@ -75,27 +79,57 @@ def call(svc, params, key):
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
     ctx = ssl.create_default_context()
     ctx.set_ciphers("DEFAULT:@SECLEVEL=1")  # lofin365 TLS 호환(관공서 구형 암호수트)
-    for attempt in range(3):
+    last = None
+    for attempt in range(5):
         try:
             with urllib.request.urlopen(req, timeout=90, context=ctx) as r:
                 data = json.loads(r.read().decode("utf-8", errors="replace"))
-            break
         except Exception as e:
-            if attempt == 2:
-                raise
-            print("  [retry] %s %s" % (svc, e))
-            time.sleep(3)
-    body = data.get(svc)
-    if not body:  # {"RESULT":{"CODE":"INFO-200"...}} 형태(데이터 없음/오류)
-        code = (data.get("RESULT") or {}).get("CODE", "?")
-        if code == "INFO-200":
+            last = str(e)
+            print("  [retry:net] %s %s" % (svc, e), flush=True)
+            time.sleep(3 + attempt * 3)
+            continue
+        # 응답 형태가 dict/list·RESULT dict/list 등 여러 변형으로 오므로 재귀 탐색으로 파싱
+        rows = _find_rows(data)
+        if rows:
+            return rows
+        code, msg = _find_result(data)
+        if code in (None, "INFO-000", "INFO-200"):
             return []
-        raise RuntimeError("%s %s %s" % (svc, code, (data.get("RESULT") or {}).get("MESSAGE", "")))
+        last = "%s %s" % (code, msg)
+        print("  [retry:api] %s %s" % (svc, last), flush=True)
+        time.sleep(5 + attempt * 5)  # 호출량 초과·일시 서버 오류 대비
+    raise RuntimeError("%s %s" % (svc, last))
+
+
+def _find_rows(obj):
     rows = []
-    for part in body:
-        if "row" in part:
-            rows.extend(part["row"])
+    if isinstance(obj, dict):
+        for k, v in obj.items():
+            if k == "row" and isinstance(v, list):
+                rows.extend(v)
+            else:
+                rows.extend(_find_rows(v))
+    elif isinstance(obj, list):
+        for v in obj:
+            rows.extend(_find_rows(v))
     return rows
+
+
+def _find_result(obj):
+    if isinstance(obj, dict):
+        if "CODE" in obj:
+            return obj.get("CODE"), obj.get("MESSAGE", "")
+        for v in obj.values():
+            c, m = _find_result(v)
+            if c:
+                return c, m
+    elif isinstance(obj, list):
+        for v in obj:
+            c, m = _find_result(v)
+            if c:
+                return c, m
+    return None, ""
 
 
 def fetch_all(svc, params, key, page_size=1000):
@@ -107,6 +141,7 @@ def fetch_all(svc, params, key, page_size=1000):
         if not key or len(chunk) < page_size:
             return rows
         p += 1
+        time.sleep(0.3)  # 호출량 초과 방지 스로틀
 
 
 def num(v):
@@ -215,7 +250,7 @@ def main():
             "aidfa_year": ay,
             "inc_item_names": INC_ITEMS,
             "sources": SRC,
-            "notes": "금액 단위: AIDFA 원, LLBSI 백만원(lofin365 원문 단위 그대로). "
+            "notes": "금액 단위: AIDFA·LLBSI 모두 원(수집값 스케일로 검증: 인센티브 최대 30억·중앙값 7천만). "
                      "분야별 세출현황(HCFDA)은 서버 오류, 지방채 잔액(ACCAM)은 시군구 데이터 부재, "
                      "세입현황(SIHHC)은 연간 시계열 불가, 지방보조금(UCMZQK)은 2019년 이후 갱신 중단으로 미수록(2026-07 확인).",
         },

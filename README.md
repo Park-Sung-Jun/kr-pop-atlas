@@ -37,6 +37,7 @@ python build_data.py --key 발급키 --end 2025
 - `data/atlas.json` — `{meta, national, sido:[...]}` 단일 컴팩트 JSON (~1.2MB)
 - `data/atlas.js` — 동일 데이터의 `window.ATLAS` 래퍼 (file:// 폴백용)
 - `data/decline.json` — `{meta, designation, fund, policy_playbook, budget}` 감소지역·기금·재정 결합 JSON (~165KB, 아래 절차로 생성)
+- `data/finance.json` — `{meta, by_code}` 시군구별 분야별 세출예산(fld)·재정자립도 시계열(fi)·교부세 인센티브(inc) (~250KB, 지방재정365 OpenAPI)
 
 ### 감소지역·기금·재정 데이터 빌드 (data/decline.json)
 
@@ -51,6 +52,10 @@ python build_budget.py
 
 # 3) 예산현액·결산세출·주민 1인당 세출(2023 결산) → budget.by_code 병합 (KOSIS 키 필요)
 python build_budget_exec.py
+
+# 4) 분야별 세출예산·재정자립도 시계열·교부세 인센티브 → data/finance.json 생성
+#    (지방재정365 lofin365 자체 인증키 필요 — LOFIN365_API_KEY, data.go.kr 키와 별개)
+python build_finance.py
 ```
 
 원칙: **확인된 수치·명단만 반영**합니다. 미확인 개별 배분액·등급은 `null`,
