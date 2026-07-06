@@ -77,13 +77,21 @@ python build_finance.py
 - **행정안전부 지방소멸대응기금** — 연 1조 원(2022~2031), 배분기준 고시(제2024-6호)·연도별 배분현황·집행률(KDI 경제정보센터·나라살림연구소 분석 병기)
 - **지방재정 통계(지방재정365 계열, KOSIS OpenAPI 경유)** — 재정자립도 `DT_1YL20921`·재정자주도 `DT_1YL20891`(e-지방지표, 2022~2025), 세입세출 예산현액·결산세출 `DT_110001_A011`(행정안전부 지방재정, 2023 결산). 시군구별 매칭은 시도명→시군명 이름매칭, 미공표 지역은 `null`.
 
-## GitHub Pages 배포
+## 배포 — 정본은 GitHub Pages
+
+- **정본 URL: https://park-sung-jun.github.io/kr-pop-atlas/** (origin `Park-Sung-Jun/kr-pop-atlas`, main/root)
+- Vercel은 사용하지 않는다. `kr-pop-atlas.vercel.app`은 운영하지 않으며(응답 없음), 혼동 방지를 위해 로컬 `.vercel` 링크도 제거했다. 재배포는 **항상 GitHub Pages**로만 한다.
 
 ```bash
-git init && git add -A && git commit -m "atlas"
-git remote add origin https://github.com/<계정>/kr-pop-atlas.git
-git push -u origin main
-# GitHub → Settings → Pages → Source: main / root
+git add -A && git commit -m "..."
+git push origin main            # → Pages 자동 재빌드
+# 최초 1회: GitHub → Settings → Pages → Source: main / root
 ```
 
 정적 파일(`index.html`, `data/`)만 있으면 되므로 별도 빌드 파이프라인이 필요 없습니다.
+
+### 도메인 등록 사전 체크 (카카오 API·tms-ai-lab.com)
+
+- **이 사이트(kr-pop-atlas)는 카카오 API를 쓰지 않는다.** 지도·카토그램은 모두 인라인 SVG(GeoJSON 렌더)라 도메인 등록이 필요 없다. 정본 URL만 바뀌지 않으면 지도는 항상 정상 동작한다.
+- 카카오 지도 API를 쓰는 건 자매 프로젝트 **pop-pyramid**다. 카카오 JS SDK는 **등록된 웹 도메인에서만** 동작하므로, 배포 URL이 바뀌거나 `tms-ai-lab.com` 서브도메인으로 옮길 때는 **먼저 카카오 개발자 콘솔의 허용 도메인에 그 URL을 등록**해야 지도가 뜬다. 등록 없이 URL만 바꾸면 지도가 로드되지 않는다.
+- 규칙: 카카오 API 사용 프로젝트의 배포 URL/도메인을 바꾸기 전에 **항상 카카오 콘솔 허용 도메인 등록을 사전 확인**한다.
