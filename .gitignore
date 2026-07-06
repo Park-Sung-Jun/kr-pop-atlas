@@ -5,3 +5,6 @@ shot_*.png
 docs_shots/
 
 .vercel
+
+# 회사PC 이관 자료 흡수 아카이브(로컬 전용, 사이트 자산 아님)
+_archive_company_pc/

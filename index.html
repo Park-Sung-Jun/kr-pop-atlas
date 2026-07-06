@@ -4,106 +4,125 @@
 <title>대한민국 인구전망 아틀라스</title>
 <meta name="description" content="전국 17개 시도·229개 시군구의 2031 인구 전망과 소멸위험을 지도·카토그램·연도 시뮬레이션·인구 피라미드로 탐색하는 아틀라스">
 <!-- 차트는 인라인 SVG로 직접 렌더링: 외부 라이브러리/CDN 불필요 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-:root{--paper:#F3F5F4;--ink:#1E2A32;--soft:#4D5D66;--sea:#0E6E6B;--red:#A03A38;--line:#D4DBD9;--card:#fff}
+:root{
+  --paper:#faf9fd;--card:#fff;--gray:#F7FAFC;
+  --ink:#1a1c1e;--soft:#43474e;--line:#E2E8F0;
+  --primary:#002045;--primary-tint:#E8EEF6;
+  --sea:#2B6CB0;--red:#C53030;--risk:#DD6B20;
+  --male:#3182CE;--female:#D53F8C;
+}
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:var(--paper);color:var(--ink);font-family:'Apple SD Gothic Neo','Pretendard','Malgun Gothic','Noto Sans KR',sans-serif;font-size:15.5px;line-height:1.7;letter-spacing:-.01em}
-.num{font-variant-numeric:tabular-nums}
-.wrap{max-width:980px;margin:0 auto;padding:0 22px}
-header{border-bottom:3px solid var(--ink);padding:40px 0 20px;background:var(--card)}
-.meta{display:flex;justify-content:space-between;font-size:12px;color:var(--soft);letter-spacing:.14em;text-transform:uppercase;margin-bottom:14px;flex-wrap:wrap;gap:8px}
-.masthead{font-size:13px;font-weight:800;letter-spacing:.18em;color:var(--red);margin-bottom:6px}
-h1{font-size:clamp(22px,4.2vw,34px);font-weight:800;line-height:1.32;letter-spacing:-.03em;word-break:keep-all}
+body{background:var(--paper);color:var(--ink);font-family:'Hanken Grotesk','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',sans-serif;font-size:15.5px;line-height:1.7;letter-spacing:-.01em}
+.num{font-family:'JetBrains Mono','Apple SD Gothic Neo',monospace;font-variant-numeric:tabular-nums}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px}
+/* ── 앱 셸: 좌측 사이드바 내비게이션 + 본문 ── */
+.shell{display:flex;align-items:flex-start;min-height:100vh}
+.sidebar{width:240px;flex-shrink:0;background:var(--card);border-right:1px solid var(--line);position:sticky;top:0;height:100vh;display:flex;flex-direction:column;overflow-y:auto}
+.sidebar-top{padding:24px 20px 18px}
+.brand{font-size:16px;font-weight:800;line-height:1.35;word-break:keep-all;color:var(--ink)}
+.brand-meta{font-size:10.5px;color:var(--soft);letter-spacing:.06em;text-transform:uppercase;margin-top:8px}
+.navlist{display:flex;flex-direction:column;gap:2px;padding:6px 12px;flex:1}
+.navbtn{display:flex;align-items:center;gap:10px;border:none;background:none;text-align:left;width:100%;padding:10px 12px;border-radius:8px;font:inherit;font-size:13.5px;font-weight:600;color:var(--soft);cursor:pointer}
+.navbtn:hover{background:var(--gray)}
+.navbtn.active{background:var(--primary-tint);color:var(--primary)}
+.navbtn .nb-ic{font-size:10.5px;font-weight:800;opacity:.65;width:16px;flex-shrink:0}
+.sidebar-bottom{padding:14px 20px 22px;border-top:1px solid var(--line)}
+.content{flex:1;min-width:0;padding:26px 32px 60px}
+@media(max-width:900px){.shell{flex-direction:column}.sidebar{width:100%;height:auto;position:relative;flex-direction:row;align-items:center;overflow-x:auto;border-right:none;border-bottom:1px solid var(--line)}
+ .sidebar-top{padding:14px 16px}.navlist{flex-direction:row;padding:6px 8px}.navbtn{white-space:nowrap}.sidebar-bottom{display:none}.content{padding:18px 16px 48px}}
+.topbar{padding-bottom:6px}
+h1{font-size:clamp(20px,3.4vw,28px);font-weight:800;line-height:1.32;letter-spacing:-.03em;word-break:keep-all}
 h1 .a{color:var(--red)}
 .h1sub{margin-top:10px;font-size:14.5px;color:var(--soft);word-break:keep-all;line-height:1.65}
 .h1sub b{color:var(--ink)}.h1sub b.rd{color:var(--red)}.h1sub b.se{color:var(--sea)}
 /* 지역 선택 바 */
-.regbar{background:var(--card);border-bottom:1.5px solid var(--ink);padding:10px 0}
-.regbar .wrap{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.regionbar{margin-top:18px}
+.regbar{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .rbtn{border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:20px;padding:4px 13px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
-.rbtn:hover{border-color:var(--ink)}
-.rbtn.on{background:var(--ink);border-color:var(--ink);color:#fff}
-.rbtn.nat{border-width:1.5px;border-color:var(--ink)}
-.keyline{background:var(--ink);color:#EDF1F0;padding:22px 0}
-.keyline .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
-.kpi small{display:block;font-size:11.5px;color:#9FB1B4;letter-spacing:.08em;margin-bottom:3px}
-.kpi strong{font-size:clamp(18px,2.8vw,24px);font-weight:800}
-.kpi span{display:block;font-size:12px;color:#C4CFCE;word-break:keep-all}
-@media(max-width:760px){.keyline .wrap{grid-template-columns:1fr 1fr}}
-main{padding:8px 0 60px}
-section{margin-top:48px}
-.ch{display:flex;align-items:baseline;gap:12px;border-bottom:1.5px solid var(--ink);padding-bottom:9px;margin-bottom:18px}
-.ch em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--red);letter-spacing:.12em}
-.ch h2{font-size:20px;font-weight:800;letter-spacing:-.02em}
+.rbtn:hover{border-color:var(--primary)}
+.rbtn.on{background:var(--primary);border-color:var(--primary);color:#fff}
+.rbtn.nat{border-width:1.5px;border-color:var(--primary)}
+.kpirow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:18px 0 8px}
+.kpi{background:var(--gray);border:1px solid var(--line);border-radius:8px;padding:14px 16px}
+.kpi small{display:block;font-size:11.5px;color:var(--soft);letter-spacing:.04em;margin-bottom:4px}
+.kpi strong{font-size:clamp(18px,2.4vw,23px);font-weight:800;font-family:'JetBrains Mono',monospace}
+.kpi span{display:block;font-size:12px;color:var(--soft);word-break:keep-all;margin-top:2px}
+@media(max-width:760px){.kpirow{grid-template-columns:1fr 1fr}}
+section{margin-top:44px}
+.ch{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:9px;margin-bottom:18px}
+.ch em{font-style:normal;font-size:12.5px;font-weight:700;color:var(--primary);letter-spacing:.1em}
+.ch h2{font-size:19px;font-weight:800;letter-spacing:-.02em}
 p{margin-bottom:12px;word-break:keep-all}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:18px 16px 10px;margin:16px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:18px 16px 10px;margin:16px 0;box-shadow:0 2px 4px rgba(26,32,44,.02)}
 .card h3{font-size:14px;font-weight:700}
 .card .src{font-size:11.5px;color:var(--soft);margin-bottom:10px}
 .cbox{position:relative;height:340px}.cbox.tall{height:560px}
 table{width:100%;border-collapse:collapse;background:var(--card);font-size:13.5px;margin:14px 0}
-th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap}
-th:first-child,td:first-child{text-align:left}
-thead th{border-top:2px solid var(--ink);border-bottom:1.5px solid var(--ink);background:#EDF0EF;font-size:12.5px;cursor:pointer;user-select:none}
-thead th:hover{background:#E2E8E6}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:right;white-space:nowrap;font-family:'JetBrains Mono',monospace}
+th:first-child,td:first-child{text-align:left;font-family:inherit}
+thead th{border-top:1px solid var(--line);border-bottom:1.5px solid var(--ink);background:var(--gray);font-size:12px;font-family:'Hanken Grotesk',sans-serif;cursor:pointer;user-select:none}
+thead th:hover{background:var(--primary-tint)}
 td.down{color:var(--red);font-weight:600}td.up{color:var(--sea);font-weight:600}
-.tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;font-weight:700}
-.g0{background:#F6E3E2;color:#8C2F2D}.g1{background:#FBEDE4;color:#A55225}
-.g2{background:#FFF6DE;color:#8A6A12}.g3{background:#E7F1EF;color:#0E6E6B}.g4{background:#DDEDEA;color:#0A5350}
+.tag{display:inline-block;padding:1px 8px;border-radius:20px;font-size:11.5px;font-weight:700;font-family:'Hanken Grotesk',sans-serif}
+.g0{background:#FBE4D5;color:#9A4A0E}.g1{background:#FDEEDC;color:#B5651D}
+.g2{background:#FFF6DE;color:#8A6A12}.g3{background:#DCE9F5;color:#1D5490}.g4{background:#E8EEF6;color:#164070}
 .tbl-scroll{overflow-x:auto}
-footer{border-top:2px solid var(--ink);padding:22px 0 56px;font-size:12.5px;color:var(--soft)}
+footer{border-top:1px solid var(--line);padding:22px 0 56px;font-size:12.5px;color:var(--soft)}
 footer li{padding:2px 0}
 .note{font-size:12.5px;color:var(--soft);border-left:3px solid var(--line);padding-left:12px;margin:12px 0;word-break:keep-all}
-#tip{position:fixed;z-index:99;background:#1E2A32;color:#EDF1F0;font-size:12px;padding:8px 11px;border-radius:8px;pointer-events:none;display:none;max-width:280px;line-height:1.55;box-shadow:0 4px 16px rgba(0,0,0,.28)}
-#tip b{color:#fff}#tip .tt{color:#9FB1B4;font-size:11px}
+#tip{position:fixed;z-index:99;background:#1a1c1e;color:#F1F0F4;font-size:12px;padding:8px 11px;border-radius:8px;pointer-events:none;display:none;max-width:280px;line-height:1.55;box-shadow:0 4px 16px rgba(0,0,0,.28)}
+#tip b{color:#fff}#tip .tt{color:#A0AEC0;font-size:11px}
 .simbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:4px 0 14px}
-.simbar button{border:1.5px solid var(--ink);background:var(--ink);color:#fff;border-radius:8px;padding:6px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.simbar button{border:none;background:var(--primary);color:#fff;border-radius:8px;padding:6px 14px;font:inherit;font-size:13px;font-weight:700;cursor:pointer}
 .simbar button:hover{opacity:.88}
 .simbar .yrwrap{flex:1;min-width:210px}
-.simbar input[type=range]{width:100%;accent-color:#1E2A32;height:24px;margin:0;cursor:pointer}
+.simbar input[type=range]{width:100%;accent-color:var(--primary);height:24px;margin:0;cursor:pointer}
 .yraxis{position:relative;height:30px;margin:-1px 9px 0}
 .yraxis .tk{position:absolute;top:0;width:1px;height:4px;background:var(--line)}
 .yraxis .tk.maj{height:7px;background:var(--soft)}
-.yraxis .lb{position:absolute;top:8px;transform:translateX(-50%);font-size:10px;color:var(--soft);white-space:nowrap}
+.yraxis .lb{position:absolute;top:8px;transform:translateX(-50%);font-size:10px;color:var(--soft);white-space:nowrap;font-family:'JetBrains Mono',monospace}
 .yraxis .split{position:absolute;top:-1px;height:8px;border-left:1.5px dashed var(--red)}
-.simbar .ylab{font-size:20px;font-weight:800;min-width:56px;text-align:center}
+.simbar .ylab{font-size:20px;font-weight:800;min-width:56px;text-align:center;font-family:'JetBrains Mono',monospace}
 .simkpi{font-size:12.5px;color:var(--soft);margin-left:auto}
 .maps2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:760px){.maps2{grid-template-columns:1fr}}
 .maps2 h4{font-size:13px;font-weight:700;margin-bottom:4px}
-.mapbox{position:relative;height:430px;background:#FBFCFB;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.mapbox{position:relative;height:430px;background:var(--gray);border:1px solid var(--line);border-radius:16px;overflow:hidden}
 .mapbox svg{display:block}
 .map-sgg{stroke:#fff;stroke-width:.8;cursor:pointer;transition:fill .35s}
-.map-sgg:hover{stroke:var(--ink);stroke-width:1.4}
+.map-sgg:hover{stroke:var(--primary);stroke-width:1.4}
 .carto-c{stroke:#fff;stroke-width:1;cursor:pointer;transition:fill .35s,cx .5s ease,cy .5s ease,r .5s ease}
-.carto-c:hover{stroke:var(--ink);stroke-width:1.5}
-.carto-ring{fill:none;stroke:#4A90D9;stroke-width:2.5;pointer-events:none;display:none;transition:cx .5s ease,cy .5s ease,r .5s ease}
-.carto-bg{fill:#EDEDEA;fill-opacity:.35;stroke:#fff;stroke-width:.8;pointer-events:none}
+.carto-c:hover{stroke:var(--primary);stroke-width:1.5}
+.carto-ring{fill:none;stroke:var(--male);stroke-width:2.5;pointer-events:none;display:none;transition:cx .5s ease,cy .5s ease,r .5s ease}
+.carto-bg{fill:#E3E2E6;fill-opacity:.35;stroke:#fff;stroke-width:.8;pointer-events:none}
 .leg{display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--soft);margin-top:10px;flex-wrap:wrap}
-.leg .bar{width:150px;height:10px;border-radius:5px;background:linear-gradient(90deg,#A03A38,#F2EFEA,#0E6E6B);position:relative}
-.leg .bar i{position:absolute;top:-3px;width:2px;height:16px;background:#4A90D9;border-radius:1px;transform:translateX(-1px);display:none;pointer-events:none}
-.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:26px 0 0;border-bottom:2px solid var(--ink)}
-.tbtn{border:1.5px solid var(--ink);border-bottom:none;background:#fff;color:var(--ink);font:inherit;font-size:13.5px;font-weight:700;padding:8px 16px;border-radius:10px 10px 0 0;cursor:pointer}
-.tbtn.active{background:var(--ink);color:#fff}
+.leg .num{font-family:'JetBrains Mono',monospace}
+.leg .bar{width:150px;height:10px;border-radius:5px;background:linear-gradient(90deg,#C53030,#F2EFEA,#2B6CB0);position:relative}
+.leg .bar i{position:absolute;top:-3px;width:2px;height:16px;background:var(--male);border-radius:1px;transform:translateX(-1px);display:none;pointer-events:none}
 .pane{display:none}.pane.active{display:block}
 .sortbar{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin:0 0 10px}
 .sortbar span{font-size:12px;color:var(--soft)}
 .sbtn{border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 12px;font:inherit;font-size:12px;font-weight:700;color:var(--soft);cursor:pointer}
-.sbtn.on{border-color:var(--ink);background:var(--ink);color:#fff}
+.sbtn.on{border-color:var(--primary);background:var(--primary);color:#fff}
 .hlgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}
 @media(max-width:760px){.hlgrid{grid-template-columns:1fr 1fr}}
-.hlcard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;cursor:pointer}
-.hlcard:hover{border-color:var(--ink)}
+.hlcard{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;cursor:pointer;box-shadow:0 2px 4px rgba(26,32,44,.02)}
+.hlcard:hover{border-color:var(--primary);box-shadow:0 2px 8px rgba(26,32,44,.08)}
 .hlcard small{display:block;font-size:11px;color:var(--soft);letter-spacing:.06em;margin-bottom:4px}
-.hlcard b{font-size:18px}
+.hlcard b{font-size:18px;font-family:'JetBrains Mono',monospace}
 .hlcard .v{font-size:13.5px;font-weight:700;margin-top:2px}
 .ranks{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media(max-width:760px){.ranks{grid-template-columns:1fr}}
-.rk{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.rk{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:14px;box-shadow:0 2px 4px rgba(26,32,44,.02)}
 .rk h4{font-size:13px;margin-bottom:8px}
 .rk ol{margin-left:0}
 .rk li{list-style:none;display:flex;justify-content:space-between;gap:8px;padding:5px 2px;border-bottom:1px dashed var(--line);cursor:pointer;font-size:13px}
-.rk li:hover{background:#F4F6F5}
-.brief{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--sea);border-radius:10px;padding:16px 18px 12px;margin:16px 0}
+.rk li:hover{background:var(--gray)}
+.brief{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--sea);border-radius:8px;padding:16px 18px 12px;margin:16px 0}
 .brief h3{font-size:14px;font-weight:800;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;margin-bottom:8px}
 .brief h3 .bd{font-size:10.5px;font-weight:700;color:var(--soft);letter-spacing:.08em}
 .brief p{font-size:13.5px;margin-bottom:8px}
@@ -112,14 +131,15 @@ footer li{padding:2px 0}
 .brief li::before{content:'';position:absolute;left:0;top:12px;width:6px;height:6px;background:var(--sea);border-radius:1px}
 .brief .bh{font-size:12px;font-weight:800;color:var(--soft);letter-spacing:.06em;margin-bottom:2px}
 .brief .dis{font-size:11.5px;color:var(--soft);border-top:1px dashed var(--line);padding-top:8px;margin-top:4px;margin-bottom:2px}
-.pyrlink{display:inline-block;border:1.5px solid var(--ink);border-radius:8px;padding:5px 12px;font-size:12.5px;font-weight:700;color:var(--ink);text-decoration:none;background:#fff;white-space:nowrap}
-.pyrlink:hover{background:var(--ink);color:#fff}
+.pyrlink{display:inline-block;border-radius:20px;padding:6px 14px;font-size:12px;font-weight:700;color:var(--primary);text-decoration:none;background:var(--primary-tint);white-space:nowrap}
+.pyrlink:hover{background:var(--primary);color:#fff}
 .srchwrap{position:relative;margin-top:8px}
-#srch{width:100%;max-width:340px;border:1.5px solid var(--ink);border-radius:8px;padding:7px 12px;font:inherit;font-size:13.5px;background:#fff}
+#srch{width:100%;max-width:340px;border:1px solid var(--line);border-radius:8px;padding:7px 12px 7px 30px;font:inherit;font-size:13.5px;background:var(--gray);background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2343474e' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cline x1='21' y1='21' x2='16.65' y2='16.65'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:10px center}
 #srch::placeholder{color:var(--soft)}
-.srchdrop{position:absolute;z-index:60;top:calc(100% + 4px);left:22px;width:calc(100% - 44px);max-width:340px;background:#fff;border:1.5px solid var(--ink);border-radius:8px;max-height:320px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.14);display:none}
+#srch:focus{outline:none;box-shadow:0 0 0 2px var(--sea);background-color:#fff}
+.srchdrop{position:absolute;z-index:60;top:calc(100% + 4px);left:0;width:100%;max-width:340px;background:#fff;border:1px solid var(--line);border-radius:8px;max-height:320px;overflow-y:auto;box-shadow:0 8px 24px rgba(0,0,0,.14);display:none}
 .srchdrop .it{padding:8px 12px;font-size:13px;cursor:pointer;display:flex;justify-content:space-between;gap:8px;align-items:baseline}
-.srchdrop .it:hover,.srchdrop .it.sel{background:#EDF0EF}
+.srchdrop .it:hover,.srchdrop .it.sel{background:var(--primary-tint)}
 .srchdrop .it small{color:var(--soft);font-size:11px;white-space:nowrap}
 .cmpsel{border:1px solid var(--line);border-radius:8px;padding:6px 9px;font:inherit;font-size:13px;background:#fff;max-width:44%}
 #boot{padding:80px 22px;text-align:center;color:var(--soft);font-size:14px}
@@ -129,35 +149,43 @@ footer li{padding:2px 0}
 <div id="boot">데이터를 불러오는 중입니다…</div>
 
 <div id="app">
-<header><div class="wrap">
-  <div class="meta"><span>KOSIS 국가통계포털 · 주민등록인구 기반</span><span id="mGen"></span></div>
-  <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:6px">
-    <div class="masthead" style="margin-bottom:0">대한민국 인구전망 아틀라스</div>
-    <a class="pyrlink" id="pyrTop" href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer">🔗 인구피라미드 탐색기 →</a>
+<div class="shell">
+<aside class="sidebar">
+  <div class="sidebar-top">
+    <div class="brand">대한민국 인구전망 아틀라스</div>
+    <div class="brand-meta">KOSIS 국가통계포털 · 주민등록인구 기반</div>
   </div>
-  <h1 id="h1"></h1>
-  <p class="h1sub num" id="h1sub"></p>
-</div></header>
-
-<div class="regbar"><div class="wrap" id="regbar"></div>
-<div class="wrap srchwrap"><input id="srch" type="search" placeholder="🔍 시군구 검색 — 예: 안동, 경북 안동시" autocomplete="off" aria-label="전국 시도·시군구 검색"><div class="srchdrop" id="srchDrop"></div></div></div>
-
-<div class="keyline"><div class="wrap">
-  <div class="kpi"><small id="k1t"></small><strong class="num" id="k1v"></strong><span id="k1s"></span></div>
-  <div class="kpi"><small>2031 전망 (중심)</small><strong class="num" id="k2v"></strong><span id="k2s"></span></div>
-  <div class="kpi"><small id="k3t"></small><strong class="num" id="k3v"></strong><span id="k3s"></span></div>
-  <div class="kpi"><small id="k4t"></small><strong class="num" id="k4v"></strong><span id="k4s"></span></div>
-</div></div>
-
-<main class="wrap">
-  <nav class="tabs" id="tabs" role="tablist">
-    <button class="tbtn active" data-t="t1" type="button">① 개요</button>
-    <button class="tbtn" data-t="t4" type="button">② 지도·시뮬레이션</button>
-    <button class="tbtn" data-t="t3" type="button">③ 비교</button>
-    <button class="tbtn" data-t="t2" type="button">④ 전망표</button>
-    <button class="tbtn" data-t="t5" type="button">⑤ 하이라이트</button>
-    <button class="tbtn" data-t="t6" type="button">⑥ 예산·재정</button>
+  <nav class="navlist" id="tabs" role="tablist">
+    <button class="navbtn active" data-t="t1" type="button"><span class="nb-ic">①</span>개요</button>
+    <button class="navbtn" data-t="t4" type="button"><span class="nb-ic">②</span>지도·시뮬레이션</button>
+    <button class="navbtn" data-t="t3" type="button"><span class="nb-ic">③</span>비교</button>
+    <button class="navbtn" data-t="t2" type="button"><span class="nb-ic">④</span>전망표</button>
+    <button class="navbtn" data-t="t5" type="button"><span class="nb-ic">⑤</span>하이라이트</button>
+    <button class="navbtn" data-t="t6" type="button"><span class="nb-ic">⑥</span>예산·재정</button>
   </nav>
+  <div class="sidebar-bottom">
+    <a class="pyrlink" id="pyrTop" href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer">인구피라미드 탐색기 →</a>
+    <div class="brand-meta" style="margin-top:10px">생성 <span id="mGen"></span></div>
+  </div>
+</aside>
+<main class="content">
+  <div class="wrap" style="max-width:100%;padding:0">
+  <div class="topbar">
+    <h1 id="h1"></h1>
+    <p class="h1sub num" id="h1sub"></p>
+  </div>
+
+  <div class="regionbar">
+    <div class="regbar" id="regbar"></div>
+    <div class="srchwrap"><input id="srch" type="search" placeholder="시군구 검색 — 예: 안동, 경북 안동시" autocomplete="off" aria-label="전국 시도·시군구 검색"><div class="srchdrop" id="srchDrop"></div></div>
+  </div>
+
+  <div class="kpirow">
+    <div class="kpi"><small id="k1t"></small><strong class="num" id="k1v"></strong><span id="k1s"></span></div>
+    <div class="kpi"><small>2031 전망 (중심)</small><strong class="num" id="k2v"></strong><span id="k2s"></span></div>
+    <div class="kpi"><small id="k3t"></small><strong class="num" id="k3v"></strong><span id="k3s"></span></div>
+    <div class="kpi"><small id="k4t"></small><strong class="num" id="k4v"></strong><span id="k4s"></span></div>
+  </div>
 
   <section class="pane active" id="t1">
     <div class="ch" style="margin-top:28px"><em>01</em><h2 id="h01"></h2></div>
@@ -283,27 +311,29 @@ footer li{padding:2px 0}
     </div>
     <p class="note" id="budNote"></p>
   </section>
-</main>
-<div id="tip"></div>
+  </div>
 
-<footer><div class="wrap">
-  <b style="color:var(--ink)">데이터 출처 및 산출 방법</b>
-  <ul>
-    <li id="ftSrc"></li>
-    <li>전망 산식: B(중심)=최근 5년 CAGR 연장 · A(가속)=최근 3년 CAGR 연장 · C(완화)=5년 CAGR×0.6 (통계청 중위추계의 실적 대비 감속 비율 준용)</li>
-    <li>소멸위험지수: 이상호(한국고용정보원) 기준 — (20~39세 여성)/(65세 이상)</li>
-    <li>함께 보기: <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:var(--sea);font-weight:700">인구피라미드 탐색기</a> — 전국 시도·시군구·읍면동 성·연령 피라미드, 대조군 비교·유사 지역 탐색 (같은 저자)</li>
-  </ul>
-  <p class="note" style="margin-top:12px" id="ftNote"></p>
-  <p class="note" id="declSrc" style="margin-top:8px;display:none"></p>
-  <p class="note" style="margin-top:8px">대한민국 인구전망 아틀라스 v1.4.0</p>
-</div></footer>
+  <footer>
+    <b style="color:var(--ink)">데이터 출처 및 산출 방법</b>
+    <ul>
+      <li id="ftSrc"></li>
+      <li>전망 산식: B(중심)=최근 5년 CAGR 연장 · A(가속)=최근 3년 CAGR 연장 · C(완화)=5년 CAGR×0.6 (통계청 중위추계의 실적 대비 감속 비율 준용)</li>
+      <li>소멸위험지수: 이상호(한국고용정보원) 기준 — (20~39세 여성)/(65세 이상)</li>
+      <li>함께 보기: <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:var(--sea);font-weight:700">인구피라미드 탐색기</a> — 전국 시도·시군구·읍면동 성·연령 피라미드, 대조군 비교·유사 지역 탐색 (같은 저자)</li>
+    </ul>
+    <p class="note" style="margin-top:12px" id="ftNote"></p>
+    <p class="note" id="declSrc" style="margin-top:8px;display:none"></p>
+    <p class="note" style="margin-top:8px">대한민국 인구전망 아틀라스 v1.5.0</p>
+  </footer>
+</main>
+</div>
+<div id="tip"></div>
 </div>
 
 <script>
 'use strict';
-const ink='#1E2A32',soft='#4D5D66',line='#D4DBD9',sea='#0E6E6B',red='#A03A38';
-const pyrM='#4A90D9',pyrF='#E8597C',pyrC='#2c3e50'; // 인구피라미드 탐색기(pop-pyramid)와 동일 배색
+const ink='#1a1c1e',soft='#43474e',line='#E2E8F0',sea='#2B6CB0',red='#C53030',risk='#DD6B20';
+const pyrM='#3182CE',pyrF='#D53F8C',pyrC='#002045'; // Ethos Demographic Atlas 배색(male-data/female-data)
 const femPattern=(svg,pid)=>{const defs=el('defs',{});const pat=el('pattern',{id:pid,width:4,height:4,patternTransform:'rotate(45)',patternUnits:'userSpaceOnUse'});
  pat.appendChild(el('rect',{width:4,height:4,fill:pyrF}));
  pat.appendChild(el('line',{x1:0,y1:0,x2:0,y2:4,stroke:'rgba(255,255,255,.28)','stroke-width':1}));
@@ -336,11 +366,11 @@ document.addEventListener('mousemove',e=>{if(tip.style.display==='block'&&!(e.ta
 document.addEventListener('touchstart',e=>{if(!(e.target.closest&&e.target.closest('svg'))){hideTip();clearHl();}},true);
 
 /* ── 탭 ── */
-$('tabs').addEventListener('click',e=>{const b=e.target.closest('.tbtn');if(!b)return;
- document.querySelectorAll('.tbtn').forEach(x=>x.classList.toggle('active',x===b));
+$('tabs').addEventListener('click',e=>{const b=e.target.closest('.navbtn');if(!b)return;
+ document.querySelectorAll('.navbtn').forEach(x=>x.classList.toggle('active',x===b));
  document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('active',p.id===b.dataset.t));
  requestAnimationFrame(redraw);});
-const goTab=id=>document.querySelector(`.tbtn[data-t="${id}"]`).click();
+const goTab=id=>document.querySelector(`.navbtn[data-t="${id}"]`).click();
 
 /* ── 지역 뷰 구성 ── */
 function natView(){
@@ -487,7 +517,7 @@ document.querySelectorAll('[data-bs]').forEach(b=>b.onclick=()=>{barSort=b.datas
 const rowTip=r=>`<b>${r.name}</b><br>${A.meta.last}년 ${f(r.pop_last)}명 → 2031년 ${f(r.p2031_B)}명 (<b>${r.chg>=0?'+':''}${r.chg.toFixed(1)}%</b>)<br>고령 ${r.old_pct==null?'-':r.old_pct+'%'} · 위험지수 ${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}<br><span class="tt">${D.isNat?'클릭하면 그 시도의 시군구 지도로 이동':'클릭하면 지도 탭에 상세 고정'}</span>`;
 function barChart(host){
  const rs=[...rowsAll].sort(BSORT[barSort]);
- const W=host.clientWidth||900,H=host.clientHeight||560,m={t:8,r:48,b:26,l:74};
+ const W=host.clientWidth||900,H=host.clientHeight||560,m={t:8,r:48,b:26,l:96};
  const iw=W-m.l-m.r,ih=H-m.t-m.b;
  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:'100%',preserveAspectRatio:'xMidYMid meet'});
  const vals=rs.map(r=>r.chg);let lo=Math.min(0,...vals),hi=Math.max(0,...vals);const pad=(hi-lo)*0.08||1;lo-=pad;hi+=pad;
@@ -508,7 +538,7 @@ function barChart(host){
 
 /* ── 04 지도·카토그램·연도 시뮬레이션 ── */
 const lerp=(a,b,t)=>a+(b-a)*t;
-function colFor(g){const R=[160,58,56],P=[242,239,234],S=[14,110,107];let c;
+function colFor(g){const R=[197,48,48],P=[247,250,252],S=[43,108,176];let c;
  if(g<=0){const t=Math.min(1,-g/25);c=[lerp(P[0],R[0],t),lerp(P[1],R[1],t),lerp(P[2],R[2],t)];}
  else{const t=Math.min(1,g/10);c=[lerp(P[0],S[0],t),lerp(P[1],S[1],t),lerp(P[2],S[2],t)];}
  return`rgb(${c.map(Math.round).join(',')})`;}
@@ -521,18 +551,18 @@ function popDomain(){let lo=Infinity,hi=0;
 function popT(v,lo,hi){
  if(mapScale==='log'){const l0=Math.log(lo),l1=Math.log(hi);return l1>l0?(Math.log(Math.max(v,lo))-l0)/(l1-l0):0;}
  return hi>lo?(v-lo)/(hi-lo):0;}
-function popCol(v,lo,hi){const t=popT(v,lo,hi),P=[242,239,234],S=[14,110,107];
+function popCol(v,lo,hi){const t=popT(v,lo,hi),P=[247,250,252],S=[43,108,176];
  return`rgb(${[0,1,2].map(i=>Math.round(lerp(P[i],S[i],t))).join(',')})`;}
 function mapLegend(lo,hi){
  if(mapMetric==='chg'){
   $('legLab').textContent=`${A.meta.start}년 대비`;
   $('legMin').textContent='−25%';$('legMax').textContent='+10%';
-  $('legBar').style.background='linear-gradient(90deg,#A03A38,#F2EFEA,#0E6E6B)';
+  $('legBar').style.background='linear-gradient(90deg,#C53030,#F7FAFC,#2B6CB0)';
   $('mapSub').textContent=`· 색 = ${A.meta.start} 대비 증감`;
  }else{
   $('legLab').textContent=`${YRS[yi]}년 인구 · ${mapScale==='log'?'로그':'선형'} 스케일`;
   $('legMin').textContent=f(lo)+'명';$('legMax').textContent=f(hi)+'명';
-  $('legBar').style.background='linear-gradient(90deg,#F2EFEA,#0E6E6B)';
+  $('legBar').style.background='linear-gradient(90deg,#F7FAFC,#2B6CB0)';
   $('mapSub').textContent=`· 색 = ${YRS[yi]}년 인구 (${mapScale==='log'?'로그':'선형'})`;
  }}
 function legMark(code){
@@ -554,7 +584,7 @@ function attach(e,code){
 function drawMap(host){host.innerHTML='';const W=host.clientWidth||460,H=host.clientHeight||430;
  const svg=el('svg',{viewBox:`0 0 ${W} ${H}`,width:'100%',height:'100%'});const P=makeP(W,H,10);mapEls={};
  D.geo.features.forEach(ft=>{const d=ft.rings.map(rg=>'M'+rg.map(pt=>{const q=P(pt);return q[0].toFixed(1)+' '+q[1].toFixed(1)}).join('L')+'Z').join('');
-  const p=el('path',{d,class:'map-sgg',fill:'#EDEDEA'});p.dataset.s0='#fff';p.dataset.w0='.8';
+  const p=el('path',{d,class:'map-sgg',fill:'#E3E2E6'});p.dataset.s0='#fff';p.dataset.w0='.8';
   attach(p,ft.code);(mapEls[ft.code]||(mapEls[ft.code]=[])).push(p);reg(ft.code,p);svg.appendChild(p);});
  rowsAll.forEach(r=>{const c=D.cent[r.code];if(!c)return;const q=P(c);
   svg.appendChild(el('text',{x:q[0],y:q[1]+3,'text-anchor':'middle','font-size':9,fill:ink,'pointer-events':'none'},shortNm(r.name)));});
@@ -1041,7 +1071,7 @@ function budScatter(host){
  svg.appendChild(el('text',{x:m.l-7,y:m.t-10,'text-anchor':'end','font-size':10,fill:soft},`만원/인${isLog?' · 로그':''}`));
  const maxPop=Math.max(...rs.map(r=>r.pop)),rk=Math.min(iw,ih)*0.045/Math.sqrt(maxPop);
  [...rs].sort((a,b)=>b.pop-a.pop).forEach(r=>{
-  const col=r.desig&&r.desig.designated?red:r.desig?'#C98A2B':sea;
+  const col=r.desig&&r.desig.designated?red:r.desig?risk:sea;
   const c=el('circle',{cx:X(r.fi),cy:Y(r.pc),r:Math.max(3,rk*Math.sqrt(r.pop)),fill:col,opacity:.55,stroke:'#fff','stroke-width':.8,cursor:'pointer'});
   c.dataset.s0='#fff';c.dataset.w0='.8';reg(r.code,c);
   c.addEventListener('mousemove',ev=>{showTip(`<b>${r.sido} ${r.name}</b><br>재정자립도 <b>${r.fi}%</b> · 1인당 세출 <b>${r.pc.toLocaleString('ko-KR')}만원</b><br>예산현액 ${W100(r.bud)} · 인구 ${f(r.pop)}명<br><span class="tt">클릭하면 상세로 이동</span>`,ev.clientX,ev.clientY);hl(r.code,true);});
@@ -1060,7 +1090,7 @@ function buildBudget(){
  $('budGuide').innerHTML=`${nm} ${rs.length}개 시군구의 <b>재정자립도(${fyS}년)</b>와 <b>예산현액·결산세출·주민 1인당 세출(${syS}년 결산)</b>을 한 화면에서 봅니다. 재정자립도가 낮고 1인당 세출이 큰 지역일수록 자체 세입보다 이전재원 의존이 큰 구조입니다.`;
  $('budScatSrc').textContent='x = 재정자립도(%, 세입과목개편전) · y = 주민 1인당 세출(만원) · 원 면적 = 주민등록 인구 · 색 = 인구감소지역 지정 여부 · 점을 클릭하면 해당 지역 상세로 이동';
  $('budLeg').innerHTML=`<span style="display:inline-flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:50%;background:${red};opacity:.7;display:inline-block"></span>인구감소지역</span>
-  <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:50%;background:#C98A2B;opacity:.7;display:inline-block"></span>관심지역</span>
+  <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:50%;background:${risk};opacity:.7;display:inline-block"></span>관심지역</span>
   <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:11px;height:11px;border-radius:50%;background:${sea};opacity:.7;display:inline-block"></span>미지정</span>`;
  /* KPI 카드 */
  const has=k=>rs.filter(r=>r[k]!=null);
