@@ -12,7 +12,8 @@ build_budget.py — data/decline.json 에 "budget" 섹션 병합.
 키는 isochrone_map/.env 의 KOSIS_API_KEY 를 파일로 읽어 사용(값 출력·커밋 금지).
 e-지방지표 C1 코드는 atlas 표준코드와 다르므로 시도명 → 시군명 이름매칭.
 """
-import os, ssl, json, sys, urllib.request, urllib.parse
+import os, json, sys
+from kosis_budget_utils import load_key, call, num as _num
 
 try:
     sys.stdout.reconfigure(encoding="utf-8")
@@ -22,36 +23,12 @@ except Exception:
 HERE = os.path.dirname(os.path.abspath(__file__))
 ATLAS = os.path.join(HERE, "data", "atlas.json")
 DECLINE = os.path.join(HERE, "data", "decline.json")
-ENV_PATH = r"C:\Users\user\Downloads\claude\isochrone_map\.env"
 BASE = "https://kosis.kr/openapi/Param/statisticsParameterData.do"
 
 TBL_INDEP = "DT_1YL20921"   # 재정자립도(시도/시/군/구)
 TBL_AUTO  = "DT_1YL20891"   # 재정자주도(시도/시/군/구)
 SRC_URL = "https://kosis.kr/openapi/Param/statisticsParameterData.do"
 YEARS = ["2022", "2023", "2024", "2025"]
-
-
-def load_key():
-    if os.environ.get("KOSIS_API_KEY"):
-        return os.environ["KOSIS_API_KEY"]
-    with open(ENV_PATH, encoding="utf-8") as f:
-        for line in f:
-            s = line.strip()
-            if s.startswith("KOSIS_API_KEY") and "=" in s:
-                return s.split("=", 1)[1].strip().strip('"').strip("'")
-    raise SystemExit("KOSIS_API_KEY not found")
-
-
-def call(params):
-    url = BASE + "?" + urllib.parse.urlencode(params)
-    req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
-    ctx = ssl.create_default_context()
-    with urllib.request.urlopen(req, timeout=90, context=ctx) as r:
-        raw = r.read().decode("utf-8", errors="replace")
-    data = json.loads(raw)
-    if isinstance(data, dict) and ("err" in data or "errMsg" in data):
-        raise RuntimeError("KOSIS %s %s" % (data.get("err"), data.get("errMsg")))
-    return data
 
 
 def fetch_table(key, tbl, year):
@@ -63,10 +40,7 @@ def fetch_table(key, tbl, year):
 
 
 def num(v):
-    try:
-        return round(float(str(v).replace(",", "")), 2)
-    except (TypeError, ValueError):
-        return None
+    return _num(v, round_digits=2)
 
 
 def build_maps(atlas):
