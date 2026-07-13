@@ -164,7 +164,7 @@ footer li{padding:2px 0}
     <button class="navbtn" data-t="t6" type="button"><span class="nb-ic">⑥</span>예산·재정</button>
   </nav>
   <div class="sidebar-bottom">
-    <a class="pyrlink" id="pyrTop" href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer">인구피라미드 탐색기 →</a>
+    <a class="pyrlink" id="pyrTop" href="https://pop-pyramid.vercel.app" target="_blank" rel="noreferrer">인구피라미드 탐색기 →</a>
     <div class="brand-meta" style="margin-top:10px">생성 <span id="mGen"></span></div>
   </div>
 </aside>
@@ -319,7 +319,7 @@ footer li{padding:2px 0}
       <li id="ftSrc"></li>
       <li>전망 산식: B(중심)=최근 5년 CAGR 연장 · A(가속)=최근 3년 CAGR 연장 · C(완화)=5년 CAGR×0.6 (통계청 중위추계의 실적 대비 감속 비율 준용)</li>
       <li>소멸위험지수: 이상호(한국고용정보원) 기준 — (20~39세 여성)/(65세 이상)</li>
-      <li>함께 보기: <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:var(--sea);font-weight:700">인구피라미드 탐색기</a> — 전국 시도·시군구·읍면동 성·연령 피라미드, 대조군 비교·유사 지역 탐색 (같은 저자)</li>
+      <li>함께 보기: <a href="https://pop-pyramid.vercel.app" target="_blank" rel="noreferrer" style="color:var(--sea);font-weight:700">인구피라미드 탐색기</a> — 전국 시도·시군구·읍면동 성·연령 피라미드, 대조군 비교·유사 지역 탐색 (같은 저자)</li>
     </ul>
     <p class="note" style="margin-top:12px" id="ftNote"></p>
     <p class="note" id="declSrc" style="margin-top:8px;display:none"></p>
@@ -883,12 +883,12 @@ function pinDetail(code){pinned=code;const r=byCode[code];const dEl=$('detail');
   <span>위험지수 <b>${r.risk_idx==null?'-':r.risk_idx.toFixed(2)}</b> ${G(r.risk_idx)}</span></div>
  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" class="maps2">
   <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">인구 흐름 ${A.meta.start}→2031 · 점 = 시뮬레이션 연도</div><div id="spark"></div></div>
-  <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">성·연령 피라미드 (막대 = ${r.name}, 연도 슬라이더 연동 · 테두리 상자 = ${D.name} 전체 ${A.meta.pyrYear}년 고정) <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700;text-decoration:none">읍면동까지 →</a></div><div id="pyr"></div></div></div>
+  <div><div style="font-size:11.5px;color:${soft};margin-bottom:2px">성·연령 피라미드 (막대 = ${r.name}, 연도 슬라이더 연동 · 테두리 상자 = ${D.name} 전체 ${A.meta.pyrYear}년 고정) <a href="https://pop-pyramid.vercel.app" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700;text-decoration:none">읍면동까지 →</a></div><div id="pyr"></div></div></div>
  ${declineHTML(r)}
  ${budgetHTML(r)}
  ${briefHTML(r)}
  <div style="font-size:12.5px;margin-top:10px" id="simlist"></div>
- <div style="font-size:12px;margin-top:8px;color:${soft}">읍면동 단위 피라미드·전국 비교는 → <a href="https://park-sung-jun.github.io/pop-pyramid" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700">인구피라미드 탐색기</a></div></div>`;
+ <div style="font-size:12px;margin-top:8px;color:${soft}">읍면동 단위 피라미드·전국 비교는 → <a href="https://pop-pyramid.vercel.app" target="_blank" rel="noreferrer" style="color:${sea};font-weight:700">인구피라미드 탐색기</a></div></div>`;
  $('dx').onclick=()=>{pinned=null;sparkFn=null;dEl.innerHTML='';update();};
  if(D.isNat)$('drill').onclick=()=>enterSido(code);
  drawSpark($('spark'),code);

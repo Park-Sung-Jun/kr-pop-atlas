@@ -6,7 +6,7 @@
 - 전국 뷰(시도 단위) → 시도 클릭 → 시군구 뷰로 드릴다운
 - 탭: 개요(팬차트) / 지도·시뮬레이션(연도 재생) / 비교(막대) / 전망표(정렬) / 하이라이트
 - 상세 카드: 인구 흐름 스파크라인 + 피라미드(지역 전체 대조) + 연령구조 유사 지역 TOP3(코사인 유사도)
-- 함께 보기: [인구피라미드 탐색기](https://park-sung-jun.github.io/pop-pyramid) — 읍면동 단위 피라미드·대조군 비교 (같은 저자)
+- 함께 보기: [인구피라미드 탐색기](https://pop-pyramid.vercel.app) — 읍면동 단위 피라미드·대조군 비교 (같은 저자)
 
 ## 실행 (로컬 미리보기)
 
@@ -77,21 +77,21 @@ python build_finance.py
 - **행정안전부 지방소멸대응기금** — 연 1조 원(2022~2031), 배분기준 고시(제2024-6호)·연도별 배분현황·집행률(KDI 경제정보센터·나라살림연구소 분석 병기)
 - **지방재정 통계(지방재정365 계열, KOSIS OpenAPI 경유)** — 재정자립도 `DT_1YL20921`·재정자주도 `DT_1YL20891`(e-지방지표, 2022~2025), 세입세출 예산현액·결산세출 `DT_110001_A011`(행정안전부 지방재정, 2023 결산). 시군구별 매칭은 시도명→시군명 이름매칭, 미공표 지역은 `null`.
 
-## 배포 — 정본은 GitHub Pages
+## 배포 — GitHub 코드 정본 + Vercel 운영
 
-- **정본 URL: https://park-sung-jun.github.io/kr-pop-atlas/** (origin `Park-Sung-Jun/kr-pop-atlas`, main/root)
-- Vercel은 사용하지 않는다. `kr-pop-atlas.vercel.app`은 운영하지 않으며(응답 없음), 혼동 방지를 위해 로컬 `.vercel` 링크도 제거했다. 재배포는 **항상 GitHub Pages**로만 한다.
+- **운영 URL: https://kr-pop-atlas.vercel.app/** — 로그인 없이 공개되는 유일한 정본 URL입니다.
+- 코드 정본은 이 저장소의 `main` 브랜치입니다. 변경은 GitHub에 먼저 반영하고 깨끗한 `main`에서만 Production을 배포합니다.
+- 자매 사이트는 https://pop-pyramid.vercel.app/ 입니다.
+- 자동 배포가 없거나 재배포가 필요할 때만 아래 명령을 사용합니다.
 
 ```bash
-git add -A && git commit -m "..."
-git push origin main            # → Pages 자동 재빌드
-# 최초 1회: GitHub → Settings → Pages → Source: main / root
+vercel deploy --prod --yes        # 깨끗한 main → Production
 ```
 
-정적 파일(`index.html`, `data/`)만 있으면 되므로 별도 빌드 파이프라인이 필요 없습니다.
+- `vercel.json`은 `framework: null` 순수 정적 서빙 + `cleanUrls`. 정적 파일(`index.html`, `data/`)만 있으면 되므로 빌드 파이프라인이 없다.
+- 배포 후에는 최신 Production 하나와 운영 URL만 유지하고 Preview·자동 alias·이전 배포를 제거합니다.
 
-### 도메인 등록 사전 체크 (카카오 API·tms-ai-lab.com)
+### 도메인 등록 사전 체크 (URL 바인딩 외부 서비스)
 
-- **이 사이트(kr-pop-atlas)는 카카오 API를 쓰지 않는다.** 지도·카토그램은 모두 인라인 SVG(GeoJSON 렌더)라 도메인 등록이 필요 없다. 정본 URL만 바뀌지 않으면 지도는 항상 정상 동작한다.
-- 카카오 지도 API를 쓰는 건 자매 프로젝트 **pop-pyramid**다. 카카오 JS SDK는 **등록된 웹 도메인에서만** 동작하므로, 배포 URL이 바뀌거나 `tms-ai-lab.com` 서브도메인으로 옮길 때는 **먼저 카카오 개발자 콘솔의 허용 도메인에 그 URL을 등록**해야 지도가 뜬다. 등록 없이 URL만 바꾸면 지도가 로드되지 않는다.
-- 규칙: 카카오 API 사용 프로젝트의 배포 URL/도메인을 바꾸기 전에 **항상 카카오 콘솔 허용 도메인 등록을 사전 확인**한다.
+- **이 사이트(kr-pop-atlas)는 URL 등록이 필요한 외부 서비스를 쓰지 않는다.** 지도·카토그램은 모두 인라인 SVG(GeoJSON 렌더), 데이터는 로컬 `data/*.json`뿐이라 카카오 API·캡차·`tms-ai-lab.com` 어느 것도 사용하지 않는다. 배포 URL을 바꿔도 사전 등록 없이 그대로 동작한다.
+- 참고: 자매 프로젝트 **pop-pyramid**는 Cloudflare Turnstile(호스트 바인딩 캡차)을 **옵션으로** 지원한다. Turnstile 사이트 키를 Vercel 환경변수(`TURNSTILE_SITE_KEY`)에 넣어 캡차를 켜는 순간, 새 `*.vercel.app` 호스트를 **Cloudflare Turnstile 허용 도메인에 먼저 등록**해야 한다. 현재는 키 미설정이라 캡차 비활성(사전 등록 불필요).
